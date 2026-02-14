@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <rect width="192" height="192" rx="36" fill="#1a0a00"/>
+  <!-- Fire background glow -->
+  <circle cx="96" cy="100" r="72" fill="#e74c3c" opacity="0.15"/>
+  <circle cx="96" cy="110" r="55" fill="#f39c12" opacity="0.12"/>
+  <!-- Wings -->
+  <polygon points="44,105 14,58 60,88" fill="#c0392b" opacity="0.9"/>
+  <polygon points="148,105 178,58 132,88" fill="#c0392b" opacity="0.9"/>
+  <!-- Wing membrane lines -->
+  <line x1="44" y1="105" x2="30" y2="70" stroke="#e74c3c" stroke-width="1" opacity="0.5"/>
+  <line x1="148" y1="105" x2="162" y2="70" stroke="#e74c3c" stroke-width="1" opacity="0.5"/>
+  <!-- Tail -->
+  <path d="M122 130 Q150 145 158 162 Q148 150 130 142Z" fill="#c0392b"/>
+  <!-- Tail flame tip -->
+  <circle cx="158" cy="160" r="6" fill="#f39c12" opacity="0.8"/>
+  <circle cx="158" cy="160" r="3" fill="#f1c40f" opacity="0.9"/>
+  <!-- Body -->
+  <ellipse cx="96" cy="118" rx="36" ry="30" fill="#e74c3c"/>
+  <!-- Neck -->
+  <rect x="82" y="86" width="28" height="24" rx="10" fill="#e74c3c"/>
+  <!-- Head -->
+  <ellipse cx="96" cy="78" rx="30" ry="26" fill="#e67e22"/>
+  <!-- Snout -->
+  <ellipse cx="96" cy="91" rx="17" ry="11" fill="#d35400"/>
+  <!-- Head crest / spikes -->
+  <polygon points="78,58 72,36 86,55" fill="#f39c12"/>
+  <polygon points="96,52 93,30 99,30" fill="#f1c40f"/>
+  <polygon points="114,58 120,36 106,55" fill="#f39c12"/>
+  <!-- Eye left -->
+  <circle cx="82" cy="72" r="8" fill="#fff"/>
+  <circle cx="83" cy="73" r="5" fill="#1a0500"/>
+  <circle cx="81" cy="71" r="2" fill="#fff"/>
+  <!-- Eye right glow -->
+  <circle cx="110" cy="72" r="8" fill="#fff"/>
+  <circle cx="111" cy="73" r="5" fill="#1a0500"/>
+  <circle cx="109" cy="71" r="2" fill="#fff"/>
+  <!-- Nostrils with smoke -->
+  <circle cx="89" cy="89" r="2.5" fill="#7f1d1d"/>
+  <circle cx="103" cy="89" r="2.5" fill="#7f1d1d"/>
+  <circle cx="86" cy="84" r="2" fill="#999" opacity="0.3"/>
+  <circle cx="106" cy="84" r="2" fill="#999" opacity="0.3"/>
+  <!-- Belly scales -->
+  <ellipse cx="96" cy="122" rx="22" ry="16" fill="#f39c12" opacity="0.5"/>
+  <!-- Chest fire glow -->
+  <ellipse cx="96" cy="130" rx="14" ry="8" fill="#f1c40f" opacity="0.3"/>
+  <!-- Flame breath -->
+  <ellipse cx="96" cy="150" rx="18" ry="12" fill="#e74c3c" opacity="0.7"/>
+  <ellipse cx="96" cy="148" rx="12" ry="8" fill="#f39c12" opacity="0.8"/>
+  <ellipse cx="96" cy="146" rx="6" ry="5" fill="#f1c40f" opacity="0.9"/>
+  <!-- Claws -->
+  <ellipse cx="72" cy="142" rx="6" ry="4" fill="#c0392b"/>
+  <ellipse cx="120" cy="142" rx="6" ry="4" fill="#c0392b"/>
+</svg>
