@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#6c1c8c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="DragonVale">
+  <title>Dragon Vale</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Atmospheric background -->
+  <div class="bg">
+    <div class="bg-glow bg-glow--1"></div>
+    <div class="bg-glow bg-glow--2"></div>
+    <div class="bg-stars" id="bg-stars"></div>
+  </div>
+
+  <!-- Top header bar -->
+  <header class="topbar">
+    <div class="topbar__logo">🐉 Dragon Vale</div>
+    <div class="topbar__resources">
+      <span class="resource">
+        <span class="resource__icon">💎</span>
+        <span class="resource__value" id="hud-gems">100</span>
+      </span>
+      <span class="resource">
+        <span class="resource__icon">🍖</span>
+        <span class="resource__value" id="hud-food">50</span>
+      </span>
+    </div>
+  </header>
+
+  <!-- Main screens container -->
+  <main class="screens">
+
+    <!-- ═══ LAIR SCREEN ═══ -->
+    <section class="screen active" id="screen-lair">
+      <div id="event-banner-slot"></div>
+      <div class="screen__header">
+        <h2>Your Lair</h2>
+        <span class="screen__subtitle" id="lair-count">0 dragons</span>
+      </div>
+      <div id="dragon-grid" class="dragon-grid"></div>
+      <div id="empty-lair" class="empty-state">
+        <div class="empty-state__art">🥚</div>
+        <p class="empty-state__text">No dragons yet!<br>Head to Breeding to start.</p>
+      </div>
+    </section>
+
+    <!-- ═══ BREED SCREEN ═══ -->
+    <section class="screen" id="screen-breed">
+      <div class="screen__header">
+        <h2>Breeding Lair</h2>
+      </div>
+
+      <div class="breed-section">
+        <div class="breed-parents" id="breed-parents">
+          <div class="breed-slot" id="breed-slot-1" data-slot="1">
+            <div class="breed-slot__art">🐉</div>
+            <div class="breed-slot__label">Parent 1</div>
+            <div class="breed-slot__name">Select a dragon</div>
+          </div>
+          <div class="breed-plus">+</div>
+          <div class="breed-slot" id="breed-slot-2" data-slot="2">
+            <div class="breed-slot__art">🐉</div>
+            <div class="breed-slot__label">Parent 2</div>
+            <div class="breed-slot__name">Select a dragon</div>
+          </div>
+        </div>
+
+        <div id="breed-preview" class="breed-preview" hidden>
+          <h3 class="breed-preview__title">Possible Offspring</h3>
+          <div id="breed-outcome-list" class="breed-outcome-list"></div>
+          <button id="btn-begin-breeding" class="btn btn--primary btn--full">
+            Begin Breeding <span class="btn__cost">20💎</span>
+          </button>
+        </div>
+
+        <div id="breed-selecting" hidden>
+          <h3 class="breed-select__title" id="breed-select-title">Select Parent</h3>
+          <div id="breed-dragon-list" class="breed-dragon-list"></div>
+          <button id="btn-cancel-select" class="btn btn--ghost">Cancel</button>
+        </div>
+      </div>
+
+      <div class="breed-section" id="active-eggs-section">
+        <h3 class="section-title">🥚 Active Eggs</h3>
+        <div id="active-eggs-list" class="eggs-list">
+          <p class="empty-hint">No eggs incubating.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CARDS SCREEN ═══ -->
+    <section class="screen" id="screen-cards">
+      <div class="screen__header">
+        <h2>Card Collection</h2>
+        <span class="screen__subtitle" id="cards-count">0 cards</span>
+      </div>
+
+      <div class="filter-bar" id="card-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="common">Common</button>
+        <button class="filter-btn" data-filter="rare">Rare</button>
+        <button class="filter-btn" data-filter="epic">Epic</button>
+        <button class="filter-btn" data-filter="legendary">Legendary</button>
+        <button class="filter-btn filter-btn--foil" data-filter="foil">✨ Foil</button>
+      </div>
+
+      <div id="card-gallery" class="card-gallery"></div>
+
+      <div id="empty-cards" class="empty-state" hidden>
+        <div class="empty-state__art">🃏</div>
+        <p class="empty-state__text">No cards yet!<br>Mint a card from a dragon in your Lair.</p>
+      </div>
+    </section>
+
+    <!-- ═══ SHOP SCREEN ═══ -->
+    <section class="screen" id="screen-shop">
+      <div class="screen__header">
+        <h2>Shop</h2>
+        <span class="screen__subtitle" id="shop-gems-display"></span>
+      </div>
+      <div id="shop-content"></div>
+    </section>
+
+    <!-- ═══ EXPLORE SCREEN ═══ -->
+    <section class="screen" id="screen-explore">
+      <div class="screen__header">
+        <h2>Explore</h2>
+        <span class="screen__subtitle">Discover wild eggs</span>
+      </div>
+      <p class="explore-intro">Venture out to distant lands and uncover dragon eggs of every rarity. Each island has its own egg pool and cooldown.</p>
+      <div id="explore-grid" class="explore-grid"></div>
+    </section>
+
+    <!-- ═══ TRADE SCREEN ═══ -->
+    <section class="screen" id="screen-trade">
+      <div class="screen__header">
+        <h2>Trading Post</h2>
+      </div>
+
+      <div class="trade-panel">
+        <h3 class="trade-panel__title">📤 Export a Card</h3>
+        <p class="trade-panel__hint">Select a card to generate a trade code to share.</p>
+        <div id="trade-card-select" class="trade-card-grid"></div>
+        <div id="trade-export-box" class="trade-code-box" hidden>
+          <textarea id="trade-code-output" class="trade-textarea" readonly rows="3" placeholder="Trade code will appear here..."></textarea>
+          <button id="btn-copy-code" class="btn btn--secondary btn--full">Copy Code</button>
+        </div>
+      </div>
+
+      <div class="trade-panel">
+        <h3 class="trade-panel__title">📥 Import a Trade Offer</h3>
+        <textarea id="trade-code-input" class="trade-textarea" rows="3" placeholder="Paste a trade code here..."></textarea>
+        <button id="btn-import-trade" class="btn btn--primary btn--full">Import Offer</button>
+        <div id="trade-import-result" class="trade-result"></div>
+      </div>
+
+      <div class="trade-panel">
+        <h3 class="trade-panel__title">📬 Trade Inbox</h3>
+        <div id="trade-inbox-list" class="trade-inbox">
+          <p class="empty-hint">No pending trade offers.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ GAMES SCREEN ═══ -->
+    <section class="screen" id="screen-games">
+      <div class="screen__header">
+        <h2>Games</h2>
+        <span class="screen__subtitle">Play for gems!</span>
+      </div>
+      <div id="games-hub" class="games-hub"></div>
+    </section>
+
+  </main>
+
+  <!-- Bottom tab navigation -->
+  <nav class="tab-bar">
+    <button class="tab active" data-screen="lair">
+      <span class="tab__icon">🐉</span>
+      <span class="tab__label">Lair</span>
+    </button>
+    <button class="tab" data-screen="breed">
+      <span class="tab__icon">🥚</span>
+      <span class="tab__label">Breed</span>
+    </button>
+    <button class="tab" data-screen="cards">
+      <span class="tab__icon">🃏</span>
+      <span class="tab__label">Cards</span>
+    </button>
+    <button class="tab" data-screen="shop">
+      <span class="tab__icon">🛒</span>
+      <span class="tab__label">Shop</span>
+    </button>
+    <button class="tab" data-screen="explore">
+      <span class="tab__icon">🗺️</span>
+      <span class="tab__label">Explore</span>
+    </button>
+    <button class="tab" data-screen="trade">
+      <span class="tab__icon">🔄</span>
+      <span class="tab__label">Trade</span>
+    </button>
+    <button class="tab" data-screen="games">
+      <span class="tab__icon">🎮</span>
+      <span class="tab__label">Games</span>
+    </button>
+  </nav>
+
+  <!-- Modal overlay -->
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div id="modal-content" class="modal-content"></div>
+  </div>
+
+  <!-- Toast notification container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>
