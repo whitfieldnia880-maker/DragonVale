@@ -1,0 +1,24 @@
+{
+  "id": "celeste-ending-heartbreak",
+  "title": "Managed Out",
+  "characterId": "celeste-voss",
+  "chapter": 9,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "She didn't fire you. Publicists don't fire clients. They just stop picking up the phone as fast." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "speaker": "Celeste", "text": "You'll be fine. You've always been fine." }
+      ]
+    }
+  ]
+}

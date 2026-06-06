@@ -1,0 +1,24 @@
+{
+  "id": "amy-ch3-after-hours",
+  "title": "After Hours",
+  "characterId": "amy-crawford",
+  "chapter": 3,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "The wrap party. Most people are performing being relaxed. Amy is just... there. In the corner, watching." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "speaker": "Amy", "text": "You keep looking over. I've been counting." }
+      ]
+    }
+  ]
+}

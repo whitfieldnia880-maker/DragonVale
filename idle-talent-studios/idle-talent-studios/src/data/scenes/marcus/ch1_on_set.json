@@ -1,0 +1,30 @@
+{
+  "id": "marcus-ch1-on-set",
+  "title": "On Set",
+  "characterId": "marcus-vane",
+  "chapter": 1,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Marcus", "text": "You're the one they cast. I've been watching the dailies." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Marcus", "text": "You have something. I'm not sure you know what it is yet." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "He says it the way he says everything — like it's already decided." }
+      ]
+    }
+  ]
+}

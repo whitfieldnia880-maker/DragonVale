@@ -1,0 +1,31 @@
+{
+  "id": "olivier-ch5-after-wrap",
+  "title": "After Wrap",
+  "characterId": "olivier-sainte-claire",
+  "chapter": 5,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Olivier", "text": "Stay. We will watch the playback together." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "beat2-1", "speaker": "", "text": "He points at the screen. At you. As though you are a piece of architecture he is proud of." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You watch yourself. You barely recognize who you see." }
+      ]
+    }
+  ]
+}

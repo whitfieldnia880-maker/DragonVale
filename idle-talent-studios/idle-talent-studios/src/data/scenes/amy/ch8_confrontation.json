@@ -1,0 +1,30 @@
+{
+  "id": "amy-ch8-confrontation",
+  "title": "Confrontation",
+  "characterId": "amy-crawford",
+  "chapter": 8,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Amy", "text": "You're upset. You have a right to be." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Amy", "text": "Ask me what you came to ask." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You do. The answer is complicated. She doesn't make it simple for you. That's somehow the most honest thing she's ever done." }
+      ]
+    }
+  ]
+}

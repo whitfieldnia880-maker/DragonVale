@@ -1,0 +1,24 @@
+{
+  "id": "sunny-ending-heartbreak",
+  "title": "The Spotlight Wins",
+  "characterId": "sunny-park",
+  "chapter": 6,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "The fame got too big. She couldn't reach you through it." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "speaker": "Sunny", "text": "I'll cheer for you. Always. Just — from further away." }
+      ]
+    }
+  ]
+}

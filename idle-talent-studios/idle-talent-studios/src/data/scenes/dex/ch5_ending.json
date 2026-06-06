@@ -1,0 +1,23 @@
+{
+  "id": "dex-ch5-ending",
+  "title": "Ending",
+  "characterId": "dex-calloway",
+  "chapter": 5,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Dex", "text": "I made you something. It's not a big deal. It's a book. Of all of them." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "Every frame. All the ones you knew about and the ones you didn't. A year of your life, developed in a darkroom, held by someone who paid attention." }
+      ]
+    }
+  ]
+}

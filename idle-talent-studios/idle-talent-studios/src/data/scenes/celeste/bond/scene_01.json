@@ -1,0 +1,35 @@
+{
+  "id": "celeste/bond/scene_01",
+  "title": "Unscripted",
+  "nodes": [
+    {
+      "id": "start",
+      "type": "dialogue",
+      "speaker": "Celeste Voss",
+      "text": "Everyone performs. Most people just don't admit it. But you — you're actually trying to find the real thing underneath.",
+      "next": "player_response"
+    },
+    {
+      "id": "player_response",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "Is it working?",
+      "next": "celeste_tilts_head"
+    },
+    {
+      "id": "celeste_tilts_head",
+      "type": "inner_monologue",
+      "text": "She tilts her head. For once, the answer isn't a performance.",
+      "autoAdvanceMs": 3000,
+      "next": "prestige_grant"
+    },
+    {
+      "id": "prestige_grant",
+      "type": "reward",
+      "rewardType": "prestige",
+      "amount": 1,
+      "label": "Celeste Bond Scene",
+      "next": null
+    }
+  ]
+}

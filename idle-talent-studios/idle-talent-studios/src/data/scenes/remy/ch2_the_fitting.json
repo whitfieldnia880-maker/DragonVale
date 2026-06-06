@@ -1,0 +1,23 @@
+{
+  "id": "remy-ch2-the-fitting",
+  "title": "The Fitting",
+  "characterId": "remy-ashford",
+  "chapter": 2,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Remy", "text": "This jacket says something different depending on how you button it. Watch." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "He's right. You can see it. You've never thought about clothing the way he does." }
+      ]
+    }
+  ]
+}

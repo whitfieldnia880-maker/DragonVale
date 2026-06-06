@@ -1,0 +1,23 @@
+{
+  "id": "celeste-ch3-damage-control",
+  "title": "Damage Control",
+  "characterId": "celeste-voss",
+  "chapter": 3,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Celeste", "text": "It's fine. I've handled worse by 9am. Here's what we say..." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "She's calm in a crisis the way surgeons are calm. Not because she doesn't feel it. Because she's done this before." }
+      ]
+    }
+  ]
+}

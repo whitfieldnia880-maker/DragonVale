@@ -1,0 +1,30 @@
+{
+  "id": "olivier-ending-true",
+  "title": "The Frame Holds",
+  "characterId": "olivier-sainte-claire",
+  "chapter": 13,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Olivier", "text": "You refused the money. You stayed. There is a word for that." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Olivier", "text": "Artist." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "He says it once. It is enough." }
+      ]
+    }
+  ]
+}

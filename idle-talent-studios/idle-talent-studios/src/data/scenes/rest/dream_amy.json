@@ -1,0 +1,49 @@
+{
+  "id": "dream-amy-001",
+  "title": "A Dream",
+  "characterId": "amy-crawford",
+  "chapter": 1,
+  "startNodeId": "d1",
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3200,
+      "lines": [
+        { "id": "d1-l1", "speaker": "", "text": "The city lights blur past a window you don't recognize. Soft jazz from somewhere. And then — her." }
+      ],
+      "autoNext": "d2"
+    },
+    {
+      "id": "d2",
+      "lines": [
+        { "id": "d2-l1", "speaker": "Amy", "text": "You always look like you're thinking about something you won't say out loud." }
+      ],
+      "autoNext": "d3",
+      "autoAdvanceMs": 4000
+    },
+    {
+      "id": "d3",
+      "lines": [
+        { "id": "d3-l1", "speaker": "Amy", "text": "For what it's worth — I think about you too. When the city gets quiet." }
+      ],
+      "autoNext": "d4",
+      "autoAdvanceMs": 4200,
+      "affectionDeltas": [{ "characterId": "amy-crawford", "delta": 3 }]
+    },
+    {
+      "id": "d4",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3000,
+      "lines": [
+        { "id": "d4-l1", "speaker": "", "text": "The alarm pulls you back before you answer. But the warmth lingers." }
+      ],
+      "autoNext": "d-end"
+    },
+    {
+      "id": "d-end",
+      "type": "scene_end",
+      "lines": []
+    }
+  ]
+}

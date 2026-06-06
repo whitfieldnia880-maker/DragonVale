@@ -1,0 +1,23 @@
+{
+  "id": "remy-ending-good",
+  "title": "The Look",
+  "characterId": "remy-ashford",
+  "chapter": 9,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Remy", "text": "I've styled a lot of people. But I've never wanted to know someone the way I want to know you." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "He says it quietly. Like something that's been accumulating for a long time." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "olivier-ch3-first-week",
+  "title": "First Week",
+  "characterId": "olivier-sainte-claire",
+  "chapter": 3,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Olivier", "text": "The camera does not lie. It only shows what is there. Everything I need from you — it is already there." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "The first week on his set is the most exhausting and most alive you have ever felt." }
+      ]
+    }
+  ]
+}

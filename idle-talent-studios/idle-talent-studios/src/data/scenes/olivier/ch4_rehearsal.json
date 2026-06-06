@@ -1,0 +1,23 @@
+{
+  "id": "olivier-ch4-rehearsal",
+  "title": "The Rehearsal",
+  "characterId": "olivier-sainte-claire",
+  "chapter": 4,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Olivier", "text": "Rehearsal is not practice. It is discovery. Today we discover something." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You do. You're not entirely sure what." }
+      ]
+    }
+  ]
+}

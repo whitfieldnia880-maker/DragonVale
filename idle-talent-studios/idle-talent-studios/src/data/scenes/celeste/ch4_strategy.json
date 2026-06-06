@@ -1,0 +1,23 @@
+{
+  "id": "celeste-ch4-strategy",
+  "title": "The Strategy Session",
+  "characterId": "celeste-voss",
+  "chapter": 4,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Celeste", "text": "The public version of you needs a refresh. We need to decide — aspirational, relatable, or prestigious?" }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You answer. She nods, already composing something in her head." }
+      ]
+    }
+  ]
+}

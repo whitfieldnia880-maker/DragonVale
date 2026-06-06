@@ -1,0 +1,31 @@
+{
+  "id": "amy-ch11-public",
+  "title": "Public",
+  "characterId": "amy-crawford",
+  "chapter": 11,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "A photo surfaces. The two of you, together. The internet decides what it means." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Amy", "text": "Let them speculate. I know what this is." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "So do you. That's enough." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "celeste-ch2-press-day",
+  "title": "First Press Day",
+  "characterId": "celeste-voss",
+  "chapter": 2,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Celeste", "text": "If they ask about the gala — you were 'briefly there.' Nothing more." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You do exactly what she says. The press conference goes perfectly. It feels slightly hollow." }
+      ]
+    }
+  ]
+}

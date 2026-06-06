@@ -1,0 +1,35 @@
+{
+  "id": "marcus/bond/scene_01",
+  "title": "Off the Record",
+  "nodes": [
+    {
+      "id": "start",
+      "type": "dialogue",
+      "speaker": "Marcus Veil",
+      "text": "I don't talk about this stuff with most people. Just so you know.",
+      "next": "player_response"
+    },
+    {
+      "id": "player_response",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "Then I'll consider myself lucky.",
+      "next": "marcus_looks_away"
+    },
+    {
+      "id": "marcus_looks_away",
+      "type": "inner_monologue",
+      "text": "He almost smiles. You've learned that's as good as a speech from him.",
+      "autoAdvanceMs": 3000,
+      "next": "prestige_grant"
+    },
+    {
+      "id": "prestige_grant",
+      "type": "reward",
+      "rewardType": "prestige",
+      "amount": 1,
+      "label": "Marcus Bond Scene",
+      "next": null
+    }
+  ]
+}

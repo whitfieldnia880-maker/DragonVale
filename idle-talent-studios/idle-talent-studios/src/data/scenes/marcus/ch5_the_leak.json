@@ -1,0 +1,23 @@
+{
+  "id": "marcus-ch5-the-leak",
+  "title": "The Leak",
+  "characterId": "marcus-vane",
+  "chapter": 5,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Marcus", "text": "Someone talked to the press. The story is out." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "The gossip cycle starts. Every day it keeps running costs you something." }
+      ]
+    }
+  ]
+}

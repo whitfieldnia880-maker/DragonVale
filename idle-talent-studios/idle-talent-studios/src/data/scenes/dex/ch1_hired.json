@@ -1,0 +1,30 @@
+{
+  "id": "dex-ch1-hired",
+  "title": "Hired",
+  "characterId": "dex-calloway",
+  "chapter": 1,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Dex", "text": "I'll be honest — I almost didn't take the shoot. Then I saw your reel." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Dex", "text": "You do this thing with your eyes when you think no one's watching. That's the shot I want." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "He says it so simply. Like the most private part of you is obvious to him." }
+      ]
+    }
+  ]
+}

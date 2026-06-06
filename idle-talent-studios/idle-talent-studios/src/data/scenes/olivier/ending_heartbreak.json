@@ -1,0 +1,23 @@
+{
+  "id": "olivier-ending-heartbreak",
+  "title": "Cut",
+  "characterId": "olivier-sainte-claire",
+  "chapter": 13,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Olivier", "text": "You chose the money. I understand. It is a business. We are all in the business." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "He says it without bitterness. That is the worst part." }
+      ]
+    }
+  ]
+}

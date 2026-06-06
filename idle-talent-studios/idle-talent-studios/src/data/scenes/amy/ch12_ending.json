@@ -1,0 +1,30 @@
+{
+  "id": "amy-ch12-ending",
+  "title": "Ending",
+  "characterId": "amy-crawford",
+  "chapter": 12,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Amy", "text": "I've been playing games my whole career. With everyone." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Amy", "text": "I stopped with you. That's the part I can't explain." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "The ending arrives without fanfare. Just her, and you, and the truth of how this started." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "dex-ending-true",
+  "title": "All Eight Frames",
+  "characterId": "dex-calloway",
+  "chapter": 6,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Dex", "text": "You found them all. Every note. I didn't think anyone would." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "He's beaming. Like you passed something that he designed to fail." }
+      ]
+    }
+  ]
+}

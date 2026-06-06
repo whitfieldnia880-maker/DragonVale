@@ -1,0 +1,31 @@
+{
+  "id": "remy-ch4-soap-opera",
+  "title": "Soap Opera",
+  "characterId": "remy-ashford",
+  "chapter": 4,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Remy", "text": "Someone is trying to make this into a story. About us. About what this is." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "beat2-1", "speaker": "", "text": "He's not wrong. Someone absolutely is. And the story isn't entirely incorrect." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "speaker": "Remy", "text": "I suggest we give them something better to write about." }
+      ]
+    }
+  ]
+}

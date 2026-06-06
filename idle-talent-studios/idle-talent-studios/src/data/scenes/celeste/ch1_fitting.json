@@ -1,0 +1,31 @@
+{
+  "id": "celeste-ch1-fitting",
+  "title": "The Fitting",
+  "characterId": "celeste-voss",
+  "chapter": 1,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Celeste", "text": "I've read everything written about you in the last six months. Most of it is wrong. Let's fix that." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "beat2-1", "speaker": "", "text": "She opens a leather portfolio. Your face on every clipping. Annotated in red." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "speaker": "Celeste", "text": "First — we work on your posture in doorways. You're too apologetic when you enter a room." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "sunny-ch4-fame-check",
+  "title": "The Fame Check",
+  "characterId": "sunny-park",
+  "chapter": 4,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Sunny", "text": "Can I ask you something and have you actually answer it?" }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Sunny", "text": "Is this still fun? Like — any of it?" }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "The answer is more complicated than it used to be. She can tell. That's the whole problem." }
+      ]
+    }
+  ]
+}

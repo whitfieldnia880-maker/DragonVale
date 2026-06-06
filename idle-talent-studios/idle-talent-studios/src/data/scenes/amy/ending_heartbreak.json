@@ -1,0 +1,24 @@
+{
+  "id": "amy-ending-heartbreak",
+  "title": "Her Investment",
+  "characterId": "amy-crawford",
+  "chapter": 13,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "In the end, you were one of her many calculations. Not the most important one." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "speaker": "Amy", "text": "You'll do well. I made sure of that, at least." }
+      ]
+    }
+  ]
+}

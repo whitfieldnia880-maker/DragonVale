@@ -1,0 +1,203 @@
+{
+  "id": "driver-trigger2-late-night",
+  "title": "Late Night",
+  "characterId": "the-driver",
+  "chapter": 2,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3000,
+      "lines": [
+        {
+          "id": "opening-1",
+          "speaker": "",
+          "text": "The city at 2am looks like a different city. Quieter. More honest about what it is."
+        }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3000,
+      "lines": [
+        {
+          "id": "beat2-1",
+          "speaker": "",
+          "text": "He doesn't ask where you're going. He already knows. That stopped being strange three weeks ago."
+        }
+      ],
+      "autoNext": "beat3"
+    },
+    {
+      "id": "beat3",
+      "lines": [
+        {
+          "id": "beat3-1",
+          "speaker": "The Driver",
+          "text": "Long night."
+        }
+      ],
+      "autoNext": "beat4"
+    },
+    {
+      "id": "beat4",
+      "type": "inner_monologue",
+      "lines": [
+        {
+          "id": "beat4-1",
+          "speaker": "",
+          "text": "It wasn't a question."
+        }
+      ],
+      "choices": [
+        {
+          "id": "agree",
+          "text": "\"Yeah.\"",
+          "nextNodeId": "agree_path"
+        },
+        {
+          "id": "deflect",
+          "text": "Say nothing. Watch the city.",
+          "nextNodeId": "silence_path"
+        }
+      ]
+    },
+    {
+      "id": "agree_path",
+      "lines": [
+        {
+          "id": "agree-1",
+          "speaker": "The Driver",
+          "text": "They always are. At this level."
+        }
+      ],
+      "autoNext": "monologue"
+    },
+    {
+      "id": "silence_path",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 2800,
+      "lines": [
+        {
+          "id": "silence-1",
+          "speaker": "",
+          "text": "He doesn't push. The car moves through a yellow light."
+        }
+      ],
+      "autoNext": "monologue"
+    },
+    {
+      "id": "monologue",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3200,
+      "lines": [
+        {
+          "id": "monologue-1",
+          "speaker": "",
+          "text": "You watch the back of his head. The way he drives — unhurried. No music."
+        }
+      ],
+      "autoNext": "monologue2"
+    },
+    {
+      "id": "monologue2",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3200,
+      "lines": [
+        {
+          "id": "monologue2-1",
+          "speaker": "",
+          "text": "You've seen his hands on the wheel at three award shows, a crisis PR meeting, and a breakdown at 4am outside a parking garage. He never mentioned any of it."
+        }
+      ],
+      "autoNext": "monologue3"
+    },
+    {
+      "id": "monologue3",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3200,
+      "lines": [
+        {
+          "id": "monologue3-1",
+          "speaker": "",
+          "text": "You think about all the things you've said in this backseat. Into your phone. Under your breath. Half-awake."
+        }
+      ],
+      "autoNext": "driver_speaks"
+    },
+    {
+      "id": "driver_speaks",
+      "lines": [
+        {
+          "id": "driver_speaks-1",
+          "speaker": "The Driver",
+          "text": "You're better at this than you think."
+        }
+      ],
+      "autoNext": "end_choice"
+    },
+    {
+      "id": "end_choice",
+      "type": "inner_monologue",
+      "lines": [
+        {
+          "id": "end_choice-1",
+          "speaker": "",
+          "text": "You don't know what \"this\" means. Career. Press. Staying intact. Being a person."
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask",
+          "text": "\"Better at what?\"",
+          "nextNodeId": "ask_path"
+        },
+        {
+          "id": "accept",
+          "text": "Just take it.",
+          "nextNodeId": "accept_path"
+        }
+      ]
+    },
+    {
+      "id": "ask_path",
+      "lines": [
+        {
+          "id": "ask-1",
+          "speaker": "The Driver",
+          "text": "All of it."
+        }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "accept_path",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 2800,
+      "lines": [
+        {
+          "id": "accept-1",
+          "speaker": "",
+          "text": "You let it land. It costs you nothing and gives you something you didn't know you needed."
+        }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "autoAdvanceMs": 3000,
+      "lines": [
+        {
+          "id": "end-1",
+          "type": "inner_monologue",
+          "speaker": "",
+          "text": "The car pulls up to your building. He doesn't say goodnight. He doesn't need to."
+        }
+      ]
+    }
+  ]
+}

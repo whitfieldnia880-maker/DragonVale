@@ -1,0 +1,23 @@
+{
+  "id": "dex-ch4-check-in",
+  "title": "Check In",
+  "characterId": "dex-calloway",
+  "chapter": 4,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Dex", "text": "Hey. I'm checking in. How are you actually doing? Not the press-tour answer." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You tell him something true. It costs less than you expected." }
+      ]
+    }
+  ]
+}

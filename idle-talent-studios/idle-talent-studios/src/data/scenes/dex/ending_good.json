@@ -1,0 +1,23 @@
+{
+  "id": "dex-ending-good",
+  "title": "The Portrait",
+  "characterId": "dex-calloway",
+  "chapter": 6,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Dex", "text": "This one's my favorite. I'm keeping a print." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "He shows you the photo. It's you — but the version that exists when no one is watching. He caught it anyway." }
+      ]
+    }
+  ]
+}

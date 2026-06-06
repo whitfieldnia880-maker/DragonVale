@@ -1,0 +1,87 @@
+{
+  "id": "sunny-ch3-remember-when",
+  "title": "Remember When",
+  "characterId": "sunny-park",
+  "chapter": 3,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3200,
+      "lines": [
+        {
+          "id": "opening-1",
+          "speaker": "",
+          "text": "There was a before. When the cameras weren't running and the choreography was just the two of you figuring out how to move through a room."
+        }
+      ],
+      "autoNext": "memory1"
+    },
+    {
+      "id": "memory1",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3200,
+      "lines": [
+        {
+          "id": "memory1-1",
+          "speaker": "",
+          "text": "She had a system for everything. Even grief. Even joy. She could choreograph her own heartbreak and call it a contemporary piece."
+        }
+      ],
+      "autoNext": "memory2"
+    },
+    {
+      "id": "memory2",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3200,
+      "lines": [
+        {
+          "id": "memory2-1",
+          "speaker": "",
+          "text": "You remember the first time she told you: the body doesn't forget what the mind tries to. It holds it in the hips. In the shoulders. In the way you reach for things."
+        }
+      ],
+      "autoNext": "memory3"
+    },
+    {
+      "id": "memory3",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3200,
+      "lines": [
+        {
+          "id": "memory3-1",
+          "speaker": "",
+          "text": "Fame changes the body. She warned you. The way you hold yourself in a room. The way you step back when someone points a camera."
+        }
+      ],
+      "autoNext": "memory4"
+    },
+    {
+      "id": "memory4",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3200,
+      "lines": [
+        {
+          "id": "memory4-1",
+          "speaker": "",
+          "text": "She's still the same. That's the strange part. Sunny is exactly who she always was. And you are not."
+        }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "autoAdvanceMs": 2800,
+      "lines": [
+        {
+          "id": "end-1",
+          "type": "inner_monologue",
+          "speaker": "",
+          "text": "You sit with that for a while. Not unkindly. Just honestly."
+        }
+      ]
+    }
+  ]
+}

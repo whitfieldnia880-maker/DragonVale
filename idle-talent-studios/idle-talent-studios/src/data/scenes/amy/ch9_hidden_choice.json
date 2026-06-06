@@ -1,0 +1,30 @@
+{
+  "id": "amy-ch9-hidden-choice",
+  "title": "The Hidden Choice",
+  "characterId": "amy-crawford",
+  "chapter": 9,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Amy", "text": "There's a decision I made a long time ago that affected you. Before we met." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Amy", "text": "I'm not going to apologize. But I am going to explain." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "She does. It changes everything and nothing." }
+      ]
+    }
+  ]
+}

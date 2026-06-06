@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* ── Career tier theme (overridden per-tier by JS) ─────────────────── */
+    --tier-accent:   #f59e0b;
+    --tier-dim:      #78350f;
+    --tier-primary:  #f59e0b;
+    --tier-muted:    #92400e;
+
+    /* ── Semantic palette ──────────────────────────────────────────────── */
+    --background:           240 10% 4%;
+    --foreground:           0 0% 98%;
+    --card:                 240 10% 8%;
+    --card-foreground:      0 0% 98%;
+    --popover:              240 10% 8%;
+    --popover-foreground:   0 0% 98%;
+    --primary:              327 73% 68%;
+    --primary-foreground:   0 0% 98%;
+    --secondary:            262 52% 47%;
+    --secondary-foreground: 0 0% 98%;
+    --muted:                240 10% 14%;
+    --muted-foreground:     0 0% 63%;
+    --accent:               47 96% 53%;
+    --accent-foreground:    0 0% 9%;
+    --destructive:          0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border:               240 10% 18%;
+    --input:                240 10% 14%;
+    --ring:                 327 73% 68%;
+    --radius:               0.75rem;
+  }
+
+  /* ── Tier 1: Diner ─── amber / cream ──────────────────────────────── */
+  [data-tier="1"] {
+    --tier-primary: #f59e0b;
+    --tier-accent:  #fef3c7;
+    --tier-dim:     #78350f;
+    --tier-muted:   #92400e;
+  }
+  /* ── Tier 2: Backstage ─── burgundy / dusty rose ─────────────────── */
+  [data-tier="2"] {
+    --tier-primary: #9f1239;
+    --tier-accent:  #fda4af;
+    --tier-dim:     #4c0519;
+    --tier-muted:   #881337;
+  }
+  /* ── Tier 3: Studio ─── slate blue / cool grey ───────────────────── */
+  [data-tier="3"] {
+    --tier-primary: #3b82f6;
+    --tier-accent:  #94a3b8;
+    --tier-dim:     #1e3a8a;
+    --tier-muted:   #1e40af;
+  }
+  /* ── Tier 4: Press ─── gold / champagne ──────────────────────────── */
+  [data-tier="4"] {
+    --tier-primary: #eab308;
+    --tier-accent:  #fde68a;
+    --tier-dim:     #713f12;
+    --tier-muted:   #92400e;
+  }
+  /* ── Tier 5: Red Carpet ─── crimson / platinum ───────────────────── */
+  [data-tier="5"] {
+    --tier-primary: #dc2626;
+    --tier-accent:  #e2e8f0;
+    --tier-dim:     #7f1d1d;
+    --tier-muted:   #991b1b;
+  }
+  /* ── Tier 6: Icon ─── platinum / soft white ──────────────────────── */
+  [data-tier="6"] {
+    --tier-primary: #e2e8f0;
+    --tier-accent:  #f8fafc;
+    --tier-dim:     #475569;
+    --tier-muted:   #64748b;
+  }
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-color: hsl(var(--border));
+  }
+
+  html {
+    /* Respect system font-size for accessibility */
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    /* Safe area insets for notched devices */
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  #root {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    /* Body padding already covers top safe area — reset on root */
+    padding-top: 0;
+  }
+
+  /* ── Typography scale ──────────────────────────────────────────────── */
+  h1 { font-size: 1.5rem;  font-weight: 700; line-height: 1.2; }
+  h2 { font-size: 1.25rem; font-weight: 700; line-height: 1.3; }
+  h3 { font-size: 1rem;    font-weight: 600; line-height: 1.4; }
+  p  { line-height: 1.6; }
+
+  /* Remove focus outline for pointer devices; keep for keyboard */
+  :focus-visible {
+    outline: 2px solid var(--tier-primary, #e879f9);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+/* ── Utility classes ────────────────────────────────────────────────────── */
+
+.gacha-shimmer {
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Hide scrollbar but keep scroll functionality */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Safe-area-aware padding classes */
+.pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 0.5rem); }
+.pt-safe { padding-top: max(env(safe-area-inset-top), 0.75rem); }
+
+/* Bottom nav clearance — add to scrollable content that lives behind the nav */
+.nav-offset { padding-bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px)); }
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── Tier transition on data attribute ─────────────────────────────────── */
+[data-tier] {
+  transition:
+    --tier-primary 800ms ease,
+    --tier-accent  800ms ease,
+    --tier-dim     800ms ease,
+    --tier-muted   800ms ease;
+}
+
+/* ── Reduced motion overrides ───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

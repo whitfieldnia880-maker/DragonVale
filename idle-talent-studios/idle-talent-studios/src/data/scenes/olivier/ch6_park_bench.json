@@ -1,0 +1,108 @@
+{
+  "id": "olivier-ch6-park-bench",
+  "title": "Park Bench",
+  "characterId": "olivier-sainte-claire",
+  "chapter": 6,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "lines": [
+        {
+          "id": "opening-1",
+          "speaker": "",
+          "text": "He's sitting alone on a bench in Riverside Park. No assistant. No phone visible. He's just... there."
+        },
+        {
+          "id": "opening-2",
+          "speaker": "",
+          "text": "You weren't supposed to be in this part of the city today."
+        }
+      ],
+      "choices": [
+        {
+          "id": "approach",
+          "text": "Sit down beside him.",
+          "nextNodeId": "approach_path",
+          "affectionDelta": { "characterId": "olivier-sainte-claire", "delta": 10 }
+        },
+        {
+          "id": "walk_past",
+          "text": "Walk past without stopping.",
+          "nextNodeId": "walk_past_path",
+          "affectionDelta": { "characterId": "olivier-sainte-claire", "delta": 3 }
+        }
+      ]
+    },
+    {
+      "id": "approach_path",
+      "lines": [
+        {
+          "id": "approach-1",
+          "speaker": "Olivier",
+          "text": "You are either very brave or completely unaware of how uncomfortable silences make most people."
+        },
+        {
+          "id": "approach-2",
+          "speaker": "You",
+          "text": "I like silences."
+        },
+        {
+          "id": "approach-3",
+          "speaker": "Olivier",
+          "text": "Yes. I know."
+        }
+      ],
+      "setFlags": { "olivier_park_approached": true },
+      "autoNext": "shared_moment"
+    },
+    {
+      "id": "shared_moment",
+      "type": "inner_monologue",
+      "lines": [
+        {
+          "id": "shared_moment-1",
+          "speaker": "",
+          "text": "You sit there for a long time without speaking. A pigeon walks past. Somewhere, a car alarm."
+        },
+        {
+          "id": "shared_moment-2",
+          "speaker": "",
+          "text": "It's the most comfortable you've felt with him."
+        }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "walk_past_path",
+      "type": "inner_monologue",
+      "lines": [
+        {
+          "id": "walk_past-1",
+          "speaker": "",
+          "text": "You walk past. He doesn't call after you."
+        },
+        {
+          "id": "walk_past-2",
+          "speaker": "",
+          "text": "Later, you'll wonder if he saw you. You think he did."
+        }
+      ],
+      "setFlags": { "olivier_park_approached": false },
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        {
+          "id": "end-1",
+          "type": "inner_monologue",
+          "speaker": "",
+          "text": "Some scenes don't need dialogue to be the most important ones."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "amy-visit-01",
+  "title": "She Shows Up",
+  "characterId": "amy-crawford",
+  "chapter": 1,
+  "startNodeId": "v1",
+  "nodes": [
+    {
+      "id": "v1",
+      "lines": [
+        { "id": "v1-l1", "speaker": "Amy", "text": "I was in the area. Thought I'd see if you were still alive." }
+      ],
+      "autoNext": "v2",
+      "autoAdvanceMs": 3800
+    },
+    {
+      "id": "v2",
+      "lines": [
+        { "id": "v2-l1", "speaker": "Amy", "text": "Nice place." },
+        { "id": "v2-l2", "speaker": "Amy", "text": "For someone just starting out." }
+      ],
+      "autoNext": "v3"
+    },
+    {
+      "id": "v3",
+      "lines": [
+        { "id": "v3-l1", "speaker": "Amy", "text": "You should get some rest. You look like you're running on caffeine and ambition." }
+      ],
+      "autoNext": "v4",
+      "autoAdvanceMs": 4000,
+      "affectionDeltas": [{ "characterId": "amy-crawford", "delta": 5 }]
+    },
+    {
+      "id": "v4",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 2800,
+      "lines": [
+        { "id": "v4-l1", "speaker": "", "text": "She leaves before you can figure out whether that was concern or a critique. Probably both." }
+      ],
+      "autoNext": "v-end"
+    },
+    {
+      "id": "v-end",
+      "type": "scene_end",
+      "lines": []
+    }
+  ]
+}

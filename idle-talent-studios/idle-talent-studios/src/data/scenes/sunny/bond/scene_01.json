@@ -1,0 +1,35 @@
+{
+  "id": "sunny/bond/scene_01",
+  "title": "Same Sky",
+  "nodes": [
+    {
+      "id": "start",
+      "type": "dialogue",
+      "speaker": "Sunny",
+      "text": "You know what's weird? I used to think being seen was the whole point. Now I'm not sure.",
+      "next": "player_response"
+    },
+    {
+      "id": "player_response",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "What changed?",
+      "next": "sunny_shrugs"
+    },
+    {
+      "id": "sunny_shrugs",
+      "type": "inner_monologue",
+      "text": "She doesn't answer right away. The silence isn't empty.",
+      "autoAdvanceMs": 3000,
+      "next": "prestige_grant"
+    },
+    {
+      "id": "prestige_grant",
+      "type": "reward",
+      "rewardType": "prestige",
+      "amount": 1,
+      "label": "Sunny Bond Scene",
+      "next": null
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "celeste-ending-good",
+  "title": "The Narrative",
+  "characterId": "celeste-voss",
+  "chapter": 9,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Celeste", "text": "The narrative is clean. The public sees exactly what we want them to see." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "It's a professional success. You both let the rest of it stay unnamed." }
+      ]
+    }
+  ]
+}

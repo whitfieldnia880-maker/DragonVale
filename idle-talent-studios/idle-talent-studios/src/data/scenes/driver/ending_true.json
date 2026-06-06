@@ -1,0 +1,34 @@
+{
+  "id": "driver-ending-true",
+  "title": "The Road Ahead",
+  "characterId": "the-driver",
+  "chapter": 5,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3200,
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "A postcard. No return address. Just a photo of a highway in the middle of nowhere." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3200,
+      "lines": [
+        { "id": "beat2-1", "speaker": "", "text": "On the back, in small handwriting: 'Still watching for you in the rearview.'" }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You keep it. You don't tell anyone about it." }
+      ]
+    }
+  ]
+}

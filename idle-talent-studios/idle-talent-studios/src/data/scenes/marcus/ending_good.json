@@ -1,0 +1,30 @@
+{
+  "id": "marcus-ending-good",
+  "title": "Real Thing",
+  "characterId": "marcus-vane",
+  "chapter": 9,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Marcus", "text": "You know what the difference is between artists and performers?" }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Marcus", "text": "Artists are scared every time. And they go anyway." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "He says it looking at you. Like an answer to a question he never asked out loud." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "id": "dex-ch3-after-hours",
+  "title": "After Hours",
+  "characterId": "dex-calloway",
+  "chapter": 3,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "The shoot wrapped two hours ago. He's still here, developing film the old way. You stayed without being asked." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Dex", "text": "Can I tell you something weird?" }
+      ],
+      "autoNext": "beat3"
+    },
+    {
+      "id": "beat3",
+      "lines": [
+        { "id": "beat3-1", "speaker": "Dex", "text": "I grew up in a town where nobody looked like me. So I started taking pictures. Proof that we existed, you know?" }
+      ],
+      "autoNext": "beat4"
+    },
+    {
+      "id": "beat4",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "beat4-1", "speaker": "", "text": "He shows you a photo from his phone. A kid in a backyard. Squinting into the sun. It's him." }
+      ],
+      "autoNext": "beat5"
+    },
+    {
+      "id": "beat5",
+      "lines": [
+        { "id": "beat5-1", "speaker": "Dex", "text": "I found the eighth frame. You know — the one you never take because you think the moment's already gone?" }
+      ],
+      "autoNext": "beat6"
+    },
+    {
+      "id": "beat6",
+      "lines": [
+        { "id": "beat6-1", "speaker": "Dex", "text": "It's never gone." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "Something unlocks. A note. A frame. A small piece of who he actually is." }
+      ]
+    }
+  ]
+}

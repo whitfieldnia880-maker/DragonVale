@@ -1,0 +1,23 @@
+{
+  "id": "remy-ch8-ending",
+  "title": "Ending",
+  "characterId": "remy-ashford",
+  "chapter": 8,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Remy", "text": "Next season. I have an idea. If you're willing." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You're willing. You'd say yes to almost anything he asked. You know that now." }
+      ]
+    }
+  ]
+}

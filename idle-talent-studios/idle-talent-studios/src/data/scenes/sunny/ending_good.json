@@ -1,0 +1,23 @@
+{
+  "id": "sunny-ending-good",
+  "title": "In Sync",
+  "characterId": "sunny-park",
+  "chapter": 6,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Sunny", "text": "You kept the balance. Not everyone does." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You choreograph the rest of it together. Two people who remember who they were before the cameras started rolling." }
+      ]
+    }
+  ]
+}

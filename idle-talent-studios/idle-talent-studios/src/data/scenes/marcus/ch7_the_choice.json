@@ -1,0 +1,30 @@
+{
+  "id": "marcus-ch7-the-choice",
+  "title": "The Choice",
+  "characterId": "marcus-vane",
+  "chapter": 7,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Marcus", "text": "The label wants to shelve the album. Give it a commercial release. Clean it up." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Marcus", "text": "I'm asking if you want to fight it with me." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You say yes. You both know what that means." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "olivier-ch2-callback",
+  "title": "The Call Back",
+  "characterId": "olivier-sainte-claire",
+  "chapter": 2,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Olivier", "text": "You got the part. Don't thank me. Earn it." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You call no one. You sit with it. It feels enormous and correct." }
+      ]
+    }
+  ]
+}

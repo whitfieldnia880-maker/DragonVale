@@ -1,0 +1,23 @@
+{
+  "id": "sunny-ch2-rehearsal-room",
+  "title": "The Rehearsal Room",
+  "characterId": "sunny-park",
+  "chapter": 2,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Sunny", "text": "Okay. Show me what you've got. And don't perform. Just move." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You move. She watches. For the first time in months, it feels like it used to." }
+      ]
+    }
+  ]
+}

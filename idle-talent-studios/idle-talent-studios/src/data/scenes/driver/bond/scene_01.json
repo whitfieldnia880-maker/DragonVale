@@ -1,0 +1,42 @@
+{
+  "id": "driver/bond/scene_01",
+  "title": "Long Way Round",
+  "nodes": [
+    {
+      "id": "start",
+      "type": "inner_monologue",
+      "text": "He takes the long route again. You stopped asking why.",
+      "autoAdvanceMs": 2500,
+      "next": "driver_speaks"
+    },
+    {
+      "id": "driver_speaks",
+      "type": "dialogue",
+      "speaker": "The Driver",
+      "text": "There's a view coming up. Just past the overpass.",
+      "next": "player_response"
+    },
+    {
+      "id": "player_response",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "You've been saving it.",
+      "next": "driver_silent"
+    },
+    {
+      "id": "driver_silent",
+      "type": "inner_monologue",
+      "text": "He doesn't confirm it. He doesn't have to.",
+      "autoAdvanceMs": 3200,
+      "next": "prestige_grant"
+    },
+    {
+      "id": "prestige_grant",
+      "type": "reward",
+      "rewardType": "prestige",
+      "amount": 1,
+      "label": "Driver Bond Scene",
+      "next": null
+    }
+  ]
+}

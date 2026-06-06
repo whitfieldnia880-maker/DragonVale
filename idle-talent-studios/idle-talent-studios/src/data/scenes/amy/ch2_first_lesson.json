@@ -1,0 +1,30 @@
+{
+  "id": "amy-ch2-first-lesson",
+  "title": "The First Lesson",
+  "characterId": "amy-crawford",
+  "chapter": 2,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Amy", "text": "The thing about this industry is — everyone is always performing. Even in private." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Amy", "text": "The trick is knowing which performance is the real you." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You're not sure if she's warning you or describing herself." }
+      ]
+    }
+  ]
+}

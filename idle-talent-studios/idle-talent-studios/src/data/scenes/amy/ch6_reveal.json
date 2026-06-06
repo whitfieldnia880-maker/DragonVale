@@ -1,0 +1,129 @@
+{
+  "id": "amy-ch6-reveal",
+  "title": "The Reveal",
+  "characterId": "amy-crawford",
+  "chapter": 6,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        {
+          "id": "opening-1",
+          "speaker": "Amy",
+          "text": "I want to ask you something. And I need you to not perform an answer."
+        }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        {
+          "id": "beat2-1",
+          "speaker": "You",
+          "text": "...okay."
+        }
+      ],
+      "autoNext": "beat3"
+    },
+    {
+      "id": "beat3",
+      "lines": [
+        {
+          "id": "beat3-1",
+          "speaker": "Amy",
+          "text": "Do you actually trust me? Or have you been playing a very elegant long game?"
+        }
+      ],
+      "autoNext": "beat4"
+    },
+    {
+      "id": "beat4",
+      "type": "inner_monologue",
+      "lines": [
+        {
+          "id": "beat4-1",
+          "speaker": "",
+          "text": "The question hangs between you like a held breath. She's not performing this."
+        }
+      ],
+      "choices": [
+        {
+          "id": "trust",
+          "text": "\"I trust you.\"",
+          "nextNodeId": "trust_branch",
+          "affectionDelta": { "characterId": "amy-crawford", "delta": 8 }
+        },
+        {
+          "id": "honest",
+          "text": "\"I'm still deciding.\"",
+          "nextNodeId": "honest_branch",
+          "affectionDelta": { "characterId": "amy-crawford", "delta": 5 }
+        }
+      ]
+    },
+    {
+      "id": "trust_branch",
+      "lines": [
+        {
+          "id": "trust_branch-1",
+          "speaker": "Amy",
+          "text": "Good. Then I'll stop pretending I haven't been paying attention."
+        },
+        {
+          "id": "trust_branch-2",
+          "speaker": "Amy",
+          "text": "Every choice you've made. Every room you walked into. I've been watching."
+        }
+      ],
+      "setFlags": { "amy_ch6_reveal": true },
+      "autoNext": "revelation"
+    },
+    {
+      "id": "honest_branch",
+      "lines": [
+        {
+          "id": "honest_branch-1",
+          "speaker": "Amy",
+          "text": "That's the first completely honest thing you've said to me."
+        },
+        {
+          "id": "honest_branch-2",
+          "speaker": "Amy",
+          "text": "I've been watching you decide for months."
+        }
+      ],
+      "setFlags": { "amy_ch6_reveal": true },
+      "autoNext": "revelation"
+    },
+    {
+      "id": "revelation",
+      "type": "inner_monologue",
+      "lines": [
+        {
+          "id": "revelation-1",
+          "speaker": "",
+          "text": "Something shifts. The air changes the way it does before a storm breaks — not threatening, just different."
+        },
+        {
+          "id": "revelation-2",
+          "speaker": "",
+          "text": "She's been keeping score. But not the way you feared."
+        }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        {
+          "id": "end-1",
+          "speaker": "Amy",
+          "text": "We should talk. A real conversation. Without an audience."
+        }
+      ]
+    }
+  ]
+}

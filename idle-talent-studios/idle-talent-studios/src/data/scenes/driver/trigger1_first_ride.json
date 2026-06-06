@@ -1,0 +1,35 @@
+{
+  "id": "driver-trigger1-first-ride",
+  "title": "First Ride",
+  "characterId": "the-driver",
+  "chapter": 1,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3000,
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "The car was waiting when you came out. You didn't order one. Someone did." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3000,
+      "lines": [
+        { "id": "beat2-1", "speaker": "", "text": "He doesn't introduce himself. Neither do you." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "autoAdvanceMs": 2800,
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "The city moves past the window. He drives like he knows exactly where he's going." }
+      ]
+    }
+  ]
+}

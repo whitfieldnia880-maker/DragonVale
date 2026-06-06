@@ -1,0 +1,23 @@
+{
+  "id": "celeste-ch6-the-leak",
+  "title": "The Leak",
+  "characterId": "celeste-voss",
+  "chapter": 6,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Celeste", "text": "There's a story coming. I can kill it. But you have to trust me to do it my way." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You trust her. You're not entirely sure when that happened." }
+      ]
+    }
+  ]
+}

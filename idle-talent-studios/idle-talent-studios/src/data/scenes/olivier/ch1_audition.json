@@ -1,0 +1,23 @@
+{
+  "id": "olivier-ch1-audition",
+  "title": "The Audition",
+  "characterId": "olivier-sainte-claire",
+  "chapter": 1,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Olivier", "text": "Again. But this time — forget the lines. Just the feeling underneath them." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "His eyes don't leave you. Whether that's good or terrible, you cannot tell." }
+      ]
+    }
+  ]
+}

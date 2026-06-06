@@ -1,0 +1,32 @@
+{
+  "id": "marcus-ch6-overheard",
+  "title": "Overheard",
+  "characterId": "marcus-vane",
+  "chapter": 6,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "You weren't supposed to be in that hallway. The conversation wasn't meant for you." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Marcus", "text": "...I think she's ready. Maybe more ready than I let on." }
+      ],
+      "setFlags": { "marcus_overheard": true },
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You walk back before he sees you. You'll carry this alone for now." }
+      ]
+    }
+  ]
+}

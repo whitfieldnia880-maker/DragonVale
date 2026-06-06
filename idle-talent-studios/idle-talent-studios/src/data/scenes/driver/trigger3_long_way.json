@@ -1,0 +1,42 @@
+{
+  "id": "driver-trigger3-long-way",
+  "title": "The Long Way",
+  "characterId": "the-driver",
+  "chapter": 3,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3000,
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "He takes the bridge instead of the tunnel. Ten extra minutes." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3200,
+      "lines": [
+        { "id": "beat2-1", "speaker": "", "text": "You don't complain. You look at the water. It's the first quiet you've had in three days." }
+      ],
+      "autoNext": "beat3"
+    },
+    {
+      "id": "beat3",
+      "lines": [
+        { "id": "beat3-1", "speaker": "The Driver", "text": "Thought you could use the view." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "autoAdvanceMs": 2800,
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "He was right." }
+      ]
+    }
+  ]
+}

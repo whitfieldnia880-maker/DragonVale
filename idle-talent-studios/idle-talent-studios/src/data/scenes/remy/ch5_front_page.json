@@ -1,0 +1,24 @@
+{
+  "id": "remy-ch5-front-page",
+  "title": "Front Page",
+  "characterId": "remy-ashford",
+  "chapter": 5,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "The tabloid headline. Both your names. A photo from the charity gala where you were standing three feet apart." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "speaker": "Remy", "text": "Well. Now we're known." }
+      ]
+    }
+  ]
+}

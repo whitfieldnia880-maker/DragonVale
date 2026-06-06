@@ -1,0 +1,30 @@
+{
+  "id": "amy-ending-true",
+  "title": "The Real Game",
+  "characterId": "amy-crawford",
+  "chapter": 13,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Amy", "text": "You figured it out. The whole thing. That's — I didn't think you would." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Amy", "text": "It was never really a competition. I think I was just scared." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "She reaches for your hand. Not performing it. Just doing it." }
+      ]
+    }
+  ]
+}

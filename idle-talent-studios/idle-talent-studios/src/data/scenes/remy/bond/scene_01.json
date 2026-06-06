@@ -1,0 +1,35 @@
+{
+  "id": "remy/bond/scene_01",
+  "title": "Encore",
+  "nodes": [
+    {
+      "id": "start",
+      "type": "dialogue",
+      "speaker": "Remy Laine",
+      "text": "I wrote something I want you to hear first. Before anyone else. Is that weird?",
+      "next": "player_response"
+    },
+    {
+      "id": "player_response",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "Not even a little.",
+      "next": "remy_starts_playing"
+    },
+    {
+      "id": "remy_starts_playing",
+      "type": "inner_monologue",
+      "text": "The melody is unfinished. It still sounds like a whole world.",
+      "autoAdvanceMs": 3500,
+      "next": "prestige_grant"
+    },
+    {
+      "id": "prestige_grant",
+      "type": "reward",
+      "rewardType": "prestige",
+      "amount": 1,
+      "label": "Remy Bond Scene",
+      "next": null
+    }
+  ]
+}

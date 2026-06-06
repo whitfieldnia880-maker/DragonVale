@@ -1,0 +1,143 @@
+{
+  "id": "amy-ch7-warning",
+  "title": "The Warning",
+  "characterId": "amy-crawford",
+  "chapter": 7,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        {
+          "id": "opening-1",
+          "speaker": "Ex-Costar",
+          "text": "I've been where you are. She invested in me too. Ask yourself what she got out of it."
+        }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "type": "inner_monologue",
+      "lines": [
+        {
+          "id": "beat2-1",
+          "speaker": "",
+          "text": "He doesn't elaborate. Just lets the warning sit there like a receipt left on the table."
+        }
+      ],
+      "autoNext": "beat3"
+    },
+    {
+      "id": "beat3",
+      "lines": [
+        {
+          "id": "beat3-1",
+          "speaker": "Ex-Costar",
+          "text": "She picks people she can afford to lose. It's a system. You're part of it."
+        }
+      ],
+      "autoNext": "choice_gate"
+    },
+    {
+      "id": "choice_gate",
+      "type": "inner_monologue",
+      "lines": [
+        {
+          "id": "choice_gate-1",
+          "speaker": "",
+          "text": "Later that night, you're alone with it. What he said. What you know. What you don't."
+        }
+      ],
+      "choices": [
+        {
+          "id": "confront",
+          "text": "Confront Amy directly.",
+          "nextNodeId": "confront_path",
+          "statCheck": { "stat": "wisdom", "required": 60 },
+          "lockedText": "You don't have the read on this yet. (Wisdom 60+)"
+        },
+        {
+          "id": "believe_quietly",
+          "text": "Believe it, but say nothing.",
+          "nextNodeId": "believe_path"
+        },
+        {
+          "id": "dismiss",
+          "text": "Dismiss it. He's bitter.",
+          "nextNodeId": "dismiss_path"
+        }
+      ]
+    },
+    {
+      "id": "confront_path",
+      "lines": [
+        {
+          "id": "confront-1",
+          "speaker": "You",
+          "text": "Someone warned me about you. I want to hear what you'd say to that."
+        },
+        {
+          "id": "confront-2",
+          "speaker": "Amy",
+          "text": "...Who?"
+        },
+        {
+          "id": "confront-3",
+          "speaker": "You",
+          "text": "Does it matter?"
+        },
+        {
+          "id": "confront-4",
+          "speaker": "Amy",
+          "text": "It matters to me that you came to me instead of running. That's — that matters."
+        }
+      ],
+      "setFlags": { "amy_trust_choice_confront": true },
+      "affectionDeltas": [{ "characterId": "amy-crawford", "delta": 10 }],
+      "autoNext": "end"
+    },
+    {
+      "id": "believe_path",
+      "lines": [
+        {
+          "id": "believe-1",
+          "speaker": "Amy",
+          "text": "You seem distant lately."
+        },
+        {
+          "id": "believe-2",
+          "speaker": "You",
+          "text": "Just tired."
+        }
+      ],
+      "setFlags": { "amy_trust_choice_confront": false },
+      "autoNext": "end"
+    },
+    {
+      "id": "dismiss_path",
+      "lines": [
+        {
+          "id": "dismiss-1",
+          "type": "inner_monologue",
+          "speaker": "",
+          "text": "You tell yourself it's fine. That he has every reason to be wrong."
+        }
+      ],
+      "setFlags": { "amy_trust_choice_confront": false },
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        {
+          "id": "end-1",
+          "type": "inner_monologue",
+          "speaker": "",
+          "text": "Whatever you chose — you'll live with it."
+        }
+      ]
+    }
+  ]
+}

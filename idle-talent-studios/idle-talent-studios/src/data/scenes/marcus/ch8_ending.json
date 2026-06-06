@@ -1,0 +1,23 @@
+{
+  "id": "marcus-ch8-ending",
+  "title": "Ending",
+  "characterId": "marcus-vane",
+  "chapter": 8,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Marcus", "text": "Album drops Friday. We'll see what happens." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "Whatever happens next — you made something real." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "remy-ch6-off-the-record",
+  "title": "Off the Record",
+  "characterId": "remy-ashford",
+  "chapter": 6,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Remy", "text": "I don't do this with clients. I need you to know that." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "He doesn't say what 'this' is. He doesn't need to." }
+      ]
+    }
+  ]
+}

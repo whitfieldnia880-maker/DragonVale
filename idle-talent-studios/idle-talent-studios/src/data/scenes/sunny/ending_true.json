@@ -1,0 +1,30 @@
+{
+  "id": "sunny-ending-true",
+  "title": "The Step Back",
+  "characterId": "sunny-park",
+  "chapter": 6,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Sunny", "text": "You turned down the big ones. Three in a row. That was..." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Sunny", "text": "I don't know anyone who could do that. I really don't." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "She takes your hand. Briefly. Like punctuation on something that doesn't need a sentence." }
+      ]
+    }
+  ]
+}

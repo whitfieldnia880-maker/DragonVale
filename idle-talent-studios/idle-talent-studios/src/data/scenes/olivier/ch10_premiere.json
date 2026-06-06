@@ -1,0 +1,24 @@
+{
+  "id": "olivier-ch10-premiere",
+  "title": "The Premiere",
+  "characterId": "olivier-sainte-claire",
+  "chapter": 10,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "The Palme d'Or crowd. The press. His hand briefly at your elbow — guiding, not controlling." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "The screening ends. The lights come up. The room applauds for seven minutes." }
+      ]
+    }
+  ]
+}

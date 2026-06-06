@@ -1,0 +1,23 @@
+{
+  "id": "olivier-ch12-ending",
+  "title": "Ending",
+  "characterId": "olivier-sainte-claire",
+  "chapter": 12,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Olivier", "text": "I have a script. It will be difficult. It will be extraordinary." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "He slides it across the table. Your name is on the cover page." }
+      ]
+    }
+  ]
+}

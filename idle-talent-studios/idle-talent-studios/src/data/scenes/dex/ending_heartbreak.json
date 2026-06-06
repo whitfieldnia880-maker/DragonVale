@@ -1,0 +1,24 @@
+{
+  "id": "dex-ending-heartbreak",
+  "title": "Out of Frame",
+  "characterId": "dex-calloway",
+  "chapter": 6,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "He tried. You were just... elsewhere." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "speaker": "Dex", "text": "Take care of yourself out there, okay?" }
+      ]
+    }
+  ]
+}

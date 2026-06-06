@@ -1,0 +1,23 @@
+{
+  "id": "remy-ch3-gala-night",
+  "title": "Gala Night",
+  "characterId": "remy-ashford",
+  "chapter": 3,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Remy", "text": "You look — exactly right. Which is the highest compliment I give." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "The gala. The cameras. His choice, your body. For tonight — it works perfectly." }
+      ]
+    }
+  ]
+}

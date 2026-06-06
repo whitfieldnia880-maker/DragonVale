@@ -1,0 +1,23 @@
+{
+  "id": "celeste-ch8-ending",
+  "title": "Ending",
+  "characterId": "celeste-voss",
+  "chapter": 8,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Celeste", "text": "I'm renewing the contract. For another year. If you want." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You want. It's more than professional and both of you know it." }
+      ]
+    }
+  ]
+}

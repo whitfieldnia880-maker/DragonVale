@@ -1,0 +1,35 @@
+{
+  "id": "amy/bond/scene_01",
+  "title": "Something Borrowed",
+  "nodes": [
+    {
+      "id": "start",
+      "type": "dialogue",
+      "speaker": "Amy Crawford",
+      "text": "You kept that playlist I made you. I wasn't sure you would.",
+      "next": "player_response"
+    },
+    {
+      "id": "player_response",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "I listen to it more than you'd think.",
+      "next": "amy_smile"
+    },
+    {
+      "id": "amy_smile",
+      "type": "inner_monologue",
+      "text": "She goes quiet in a way that feels like a whole sentence.",
+      "autoAdvanceMs": 2800,
+      "next": "prestige_grant"
+    },
+    {
+      "id": "prestige_grant",
+      "type": "reward",
+      "rewardType": "prestige",
+      "amount": 1,
+      "label": "Amy Bond Scene",
+      "next": null
+    }
+  ]
+}

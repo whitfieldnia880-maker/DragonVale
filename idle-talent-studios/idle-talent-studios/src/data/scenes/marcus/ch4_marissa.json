@@ -1,0 +1,31 @@
+{
+  "id": "marcus-ch4-marissa",
+  "title": "Marissa",
+  "characterId": "marcus-vane",
+  "chapter": 4,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Marissa", "text": "I didn't realize you two were so close." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "beat2-1", "speaker": "", "text": "Her smile is perfectly calibrated. Marcus says nothing. That's the loudest thing in the room." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "The triangle is drawn. Now everyone has to decide which corner they're standing in." }
+      ]
+    }
+  ]
+}

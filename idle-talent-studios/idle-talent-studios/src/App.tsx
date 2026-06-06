@@ -1,0 +1,227 @@
+import { lazy, Suspense, useEffect } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useGigStore } from '@/store/gigStore'
+import { useAuth } from '@/hooks/useAuth'
+import { useOnlineStatus } from '@/hooks/useOnlineStatus'
+import { useReducedMotion } from '@/hooks/useReducedMotion'
+import { flushOfflineQueue } from '@/systems/offlineQueue'
+import { BottomNav, type NavTab } from '@/components/BottomNav'
+import { ToastProvider } from '@/components/ToastProvider'
+import { OfflineBanner } from '@/components/OfflineBanner'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
+import { ScreenSkeleton } from '@/components/LoadingSkeleton'
+import { AuthScreen } from '@/screens/AuthScreen'
+import { useState } from 'react'
+
+// ─── Lazy screen imports ──────────────────────────────────────────────────────
+
+const MainMenu      = lazy(() => import('@/screens/MainMenu').then(m => ({ default: m.MainMenu })))
+const Home          = lazy(() => import('@/screens/Home').then(m => ({ default: m.Home })))
+const GachaScreen   = lazy(() => import('@/screens/GachaScreen').then(m => ({ default: m.GachaScreen })))
+const RouteScreen   = lazy(() => import('@/screens/RouteScreen').then(m => ({ default: m.RouteScreen })))
+const ShopScreen    = lazy(() => import('@/screens/ShopScreen').then(m => ({ default: m.ShopScreen })))
+const ProfileScreen = lazy(() => import('@/screens/ProfileScreen').then(m => ({ default: m.ProfileScreen })))
+const CollectionScreen = lazy(() => import('@/screens/CollectionScreen').then(m => ({ default: m.CollectionScreen })))
+const Gigs          = lazy(() => import('@/screens/Gigs').then(m => ({ default: m.Gigs })))
+const Career        = lazy(() => import('@/screens/Career').then(m => ({ default: m.Career })))
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+type Screen =
+  | 'menu'
+  | 'home'
+  | 'gacha'
+  | 'routes'
+  | 'shop'
+  | 'profile'
+  | 'gigs'
+  | 'career'
+  | 'collection'
+
+// Bottom nav tabs map to screens
+const NAV_TAB_TO_SCREEN: Record<NavTab, Screen> = {
+  home:       'home',
+  gigs:       'gigs',
+  gacha:      'gacha',
+  collection: 'collection',
+  profile:    'profile',
+}
+
+const SCREEN_TO_NAV_TAB: Partial<Record<Screen, NavTab>> = {
+  home:       'home',
+  gigs:       'gigs',
+  gacha:      'gacha',
+  collection: 'collection',
+  profile:    'profile',
+}
+
+// Screens that get the bottom nav
+const NAV_SCREENS = new Set<Screen>(['home', 'gigs', 'gacha', 'collection', 'profile', 'routes', 'shop', 'career'])
+
+// ─── Tier palette ─────────────────────────────────────────────────────────────
+
+const TIER_PALETTE: Record<number, { primary: string; accent: string; dim: string; muted: string }> = {
+  1: { primary: '#f59e0b', accent: '#fef3c7', dim: '#78350f', muted: '#92400e' },
+  2: { primary: '#9f1239', accent: '#fda4af', dim: '#4c0519', muted: '#881337' },
+  3: { primary: '#3b82f6', accent: '#94a3b8', dim: '#1e3a8a', muted: '#1e40af' },
+  4: { primary: '#eab308', accent: '#fde68a', dim: '#713f12', muted: '#92400e' },
+  5: { primary: '#dc2626', accent: '#e2e8f0', dim: '#7f1d1d', muted: '#991b1b' },
+  6: { primary: '#e2e8f0', accent: '#f8fafc', dim: '#475569', muted: '#64748b' },
+}
+
+function useTierTheme(careerTier: number) {
+  useEffect(() => {
+    const palette = TIER_PALETTE[careerTier] ?? TIER_PALETTE[1]
+    const root = document.documentElement
+    root.style.setProperty('--tier-primary', palette.primary)
+    root.style.setProperty('--tier-accent',  palette.accent)
+    root.style.setProperty('--tier-dim',     palette.dim)
+    root.style.setProperty('--tier-muted',   palette.muted)
+    root.setAttribute('data-tier', String(careerTier))
+  }, [careerTier])
+}
+
+// ─── Reconnect handler ────────────────────────────────────────────────────────
+
+function useReconnectSync(userId: string | undefined) {
+  useEffect(() => {
+    if (!userId) return
+    const handler = () => flushOfflineQueue(userId)
+    window.addEventListener('online', handler)
+    return () => window.removeEventListener('online', handler)
+  }, [userId])
+}
+
+// ─── App ──────────────────────────────────────────────────────────────────────
+
+export default function App() {
+  const [screen, setScreen] = useState<Screen>('menu')
+  const careerTier = useGigStore((s) => s.careerTier)
+  const auth = useAuth()
+  const online = useOnlineStatus()
+  const reduced = useReducedMotion()
+
+  useTierTheme(careerTier)
+  useReconnectSync(auth.user?.id)
+
+  function go(s: Screen) {
+    setScreen(s)
+  }
+
+  function handleNavTab(tab: NavTab) {
+    go(NAV_TAB_TO_SCREEN[tab])
+  }
+
+  const activeNavTab = SCREEN_TO_NAV_TAB[screen]
+  const showBottomNav = NAV_SCREENS.has(screen)
+
+  // Auth loading splash
+  if (auth.state === 'loading') {
+    return (
+      <div className="min-h-svh bg-slate-950 flex items-center justify-center">
+        <motion.p
+          animate={{ opacity: [0.3, 1, 0.3] }}
+          transition={{ duration: 1.8, repeat: Infinity }}
+          className="text-white/40 text-sm"
+        >
+          Loading…
+        </motion.p>
+      </div>
+    )
+  }
+
+  // Auth screen (unauthenticated — but allow local play from MainMenu)
+  if (auth.state === 'unauthenticated' && screen === 'menu') {
+    // Show MainMenu first; user can sign in from profile or play locally
+  }
+
+  const transition = reduced
+    ? { duration: 0 }
+    : { duration: 0.18 }
+
+  return (
+    <>
+      <ToastProvider />
+      <OfflineBanner online={online} />
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={screen}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={transition}
+          className="min-h-svh"
+          style={showBottomNav ? { paddingBottom: 'calc(3.5rem + env(safe-area-inset-bottom, 0px))' } : undefined}
+        >
+          <ErrorBoundary>
+            <Suspense fallback={<ScreenSkeleton />}>
+
+              {screen === 'menu' && (
+                <MainMenu onStart={() => go('home')} />
+              )}
+
+              {screen === 'home' && (
+                <Home
+                  onGoToGacha={() => go('gacha')}
+                  onGoToRoutes={() => go('routes')}
+                  onGoToShop={() => go('shop')}
+                  onGoToProfile={() => go('profile')}
+                  onGoToGigs={() => go('gigs')}
+                  onGoToCareer={() => go('career')}
+                  onGoToCollection={() => go('collection')}
+                />
+              )}
+
+              {screen === 'gacha' && (
+                <GachaScreen onBack={() => go('home')} />
+              )}
+
+              {screen === 'routes' && (
+                <RouteScreen onBack={() => go('home')} />
+              )}
+
+              {screen === 'shop' && (
+                <ShopScreen
+                  onBack={() => go('home')}
+                  onGoToGacha={() => go('gacha')}
+                />
+              )}
+
+              {screen === 'profile' && (
+                <ProfileScreen
+                  onBack={() => go('home')}
+                  auth={auth}
+                />
+              )}
+
+              {screen === 'collection' && (
+                <CollectionScreen
+                  onBack={() => go('home')}
+                  onGoToRoutes={() => go('routes')}
+                />
+              )}
+
+              {screen === 'gigs' && (
+                <Gigs onBack={() => go('home')} />
+              )}
+
+              {screen === 'career' && (
+                <Career onBack={() => go('home')} />
+              )}
+
+            </Suspense>
+          </ErrorBoundary>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Bottom navigation — shown on main screens */}
+      {showBottomNav && (
+        <BottomNav
+          active={activeNavTab ?? 'home'}
+          onNavigate={handleNavTab}
+        />
+      )}
+    </>
+  )
+}

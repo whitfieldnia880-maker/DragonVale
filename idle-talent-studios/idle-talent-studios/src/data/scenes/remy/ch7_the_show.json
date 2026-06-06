@@ -1,0 +1,23 @@
+{
+  "id": "remy-ch7-the-show",
+  "title": "The Show",
+  "characterId": "remy-ashford",
+  "chapter": 7,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Remy", "text": "Fashion week. The whole room is watching. You ready?" }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You've never been more ready. You've never been more terrified. That's probably the point." }
+      ]
+    }
+  ]
+}

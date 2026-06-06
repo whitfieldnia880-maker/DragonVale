@@ -1,0 +1,173 @@
+{
+  "id": "marcus-ch3-press-junket",
+  "title": "Press Junket",
+  "characterId": "marcus-vane",
+  "chapter": 3,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        {
+          "id": "opening-1",
+          "speaker": "Reporter",
+          "text": "So — you and Marcus Vane. How do you describe the creative relationship?"
+        }
+      ],
+      "autoNext": "q1_choice"
+    },
+    {
+      "id": "q1_choice",
+      "type": "inner_monologue",
+      "lines": [
+        {
+          "id": "q1_choice-1",
+          "speaker": "",
+          "text": "Marcus is in the back of the room. He's watching exactly the same way he does in the studio."
+        }
+      ],
+      "choices": [
+        {
+          "id": "authentic",
+          "text": "\"He pushes me to mean what I say.\"",
+          "nextNodeId": "q1_authentic",
+          "affectionDelta": { "characterId": "marcus-vane", "delta": 8 }
+        },
+        {
+          "id": "professional",
+          "text": "\"It's a professional collaboration. Very productive.\"",
+          "nextNodeId": "q1_professional",
+          "affectionDelta": { "characterId": "marcus-vane", "delta": 2 }
+        },
+        {
+          "id": "deflect",
+          "text": "\"I'd rather let the work speak for itself.\"",
+          "nextNodeId": "q1_deflect",
+          "affectionDelta": { "characterId": "marcus-vane", "delta": 5 }
+        }
+      ]
+    },
+    {
+      "id": "q1_authentic",
+      "lines": [
+        {
+          "id": "q1_authentic-1",
+          "speaker": "Reporter",
+          "text": "That's a very specific answer. I like it."
+        }
+      ],
+      "autoNext": "q2"
+    },
+    {
+      "id": "q1_professional",
+      "lines": [
+        {
+          "id": "q1_professional-1",
+          "type": "inner_monologue",
+          "speaker": "",
+          "text": "Safe. Marcus's expression doesn't change. That's either good or bad — you can never tell."
+        }
+      ],
+      "autoNext": "q2"
+    },
+    {
+      "id": "q1_deflect",
+      "lines": [
+        {
+          "id": "q1_deflect-1",
+          "type": "inner_monologue",
+          "speaker": "",
+          "text": "A slight nod from the back of the room. He appreciates a person who knows when to stop talking."
+        }
+      ],
+      "autoNext": "q2"
+    },
+    {
+      "id": "q2",
+      "lines": [
+        {
+          "id": "q2-1",
+          "speaker": "Reporter",
+          "text": "Rumor has it the album has a track written specifically with your voice in mind. True?"
+        }
+      ],
+      "autoNext": "q2_choice"
+    },
+    {
+      "id": "q2_choice",
+      "type": "inner_monologue",
+      "lines": [
+        {
+          "id": "q2_choice-1",
+          "speaker": "",
+          "text": "This is a trap. If you confirm it, it becomes a headline. If you deny it, you're lying."
+        }
+      ],
+      "choices": [
+        {
+          "id": "confirm",
+          "text": "\"I can say I'm honored by that.\"",
+          "nextNodeId": "q2_confirm",
+          "statDeltas": [{ "stat": "reputation", "delta": 3 }]
+        },
+        {
+          "id": "redirect",
+          "text": "\"Marcus writes for the music, not the artist.\"",
+          "nextNodeId": "q2_redirect",
+          "affectionDelta": { "characterId": "marcus-vane", "delta": 6 }
+        }
+      ]
+    },
+    {
+      "id": "q2_confirm",
+      "lines": [
+        {
+          "id": "q2_confirm-1",
+          "speaker": "Reporter",
+          "text": "Very diplomatic."
+        }
+      ],
+      "autoNext": "post_junket"
+    },
+    {
+      "id": "q2_redirect",
+      "lines": [
+        {
+          "id": "q2_redirect-1",
+          "type": "inner_monologue",
+          "speaker": "",
+          "text": "From the back of the room, something almost like approval crosses Marcus's face."
+        }
+      ],
+      "autoNext": "post_junket"
+    },
+    {
+      "id": "post_junket",
+      "lines": [
+        {
+          "id": "post_junket-1",
+          "speaker": "Marcus",
+          "text": "You handled that better than most."
+        },
+        {
+          "id": "post_junket-2",
+          "speaker": "Marcus",
+          "text": "Most people give press what they want. You gave them something they had to think about."
+        }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        {
+          "id": "end-1",
+          "type": "inner_monologue",
+          "speaker": "",
+          "text": "For the first time, you feel like you passed a test you didn't know you were taking."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "amy-ending-good",
+  "title": "Mutual Understanding",
+  "characterId": "amy-crawford",
+  "chapter": 13,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Amy", "text": "We understand each other. That's rare in this industry." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "It's not a fairytale. It's better — it's real." }
+      ]
+    }
+  ]
+}

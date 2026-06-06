@@ -1,0 +1,24 @@
+{
+  "id": "olivier-ending-good",
+  "title": "The Collaboration",
+  "characterId": "olivier-sainte-claire",
+  "chapter": 13,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "The film exists. It is what you both wanted it to be. That is not nothing." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "speaker": "Olivier", "text": "We should do it again sometime." }
+      ]
+    }
+  ]
+}

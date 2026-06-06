@@ -1,0 +1,35 @@
+{
+  "id": "dex/bond/scene_01",
+  "title": "Margin Notes",
+  "nodes": [
+    {
+      "id": "start",
+      "type": "dialogue",
+      "speaker": "Dex",
+      "text": "I left you a note. In the draft. Did you find it?",
+      "next": "player_response"
+    },
+    {
+      "id": "player_response",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "\"You're getting close.\" Yeah, I found it.",
+      "next": "dex_ducks_head"
+    },
+    {
+      "id": "dex_ducks_head",
+      "type": "inner_monologue",
+      "text": "He ducks his head. You realize that's three words more than he usually gives.",
+      "autoAdvanceMs": 2800,
+      "next": "prestige_grant"
+    },
+    {
+      "id": "prestige_grant",
+      "type": "reward",
+      "rewardType": "prestige",
+      "amount": 1,
+      "label": "Dex Bond Scene",
+      "next": null
+    }
+  ]
+}

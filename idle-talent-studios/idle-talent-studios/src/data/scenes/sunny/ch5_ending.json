@@ -1,0 +1,23 @@
+{
+  "id": "sunny-ch5-ending",
+  "title": "Ending",
+  "characterId": "sunny-park",
+  "chapter": 5,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Sunny", "text": "Whatever happens next — I'm in your corner. That's not conditional." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "Some people stay because they're supposed to. Sunny stays because she wants to. The difference is everything." }
+      ]
+    }
+  ]
+}

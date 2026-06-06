@@ -1,0 +1,31 @@
+{
+  "id": "remy-ch1-introduction",
+  "title": "Introduction",
+  "characterId": "remy-ashford",
+  "chapter": 1,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Remy", "text": "Stand up straight. I need to see what I'm working with." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "beat2-1", "speaker": "", "text": "He walks a slow circle around you. Not unkind. Clinical. Like he's reading something you can't see." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "speaker": "Remy", "text": "Good bones. We'll work with it." }
+      ]
+    }
+  ]
+}

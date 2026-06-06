@@ -1,0 +1,31 @@
+{
+  "id": "amy-ch4-the-ask",
+  "title": "The Ask",
+  "characterId": "amy-crawford",
+  "chapter": 4,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Amy", "text": "I need a favor. And I need you to not ask questions." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "beat2-1", "speaker": "", "text": "You help her. You don't ask. She remembers." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "speaker": "Amy", "text": "You're different." }
+      ]
+    }
+  ]
+}

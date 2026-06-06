@@ -1,0 +1,23 @@
+{
+  "id": "olivier-ch9-cannes-prep",
+  "title": "Cannes Prep",
+  "characterId": "olivier-sainte-claire",
+  "chapter": 9,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        { "id": "opening-1", "speaker": "Olivier", "text": "Cannes is not a festival. It is a judgment. We will be judged — and we will survive it." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "He says 'we.' That is new." }
+      ]
+    }
+  ]
+}

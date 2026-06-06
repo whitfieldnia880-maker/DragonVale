@@ -1,0 +1,24 @@
+{
+  "id": "marcus-ending-heartbreak",
+  "title": "The Industry Wins",
+  "characterId": "marcus-vane",
+  "chapter": 9,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "The album goes platinum. You go separate ways." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "He was right about one thing. You did have something. The industry just packaged it differently." }
+      ]
+    }
+  ]
+}

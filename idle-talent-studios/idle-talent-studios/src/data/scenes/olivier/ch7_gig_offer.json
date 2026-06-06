@@ -1,0 +1,109 @@
+{
+  "id": "olivier-ch7-gig-offer",
+  "title": "The Gig Offer",
+  "characterId": "olivier-sainte-claire",
+  "chapter": 7,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "lines": [
+        {
+          "id": "opening-1",
+          "speaker": "Olivier",
+          "text": "There is an offer on the table. A commercial. Luxury fragrance. Global campaign."
+        },
+        {
+          "id": "opening-2",
+          "speaker": "Olivier",
+          "text": "The money would be transformative. I am not going to pretend otherwise."
+        }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        {
+          "id": "beat2-1",
+          "speaker": "Olivier",
+          "text": "And I think it would be the end of what we are trying to do together."
+        }
+      ],
+      "autoNext": "beat3"
+    },
+    {
+      "id": "beat3",
+      "type": "inner_monologue",
+      "lines": [
+        {
+          "id": "beat3-1",
+          "speaker": "",
+          "text": "He's not telling you what to do. He never does. That's the thing about him — the decision always stays yours."
+        }
+      ],
+      "choices": [
+        {
+          "id": "refuse",
+          "text": "\"I'm not taking it.\"",
+          "nextNodeId": "refuse_path",
+          "affectionDelta": { "characterId": "olivier-sainte-claire", "delta": 15 }
+        },
+        {
+          "id": "accept",
+          "text": "\"I need to think about it.\"",
+          "nextNodeId": "accept_path",
+          "affectionDelta": { "characterId": "olivier-sainte-claire", "delta": -5 }
+        }
+      ]
+    },
+    {
+      "id": "refuse_path",
+      "lines": [
+        {
+          "id": "refuse-1",
+          "speaker": "Olivier",
+          "text": "..."
+        },
+        {
+          "id": "refuse-2",
+          "speaker": "Olivier",
+          "text": "Then let's go to work."
+        }
+      ],
+      "setFlags": { "olivier_gig_refused": true },
+      "statDeltas": [{ "stat": "reputation", "delta": 5 }],
+      "autoNext": "end"
+    },
+    {
+      "id": "accept_path",
+      "lines": [
+        {
+          "id": "accept-1",
+          "speaker": "Olivier",
+          "text": "Of course. Think about it."
+        },
+        {
+          "id": "accept-2",
+          "type": "inner_monologue",
+          "speaker": "",
+          "text": "His voice is perfectly neutral. That is worse than disappointment."
+        }
+      ],
+      "setFlags": { "olivier_gig_refused": false },
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        {
+          "id": "end-1",
+          "type": "inner_monologue",
+          "speaker": "",
+          "text": "Some choices are about the money. Some are about who you want to be when the money is gone."
+        }
+      ]
+    }
+  ]
+}

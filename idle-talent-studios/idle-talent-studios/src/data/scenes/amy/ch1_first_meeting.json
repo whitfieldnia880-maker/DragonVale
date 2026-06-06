@@ -1,0 +1,275 @@
+{
+  "id": "amy-ch1-first-meeting",
+  "title": "First Meeting",
+  "characterId": "amy-crawford",
+  "chapter": 1,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "lines": [
+        {
+          "id": "opening-1",
+          "speaker": "You",
+          "text": "You walk off the Meridian Theatre stage and the sound of the room closes behind you like water."
+        },
+        {
+          "id": "opening-2",
+          "speaker": "You",
+          "text": "Your hands are still shaking. You don't know if that was good. You don't know if it mattered."
+        },
+        {
+          "id": "opening-3",
+          "speaker": "You",
+          "text": "Then — footsteps. Unhurried. Deliberate."
+        }
+      ],
+      "autoNext": "amy-entrance"
+    },
+    {
+      "id": "amy-entrance",
+      "type": "dialogue",
+      "lines": [
+        {
+          "id": "ae-1",
+          "speaker": "Amy Crawford",
+          "text": "You left the stage on the wrong foot."
+        },
+        {
+          "id": "ae-2",
+          "speaker": "Amy Crawford",
+          "text": "Deliberately."
+        }
+      ],
+      "autoNext": "amy-reads-you"
+    },
+    {
+      "id": "amy-reads-you",
+      "type": "dialogue",
+      "lines": [
+        {
+          "id": "ary-1",
+          "speaker": "Amy Crawford",
+          "text": "Most people trying to make an impression overdo the exit. You underdid it."
+        },
+        {
+          "id": "ary-2",
+          "speaker": "Amy Crawford",
+          "text": "That's harder to do well than the obvious choice. Either you knew exactly what you were doing..."
+        },
+        {
+          "id": "ary-3",
+          "speaker": "Amy Crawford",
+          "text": "...or you got very lucky. I haven't decided which yet."
+        }
+      ],
+      "choices": [
+        {
+          "id": "c-humble",
+          "text": "\"I was just trying to feel genuine.\"",
+          "affectionDelta": { "characterId": "amy-crawford", "delta": 5 },
+          "nextNodeId": "beat2-humble"
+        },
+        {
+          "id": "c-confident",
+          "text": "\"I knew exactly what I was doing.\"",
+          "statCheck": { "stat": "confidence", "required": 50 },
+          "affectionDelta": { "characterId": "amy-crawford", "delta": 12 },
+          "nextNodeId": "beat2-confident"
+        },
+        {
+          "id": "c-deflect",
+          "text": "\"I didn't realize anyone was still watching.\"",
+          "affectionDelta": { "characterId": "amy-crawford", "delta": 3 },
+          "nextNodeId": "beat2-deflect"
+        }
+      ]
+    },
+    {
+      "id": "beat2-humble",
+      "type": "dialogue",
+      "lines": [
+        {
+          "id": "b2h-1",
+          "speaker": "Amy Crawford",
+          "text": "Genuine."
+        },
+        {
+          "id": "b2h-2",
+          "speaker": "Amy Crawford",
+          "text": "That word gets people killed in this industry. But it's also why some of them survive it."
+        }
+      ],
+      "autoNext": "advice-setup"
+    },
+    {
+      "id": "beat2-confident",
+      "type": "dialogue",
+      "lines": [
+        {
+          "id": "b2c-1",
+          "speaker": "Amy Crawford",
+          "text": "Good answer."
+        },
+        {
+          "id": "b2c-2",
+          "speaker": "Amy Crawford",
+          "text": "Whether it's true or not."
+        }
+      ],
+      "autoNext": "advice-setup"
+    },
+    {
+      "id": "beat2-deflect",
+      "type": "dialogue",
+      "lines": [
+        {
+          "id": "b2d-1",
+          "speaker": "Amy Crawford",
+          "text": "Then you should know —"
+        },
+        {
+          "id": "b2d-2",
+          "speaker": "Amy Crawford",
+          "text": "I'm always watching."
+        }
+      ],
+      "autoNext": "advice-setup"
+    },
+    {
+      "id": "advice-setup",
+      "type": "dialogue",
+      "lines": [
+        {
+          "id": "as-1",
+          "speaker": "Amy Crawford",
+          "text": "I'm going to give you a piece of advice you didn't ask for."
+        },
+        {
+          "id": "as-2",
+          "speaker": "Amy Crawford",
+          "text": "Take it or don't. I only offer it once."
+        }
+      ],
+      "choices": [
+        {
+          "id": "advice-accept",
+          "text": "\"I'm listening.\"",
+          "affectionDelta": { "characterId": "amy-crawford", "delta": 15 },
+          "nextNodeId": "advice-given"
+        },
+        {
+          "id": "advice-deflect",
+          "text": "\"I tend to figure things out myself.\"",
+          "affectionDelta": { "characterId": "amy-crawford", "delta": 8 },
+          "nextNodeId": "advice-declined"
+        },
+        {
+          "id": "advice-pushback",
+          "text": "\"What makes you qualified to advise me?\"",
+          "affectionDelta": { "characterId": "amy-crawford", "delta": 12 },
+          "statDeltas": [{ "stat": "confidence", "delta": 2 }],
+          "nextNodeId": "advice-challenged"
+        }
+      ]
+    },
+    {
+      "id": "advice-given",
+      "type": "dialogue",
+      "lines": [
+        {
+          "id": "ag-1",
+          "speaker": "Amy Crawford",
+          "text": "Stop performing for the room."
+        },
+        {
+          "id": "ag-2",
+          "speaker": "Amy Crawford",
+          "text": "Perform for the camera behind the auditioner's left shoulder. It shifts your eye line by two degrees."
+        },
+        {
+          "id": "ag-3",
+          "speaker": "Amy Crawford",
+          "text": "Nobody notices consciously. They just feel it."
+        }
+      ],
+      "autoNext": "farewell"
+    },
+    {
+      "id": "advice-declined",
+      "type": "dialogue",
+      "lines": [
+        {
+          "id": "ad-1",
+          "speaker": "Amy Crawford",
+          "text": "Smart. Most of the advice in this industry is wrong anyway."
+        },
+        {
+          "id": "ad-2",
+          "speaker": "Amy Crawford",
+          "text": "Including mine. I'm just better at being wrong in interesting ways."
+        }
+      ],
+      "autoNext": "farewell"
+    },
+    {
+      "id": "advice-challenged",
+      "type": "dialogue",
+      "lines": [
+        {
+          "id": "ac-1",
+          "speaker": "Amy Crawford",
+          "text": "..."
+        },
+        {
+          "id": "ac-2",
+          "speaker": "Amy Crawford",
+          "text": "(A beat. She doesn't look offended. She looks pleased.)"
+        },
+        {
+          "id": "ac-3",
+          "speaker": "Amy Crawford",
+          "text": "Nothing, technically. But now I know you're worth advising."
+        }
+      ],
+      "autoNext": "farewell"
+    },
+    {
+      "id": "farewell",
+      "type": "dialogue",
+      "lines": [
+        {
+          "id": "fw-1",
+          "speaker": "Amy Crawford",
+          "text": "I'm Amy Crawford. You've probably been warned about me."
+        },
+        {
+          "id": "fw-2",
+          "speaker": "Amy Crawford",
+          "text": "Good. At least they're paying attention."
+        }
+      ],
+      "affectionDeltas": [{ "characterId": "amy-crawford", "delta": 7 }],
+      "setFlags": { "amy_met": true },
+      "autoNext": "scene-end"
+    },
+    {
+      "id": "scene-end",
+      "type": "scene_end",
+      "lines": [
+        {
+          "id": "se-1",
+          "speaker": "Amy Crawford",
+          "text": "Take the card."
+        },
+        {
+          "id": "se-2",
+          "speaker": "Amy Crawford",
+          "text": "(She extends a matte black card. No title. Just a number. She walks away without looking back.)"
+        }
+      ],
+      "setFlags": { "amy_met": true }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "celeste-ch5-off-clock",
+  "title": "Off the Clock",
+  "characterId": "celeste-voss",
+  "chapter": 5,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "You're at a bar you'd never be seen at. She's drinking sparkling water. She looks almost relaxed." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "Celeste", "text": "I hate when clients see me like this. Off message." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "You don't tell her she seems more like herself. You don't have to." }
+      ]
+    }
+  ]
+}

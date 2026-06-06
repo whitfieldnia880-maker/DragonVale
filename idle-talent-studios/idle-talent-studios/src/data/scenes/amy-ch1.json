@@ -1,0 +1,96 @@
+{
+  "id": "amy-ch1",
+  "title": "First Impressions",
+  "characterId": "amy-crawford",
+  "chapter": 1,
+  "startNodeId": "n1",
+  "nodes": [
+    {
+      "id": "n1",
+      "lines": [
+        {
+          "id": "n1-l1",
+          "speaker": "Amy Crawford",
+          "text": "So. You're the new one everyone's been whispering about."
+        },
+        {
+          "id": "n1-l2",
+          "speaker": "Amy Crawford",
+          "text": "I make a point of introducing myself before the industry does it for me."
+        }
+      ],
+      "choices": [
+        {
+          "id": "c1",
+          "text": "\"I've heard a lot about you too.\"",
+          "affectionDelta": { "characterId": "amy-crawford", "delta": 3 },
+          "nextNodeId": "n2-confident"
+        },
+        {
+          "id": "c2",
+          "text": "\"I wasn't expecting to meet you this early.\"",
+          "affectionDelta": { "characterId": "amy-crawford", "delta": 1 },
+          "nextNodeId": "n2-neutral"
+        },
+        {
+          "id": "c3",
+          "text": "\"[Confidence 30] Play it as cool as she does.\"",
+          "statCheck": { "stat": "confidence", "required": 30 },
+          "affectionDelta": { "characterId": "amy-crawford", "delta": 6 },
+          "statDeltas": [{ "stat": "confidence", "delta": 2 }],
+          "nextNodeId": "n2-bold",
+          "lockedText": "Not quite there yet."
+        }
+      ]
+    },
+    {
+      "id": "n2-confident",
+      "lines": [
+        {
+          "id": "n2c-l1",
+          "speaker": "Amy Crawford",
+          "text": "Good. Then we're already ahead of schedule."
+        }
+      ],
+      "autoNext": "n3-end"
+    },
+    {
+      "id": "n2-neutral",
+      "lines": [
+        {
+          "id": "n2n-l1",
+          "speaker": "Amy Crawford",
+          "text": "No one ever does. That's the point."
+        }
+      ],
+      "autoNext": "n3-end"
+    },
+    {
+      "id": "n2-bold",
+      "lines": [
+        {
+          "id": "n2b-l1",
+          "speaker": "Amy Crawford",
+          "text": "..."
+        },
+        {
+          "id": "n2b-l2",
+          "speaker": "Amy Crawford",
+          "text": "Interesting. Most people flinch."
+        }
+      ],
+      "autoNext": "n3-end"
+    },
+    {
+      "id": "n3-end",
+      "lines": [
+        {
+          "id": "n3-l1",
+          "speaker": "Amy Crawford",
+          "text": "We'll be seeing more of each other. Whether either of us plans for it or not."
+        }
+      ],
+      "setFlags": { "amy_ch1_met": true }
+    }
+  ]
+}

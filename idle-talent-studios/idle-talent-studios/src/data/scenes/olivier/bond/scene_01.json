@@ -1,0 +1,35 @@
+{
+  "id": "olivier/bond/scene_01",
+  "title": "Second Take",
+  "nodes": [
+    {
+      "id": "start",
+      "type": "dialogue",
+      "speaker": "Olivier Renaud",
+      "text": "Most people give up after the first take. You never do. That's actually rare.",
+      "next": "player_response"
+    },
+    {
+      "id": "player_response",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "Stubborn, maybe.",
+      "next": "olivier_considers"
+    },
+    {
+      "id": "olivier_considers",
+      "type": "inner_monologue",
+      "text": "\"Stubborn,\" he repeats, like he's filing it away somewhere he might return to.",
+      "autoAdvanceMs": 3200,
+      "next": "prestige_grant"
+    },
+    {
+      "id": "prestige_grant",
+      "type": "reward",
+      "rewardType": "prestige",
+      "amount": 1,
+      "label": "Olivier Bond Scene",
+      "next": null
+    }
+  ]
+}

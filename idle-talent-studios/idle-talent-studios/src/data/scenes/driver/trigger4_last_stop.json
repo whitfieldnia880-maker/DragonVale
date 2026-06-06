@@ -1,0 +1,60 @@
+{
+  "id": "driver-trigger4-last-stop",
+  "title": "Last Stop",
+  "characterId": "the-driver",
+  "chapter": 4,
+  "startNodeId": "opening",
+  "nodes": [
+    {
+      "id": "opening",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3000,
+      "lines": [
+        { "id": "opening-1", "speaker": "", "text": "He pulls over on a street you don't recognize. Cuts the engine." }
+      ],
+      "autoNext": "beat2"
+    },
+    {
+      "id": "beat2",
+      "lines": [
+        { "id": "beat2-1", "speaker": "The Driver", "text": "I'm leaving after tonight. New city." }
+      ],
+      "autoNext": "beat3"
+    },
+    {
+      "id": "beat3",
+      "type": "inner_monologue",
+      "lines": [
+        { "id": "beat3-1", "speaker": "", "text": "He doesn't say which one. He doesn't have to explain." }
+      ],
+      "choices": [
+        { "id": "ask_why", "text": "\"Why are you telling me?\"", "nextNodeId": "ask_why_path" },
+        { "id": "just_nod", "text": "Just nod.", "nextNodeId": "nod_path" }
+      ]
+    },
+    {
+      "id": "ask_why_path",
+      "lines": [
+        { "id": "ask_why-1", "speaker": "The Driver", "text": "Because you were the only one who ever asked my name." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "nod_path",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 2800,
+      "lines": [
+        { "id": "nod-1", "speaker": "", "text": "Some goodbyes don't need language." }
+      ],
+      "autoNext": "end"
+    },
+    {
+      "id": "end",
+      "type": "scene_end",
+      "autoAdvanceMs": 3200,
+      "lines": [
+        { "id": "end-1", "type": "inner_monologue", "speaker": "", "text": "He drives you home one last time. In silence. It is the most complete silence you have ever sat in." }
+      ]
+    }
+  ]
+}
