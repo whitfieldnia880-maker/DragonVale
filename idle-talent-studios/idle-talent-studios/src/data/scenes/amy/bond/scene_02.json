@@ -1,0 +1,57 @@
+{
+  "id": "amy/bond/scene_02",
+  "title": "Neither First",
+  "characterId": "amy-crawford",
+  "nodes": [
+    {
+      "id": "start",
+      "type": "inner_monologue",
+      "text": "She calls at 1 a.m. You don't check the time before you answer.",
+      "autoAdvanceMs": 3200,
+      "next": "amy_hello"
+    },
+    {
+      "id": "amy_hello",
+      "type": "dialogue",
+      "speaker": "Amy Crawford",
+      "text": "I wasn't going to call. Then I was.",
+      "next": "player_line"
+    },
+    {
+      "id": "player_line",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "I'm glad you did.",
+      "next": "quiet_moment"
+    },
+    {
+      "id": "quiet_moment",
+      "type": "inner_monologue",
+      "text": "She doesn't fill the silence. Neither do you. That's new.",
+      "autoAdvanceMs": 4000,
+      "next": "amy_end"
+    },
+    {
+      "id": "amy_end",
+      "type": "dialogue",
+      "speaker": "Amy Crawford",
+      "text": "Don't hang up yet.",
+      "next": "close"
+    },
+    {
+      "id": "close",
+      "type": "inner_monologue",
+      "text": "You don't.",
+      "autoAdvanceMs": 2800,
+      "next": "reward"
+    },
+    {
+      "id": "reward",
+      "type": "reward",
+      "rewardType": "prestige",
+      "amount": 1,
+      "label": "Amy Bond Scene 2",
+      "next": null
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "id": "driver/bond/scene_02",
+  "title": "A Complete Answer",
+  "characterId": "the-driver",
+  "nodes": [
+    {
+      "id": "start",
+      "type": "inner_monologue",
+      "text": "You ask him something you've been holding onto. Something you weren't sure he'd answer.",
+      "autoAdvanceMs": 3800,
+      "next": "player_question"
+    },
+    {
+      "id": "player_question",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "Do you actually care what happens to me, or is this just a job?",
+      "next": "driver_pause"
+    },
+    {
+      "id": "driver_pause",
+      "type": "inner_monologue",
+      "text": "He doesn't answer right away. The city moves past the window. You wait.",
+      "autoAdvanceMs": 5000,
+      "next": "driver_answer"
+    },
+    {
+      "id": "driver_answer",
+      "type": "dialogue",
+      "speaker": "The Driver",
+      "text": "If it were just a job, I would have stopped taking your calls six months ago. The hours don't make sense. The money doesn't cover it. I'm still here.",
+      "next": "player_silence"
+    },
+    {
+      "id": "player_silence",
+      "type": "inner_monologue",
+      "text": "He's never said that many words at once. Not to you. Not to anyone, you suspect.",
+      "autoAdvanceMs": 4200,
+      "next": "player_thanks"
+    },
+    {
+      "id": "player_thanks",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "Thank you for telling me.",
+      "next": "driver_close"
+    },
+    {
+      "id": "driver_close",
+      "type": "dialogue",
+      "speaker": "The Driver",
+      "text": "Don't make a thing of it.",
+      "next": "end_mono"
+    },
+    {
+      "id": "end_mono",
+      "type": "inner_monologue",
+      "text": "But it already is one.",
+      "autoAdvanceMs": 2500,
+      "next": "reward"
+    },
+    {
+      "id": "reward",
+      "type": "reward",
+      "rewardType": "prestige",
+      "amount": 1,
+      "label": "Driver Bond Scene 2",
+      "next": null
+    }
+  ]
+}

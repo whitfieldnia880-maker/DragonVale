@@ -4,6 +4,18 @@ import { cn } from '@/lib/utils'
 import type { GachaPullResult } from '@/engine/gachaEngine'
 import { getCharacterAssets } from '@/data/characters/assets'
 
+// Spec-defined source bylines shown on first pull of each character
+const PULL_SOURCE_BYLINES: Record<string, string> = {
+  'amy-crawford':           'Editor — She just pulled someone who will cost her sleep. Worth it.',
+  'marcus-vane':            'Paparazzo — Oh this is going to be very good for business.',
+  'olivier-sainte-claire':  "Driver — He doesn't do this for everyone. Noted.",
+  'remy-ashford':           'Insider — The rivalry just got considerably more complicated.',
+  'dex-calloway':           "PR Whisperer — He already knows everything. That's the problem.",
+  'sunny-park':             'Intern — Wait I know him from somewhere. This is fine.',
+  'celeste-voss':           'Stylist — Finally. Someone with actual taste.',
+  'the-driver':             'Editor — We have no comment at this time.',
+}
+
 interface GachaPullProps {
   results: GachaPullResult[]
   onDismiss: () => void
@@ -158,7 +170,7 @@ function CardFront({
         >
           {result.character.role}
         </motion.p>
-        {/* Tagline as source commentary on new pull */}
+        {/* Source byline on new character reveal */}
         {isNew && revealed && (
           <motion.p
             className="text-[10px] italic text-white/40 mt-1 px-2"
@@ -166,7 +178,7 @@ function CardFront({
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
           >
-            "{result.character.tagline}"
+            {PULL_SOURCE_BYLINES[result.character.id] ?? `"${result.character.tagline}"`}
           </motion.p>
         )}
         {result.isDuplicate && revealed && (

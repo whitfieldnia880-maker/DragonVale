@@ -19,7 +19,7 @@ interface CollectionScreenProps {
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type FilterTab = 'all' | 'SSR' | 'SR' | 'R' | 'unlocked' | 'locked'
-type SortMode = 'rarity' | 'affection' | 'recent'
+type SortMode = 'rarity' | 'affection' | 'recent' | 'alphabetical'
 
 const RARITY_ORDER: Record<Rarity, number> = { SSR: 0, SR: 1, R: 2 }
 const RARITY_COLOR: Record<Rarity, string> = {
@@ -54,6 +54,8 @@ function CharacterCard({
   return (
     <motion.button
       whileTap={{ scale: 0.95 }}
+      animate={owned ? { scale: [1, 1.018, 1] } : { scale: 1 }}
+      transition={owned ? { repeat: Infinity, repeatDelay: 3.6, duration: 0.5, ease: 'easeInOut' } : {}}
       onClick={onTap}
       className="relative flex flex-col rounded-2xl overflow-hidden border border-white/10 aspect-[3/4] bg-slate-900"
       style={{
@@ -588,6 +590,9 @@ export function CollectionScreen({ onBack, onGoToRoutes }: CollectionScreenProps
     if (sort === 'recent') {
       return recentPullIndex(a.id) - recentPullIndex(b.id)
     }
+    if (sort === 'alphabetical') {
+      return a.name.localeCompare(b.name)
+    }
     return 0
   })
 
@@ -646,16 +651,16 @@ export function CollectionScreen({ onBack, onGoToRoutes }: CollectionScreenProps
         {/* Sort row */}
         <div className="flex items-center gap-2 px-5 py-2.5 border-b border-white/5">
           <p className="text-xs text-white/30 mr-1">Sort:</p>
-          {(['rarity', 'affection', 'recent'] as SortMode[]).map((mode) => (
+          {(['rarity', 'affection', 'recent', 'alphabetical'] as SortMode[]).map((mode) => (
             <button
               key={mode}
               onClick={() => setSort(mode)}
               className={cn(
-                'px-2.5 py-1 rounded-lg text-xs font-medium transition-colors capitalize',
+                'px-2.5 py-1 rounded-lg text-xs font-medium transition-colors',
                 sort === mode ? 'bg-white/10 text-white' : 'text-white/30 hover:text-white/50'
               )}
             >
-              {mode === 'recent' ? 'Recently Pulled' : mode === 'affection' ? 'Affection' : 'Rarity'}
+              {mode === 'recent' ? 'Recent' : mode === 'affection' ? 'Affection' : mode === 'alphabetical' ? 'A–Z' : 'Rarity'}
             </button>
           ))}
         </div>
@@ -665,7 +670,7 @@ export function CollectionScreen({ onBack, onGoToRoutes }: CollectionScreenProps
           {sorted.length === 0 ? (
             <div className="text-center py-20 text-white/30 text-sm">No characters found.</div>
           ) : (
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 gap-3">
               {sorted.map((character) => {
                 const isOwned = ownedIds.has(character.id)
                 const affectionHidden = isHidden(character.id, flags)

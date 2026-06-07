@@ -1,0 +1,57 @@
+{
+  "id": "driver/bond/scene_03",
+  "title": "The Note",
+  "characterId": "the-driver",
+  "nodes": [
+    {
+      "id": "start",
+      "type": "inner_monologue",
+      "text": "The car is in its usual spot. He isn't.",
+      "autoAdvanceMs": 3000,
+      "next": "find_note"
+    },
+    {
+      "id": "find_note",
+      "type": "inner_monologue",
+      "text": "There's a note on the seat. Folded once. No envelope. Just paper.",
+      "autoAdvanceMs": 3500,
+      "next": "read_note"
+    },
+    {
+      "id": "read_note",
+      "type": "inner_monologue",
+      "text": "\"You're going to be fine. You've been fine for a while — you just didn't know it. I knew it. That's enough for me.\"",
+      "autoAdvanceMs": 6000,
+      "next": "unsigned"
+    },
+    {
+      "id": "unsigned",
+      "type": "inner_monologue",
+      "text": "It isn't signed. He wouldn't.",
+      "autoAdvanceMs": 3200,
+      "next": "player_hold"
+    },
+    {
+      "id": "player_hold",
+      "type": "inner_monologue",
+      "text": "You sit in the car for a long time. No one comes.",
+      "autoAdvanceMs": 4500,
+      "next": "close"
+    },
+    {
+      "id": "close",
+      "type": "inner_monologue",
+      "text": "You keep the note.",
+      "autoAdvanceMs": 2500,
+      "next": "reward"
+    },
+    {
+      "id": "reward",
+      "type": "reward",
+      "rewardType": "prestige",
+      "amount": 2,
+      "label": "Driver Bond Scene 3",
+      "next": null
+    }
+  ]
+}

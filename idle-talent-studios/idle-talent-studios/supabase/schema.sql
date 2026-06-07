@@ -887,3 +887,31 @@ create policy "apartment_visits: own rows only"
 
 create index if not exists apartment_visits_player_id_idx on public.apartment_visits(player_id);
 create index if not exists apartment_visits_character_idx  on public.apartment_visits(player_id, character_id);
+
+-- ──────────────────────────────────────────────
+-- Prompt 8: Ticket pull tracking + pity counters
+-- ──────────────────────────────────────────────
+
+alter table public.gacha_pulls
+  add column if not exists used_ticket boolean not null default false;
+
+create table if not exists public.pity_counters (
+  id           uuid primary key default uuid_generate_v4(),
+  player_id    uuid not null references public.players(id) on delete cascade,
+  banner_type  text not null,
+  pull_count   integer not null default 0,
+  updated_at   timestamptz not null default now(),
+  unique (player_id, banner_type)
+);
+
+alter table public.pity_counters enable row level security;
+create policy "pity_counters: own rows only"
+  on public.pity_counters for all
+  using  (auth.uid() = player_id)
+  with check (auth.uid() = player_id);
+
+create trigger pity_counters_updated_at
+  before update on public.pity_counters
+  for each row execute function public.set_updated_at();
+
+create index if not exists pity_counters_player_id_idx on public.pity_counters(player_id);

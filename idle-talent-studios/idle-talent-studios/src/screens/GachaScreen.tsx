@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import type { Banner, GachaPullResult } from '@/engine/gachaEngine'
-import { resolveMultiPull } from '@/engine/gachaEngine'
+import { resolveMultiPull, resolvePull } from '@/engine/gachaEngine'
 import { GachaPull } from '@/components/GachaPull'
 import { ALL_CHARACTERS } from '@/data/characters'
 import { getActiveBanners, getBannerTimeLeft } from '@/data/banners'
 import { useRosterStore } from '@/store/rosterStore'
 import { useCurrencyStore } from '@/store/currencyStore'
 import { useGachaStore } from '@/store/gachaStore'
+import { useInventoryStore } from '@/store/inventoryStore'
 import { useToast } from '@/store/toastStore'
 import { useCheckAchievements } from '@/hooks/useAchievements'
 import type { Rarity } from '@/engine/gachaEngine'
@@ -271,9 +272,12 @@ export function GachaScreen({ onBack }: GachaScreenProps) {
 
   const getBannerPity = useGachaStore((s) => s.getBannerPity)
   const recordPulls = useGachaStore((s) => s.recordPulls)
+  const recordTicketPull = useGachaStore((s) => s.recordTicketPull)
   const addBondFragment = useGachaStore((s) => s.addBondFragment)
   const beginnerBannerUsed = useGachaStore((s) => s.beginnerBannerUsed)
   const markBeginnerBannerUsed = useGachaStore((s) => s.markBeginnerBannerUsed)
+  const pullTickets = useInventoryStore((s) => s.pullTickets)
+  const usePullTicket = useInventoryStore((s) => s.usePullTicket)
   const toast = useToast()
   const checkAchievement = useCheckAchievements()
 
@@ -354,6 +358,38 @@ export function GachaScreen({ onBack }: GachaScreenProps) {
     if (ownedSSRCount >= 2) checkAchievement('double_feature')
 
     setPullResults(results)
+  }
+
+  // Ticket pull — uses engine for RNG but pity counter unchanged
+  function handleTicketPull(ticketType: 'standard' | 'sr') {
+    if (!selectedBanner) return
+    const consumed = usePullTicket(ticketType)
+    if (!consumed) return
+
+    const forceRarity: Rarity | undefined = ticketType === 'sr' ? 'SR' : undefined
+    const { result } = resolvePull(
+      ALL_CHARACTERS,
+      getOwnedIds(),
+      bannerPity,
+      selectedBanner,
+      forceRarity
+    )
+
+    if (result.isNew) {
+      addCharacter(result.character)
+      if (result.rarity === 'SSR') toast.newPull(result.character.name, 'SSR')
+    }
+    if (result.isDuplicate) {
+      if (result.spotlightConverted > 0) {
+        grantCurrency('spotlight', result.spotlightConverted, 'duplicate-ticket')
+        toast.spotlight(result.spotlightConverted)
+      }
+      if (result.affectionDelta > 0) applyAffection(result.character.id, result.affectionDelta)
+      if (result.bondFragmentGranted) addBondFragment(result.character.id)
+    }
+
+    recordTicketPull(selectedBannerId, result)
+    setPullResults([result])
   }
 
   return (
@@ -480,6 +516,50 @@ export function GachaScreen({ onBack }: GachaScreenProps) {
                   highlight
                 />
               </div>
+
+              {/* Pull ticket section */}
+              {(pullTickets.standard > 0 || pullTickets.sr > 0) && (
+                <div className="bg-white/5 rounded-xl px-4 py-3 border border-white/10 space-y-2">
+                  <p className="text-xs font-semibold text-white/50">Pull Tickets</p>
+                  {pullTickets.standard > 0 && (
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs text-white">Standard Ticket</p>
+                        <p className="text-[10px] text-white/35">Does not affect pity counter</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-white/50">×{pullTickets.standard}</span>
+                        <motion.button
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => handleTicketPull('standard')}
+                          className="text-xs font-bold px-3 py-1.5 rounded-lg bg-white/10 border border-white/20 text-white"
+                        >
+                          🎫 Use
+                        </motion.button>
+                      </div>
+                    </div>
+                  )}
+                  {pullTickets.sr > 0 && (
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs text-white">SR Ticket</p>
+                        <p className="text-[10px] text-white/35">Guaranteed SR or higher</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-white/50">×{pullTickets.sr}</span>
+                        <motion.button
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => handleTicketPull('sr')}
+                          className="text-xs font-bold px-3 py-1.5 rounded-lg text-white"
+                          style={{ background: 'linear-gradient(135deg, #7c3aed, #a855f7)', border: '1px solid #a855f760' }}
+                        >
+                          🎫 SR Use
+                        </motion.button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Rates info */}
               <div className="bg-white/5 rounded-xl px-4 py-3 border border-white/10">

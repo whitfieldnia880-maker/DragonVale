@@ -1,0 +1,64 @@
+{
+  "id": "olivier/bond/scene_02",
+  "title": "Observed",
+  "characterId": "olivier-sainte-claire",
+  "nodes": [
+    {
+      "id": "start",
+      "type": "inner_monologue",
+      "text": "You're running lines across the room. He's sitting in the corner. He doesn't try to hide that he's watching.",
+      "autoAdvanceMs": 4000,
+      "next": "player_notice"
+    },
+    {
+      "id": "player_notice",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "You've been staring for a while.",
+      "next": "olivier_response"
+    },
+    {
+      "id": "olivier_response",
+      "type": "dialogue",
+      "speaker": "Olivier Sainte-Claire",
+      "text": "Yes.",
+      "next": "pause_mono"
+    },
+    {
+      "id": "pause_mono",
+      "type": "inner_monologue",
+      "text": "He doesn't apologize for it. He doesn't explain it. You find you don't want him to.",
+      "autoAdvanceMs": 4500,
+      "next": "player_ask"
+    },
+    {
+      "id": "player_ask",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "And?",
+      "next": "olivier_close"
+    },
+    {
+      "id": "olivier_close",
+      "type": "dialogue",
+      "speaker": "Olivier Sainte-Claire",
+      "text": "You're different when you think no one's watching. I prefer it.",
+      "next": "end_mono"
+    },
+    {
+      "id": "end_mono",
+      "type": "inner_monologue",
+      "text": "You don't know what to do with that. You file it away.",
+      "autoAdvanceMs": 3000,
+      "next": "reward"
+    },
+    {
+      "id": "reward",
+      "type": "reward",
+      "rewardType": "prestige",
+      "amount": 1,
+      "label": "Olivier Bond Scene 2",
+      "next": null
+    }
+  ]
+}

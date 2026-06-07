@@ -1,0 +1,64 @@
+{
+  "id": "amy/bond/scene_03",
+  "title": "What She Would Have Wanted",
+  "characterId": "amy-crawford",
+  "nodes": [
+    {
+      "id": "start",
+      "type": "inner_monologue",
+      "text": "She's been watching you run a scene for ten minutes without saying anything.",
+      "autoAdvanceMs": 3500,
+      "next": "amy_speaks"
+    },
+    {
+      "id": "amy_speaks",
+      "type": "dialogue",
+      "speaker": "Amy Crawford",
+      "text": "Can I tell you something? You don't have to agree with it.",
+      "next": "player_yes"
+    },
+    {
+      "id": "player_yes",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "Tell me.",
+      "next": "amy_advice"
+    },
+    {
+      "id": "amy_advice",
+      "type": "dialogue",
+      "speaker": "Amy Crawford",
+      "text": "Stop performing for the room. The room doesn't matter. You matter.",
+      "next": "pause"
+    },
+    {
+      "id": "pause",
+      "type": "inner_monologue",
+      "text": "It's the thing she wishes she'd learned before she needed to.",
+      "autoAdvanceMs": 3800,
+      "next": "amy_close"
+    },
+    {
+      "id": "amy_close",
+      "type": "dialogue",
+      "speaker": "Amy Crawford",
+      "text": "That's it. That's all I've got.",
+      "next": "end_mono"
+    },
+    {
+      "id": "end_mono",
+      "type": "inner_monologue",
+      "text": "It's everything.",
+      "autoAdvanceMs": 2500,
+      "next": "reward"
+    },
+    {
+      "id": "reward",
+      "type": "reward",
+      "rewardType": "prestige",
+      "amount": 2,
+      "label": "Amy Bond Scene 3",
+      "next": null
+    }
+  ]
+}

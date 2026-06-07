@@ -1,0 +1,71 @@
+{
+  "id": "olivier/bond/scene_03",
+  "title": "What It Meant",
+  "characterId": "olivier-sainte-claire",
+  "nodes": [
+    {
+      "id": "start",
+      "type": "inner_monologue",
+      "text": "It's been weeks since the project wrapped. He asks to meet.",
+      "autoAdvanceMs": 3000,
+      "next": "olivier_starts"
+    },
+    {
+      "id": "olivier_starts",
+      "type": "dialogue",
+      "speaker": "Olivier Sainte-Claire",
+      "text": "I want to tell you something about what we made together.",
+      "next": "player_listen"
+    },
+    {
+      "id": "player_listen",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "I'm listening.",
+      "next": "olivier_speaks"
+    },
+    {
+      "id": "olivier_speaks",
+      "type": "dialogue",
+      "speaker": "Olivier Sainte-Claire",
+      "text": "I've been doing this for twenty years. Most of it I've forgotten. That project — I won't forget it.",
+      "next": "pause"
+    },
+    {
+      "id": "pause",
+      "type": "inner_monologue",
+      "text": "He says it like a fact. No theater in it.",
+      "autoAdvanceMs": 3500,
+      "next": "player_reply"
+    },
+    {
+      "id": "player_reply",
+      "type": "dialogue",
+      "speaker": "You",
+      "text": "Because of what we made?",
+      "next": "olivier_final"
+    },
+    {
+      "id": "olivier_final",
+      "type": "dialogue",
+      "speaker": "Olivier Sainte-Claire",
+      "text": "Because of who I got to make it with.",
+      "next": "end_mono"
+    },
+    {
+      "id": "end_mono",
+      "type": "inner_monologue",
+      "text": "He leaves before you can answer. He's like that.",
+      "autoAdvanceMs": 3200,
+      "next": "reward"
+    },
+    {
+      "id": "reward",
+      "type": "reward",
+      "rewardType": "prestige",
+      "amount": 2,
+      "label": "Olivier Bond Scene 3",
+      "next": null
+    }
+  ]
+}

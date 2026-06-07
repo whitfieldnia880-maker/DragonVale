@@ -33,6 +33,7 @@ interface GachaStore {
 
   getBannerPity: (bannerId: string) => PityState
   recordPulls: (bannerId: string, results: GachaPullResult[]) => void
+  recordTicketPull: (bannerId: string, result: GachaPullResult) => void
   resetBannerPity: (bannerId: string) => void
   addBondFragment: (characterId: string) => { totalFragments: number; sceneUnlocked: boolean }
   markBeginnerBannerUsed: () => void
@@ -85,6 +86,26 @@ export const useGachaStore = create<GachaStore>()(
           }
         }),
 
+      // Ticket pull: updates history only, pity counter unchanged
+      recordTicketPull: (bannerId, result) =>
+        set((state) => {
+          const entry: PullHistoryEntry = {
+            id: crypto.randomUUID(),
+            bannerId,
+            characterId: result.character.id,
+            characterName: result.character.name,
+            characterPortrait: result.character.portraitPlaceholder,
+            rarity: result.rarity,
+            isNew: result.isNew,
+            spotlightEarned: result.spotlightConverted,
+            bondFragment: result.bondFragmentGranted,
+            pulledAt: new Date().toISOString(),
+          }
+          return {
+            pullHistory: [entry, ...state.pullHistory].slice(0, PULL_HISTORY_MAX),
+          }
+        }),
+
       resetBannerPity: (bannerId) =>
         set((state) => ({
           bannerPity: {
@@ -118,6 +139,6 @@ export const useGachaStore = create<GachaStore>()(
 
       clearHistory: () => set({ pullHistory: [] }),
     }),
-    { name: 'its-gacha', version: 1 }
+    { name: 'its-gacha', version: 2 }
   )
 )
