@@ -9,15 +9,27 @@ import {
   setRelationshipVisibility,
   setStabilityScore,
 } from '@/systems/relationship'
+import type { RelationshipStage } from '@/types'
 
 const HIDDEN_UNTIL_FLAG: Record<string, string> = {
   'amy-crawford': 'amy_ch6_reveal',
+}
+
+function affectionToStage(affection: number): RelationshipStage {
+  if (affection >= 90) return 'bonded'
+  if (affection >= 75) return 'intimate'
+  if (affection >= 50) return 'close'
+  if (affection >= 25) return 'friend'
+  if (affection >= 10) return 'acquaintance'
+  return 'stranger'
 }
 
 interface RosterStore {
   owned: Character[]
   relationships: Record<string, RelationshipData>
   pity: { totalPulls: number; pullsSinceLastSSR: number }
+  /** Per-character story flags (separate from global storyFlags in progressStore). */
+  characterFlags: Record<string, Record<string, boolean>>
 
   addCharacter: (character: Character) => void
   applyAffection: (characterId: string, delta: number) => void
@@ -30,6 +42,9 @@ interface RosterStore {
   getOwnedIds: () => Set<string>
   getAffection: (characterId: string) => number
   isHidden: (characterId: string, flags: Record<string, boolean>) => boolean
+  getRelationshipStage: (characterId: string) => RelationshipStage
+  setFlag: (characterId: string, key: string, value: boolean) => void
+  getCharacterFlag: (characterId: string, key: string) => boolean
 }
 
 export const useRosterStore = create<RosterStore>()(
@@ -38,6 +53,7 @@ export const useRosterStore = create<RosterStore>()(
       owned: [],
       relationships: {},
       pity: { totalPulls: 0, pullsSinceLastSSR: 0 },
+      characterFlags: {},
 
       addCharacter: (character) =>
         set((state) => {
@@ -127,7 +143,24 @@ export const useRosterStore = create<RosterStore>()(
         if (!requiredFlag) return false
         return !flags[requiredFlag]
       },
+
+      getRelationshipStage: (characterId) =>
+        affectionToStage(get().relationships[characterId]?.affection ?? 0),
+
+      setFlag: (characterId, key, value) =>
+        set((state) => ({
+          characterFlags: {
+            ...state.characterFlags,
+            [characterId]: {
+              ...(state.characterFlags[characterId] ?? {}),
+              [key]: value,
+            },
+          },
+        })),
+
+      getCharacterFlag: (characterId, key) =>
+        get().characterFlags[characterId]?.[key] ?? false,
     }),
-    { name: 'its-roster', version: 2 }
+    { name: 'its-roster', version: 3 }
   )
 )

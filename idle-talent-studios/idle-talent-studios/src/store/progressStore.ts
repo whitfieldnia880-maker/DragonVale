@@ -46,6 +46,10 @@ interface ProgressStore {
   choiceCounters: Record<string, number>
   /** Total passive scandal points applied per day from active chapters. */
   passiveScandalActive: number
+  /** Canonical story flags — supports boolean, number, and string values. */
+  storyFlags: Record<string, boolean | number | string>
+  /** Chapter numbers completed per character (characterId → sorted array). */
+  completedChapters: Record<string, number[]>
 
   markSceneComplete: (sceneId: string) => void
   recordChoice: (sceneId: string, choiceId: string) => void
@@ -68,6 +72,9 @@ interface ProgressStore {
   addHiddenNote: (characterId: string, noteIndex: number) => void
   incrementChoiceCounter: (counterKey: string) => void
   setPassiveScandalActive: (perDay: number) => void
+  setFlag: (key: string, value: boolean | number | string) => void
+  getFlag: (key: string) => boolean | number | string | undefined
+  chapterComplete: (characterId: string, chapterNumber: number) => void
 }
 
 export const useProgressStore = create<ProgressStore>()(
@@ -90,6 +97,8 @@ export const useProgressStore = create<ProgressStore>()(
       hiddenNotes: {},
       choiceCounters: {},
       passiveScandalActive: 0,
+      storyFlags: {},
+      completedChapters: {},
 
       markSceneComplete: (sceneId) =>
         set((state) => ({
@@ -206,7 +215,26 @@ export const useProgressStore = create<ProgressStore>()(
         })),
 
       setPassiveScandalActive: (perDay) => set({ passiveScandalActive: perDay }),
+
+      setFlag: (key, value) =>
+        set((state) => ({
+          storyFlags: { ...state.storyFlags, [key]: value },
+        })),
+
+      getFlag: (key) => get().storyFlags[key],
+
+      chapterComplete: (characterId, chapterNumber) =>
+        set((state) => {
+          const existing = state.completedChapters[characterId] ?? []
+          if (existing.includes(chapterNumber)) return state
+          return {
+            completedChapters: {
+              ...state.completedChapters,
+              [characterId]: [...existing, chapterNumber].sort((a, b) => a - b),
+            },
+          }
+        }),
     }),
-    { name: 'its-progress', version: 4 }
+    { name: 'its-progress', version: 5 }
   )
 )

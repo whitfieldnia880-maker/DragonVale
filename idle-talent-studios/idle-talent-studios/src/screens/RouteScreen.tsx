@@ -217,17 +217,35 @@ export function RouteScreen({ onBack }: RouteScreenProps) {
   const owned = useRosterStore((s) => s.owned)
   const relationships = useRosterStore((s) => s.relationships)
   const currentChapter = usePlayerStore((s) => s.currentChapter)
-  const storyFlags = usePlayerStore((s) => s.storyFlags)
+  const playerFlags = usePlayerStore((s) => s.storyFlags)
   const stats = usePlayerStore((s) => s.stats)
   const completedScenes = useProgressStore((s) => s.completedScenes)
+  const progressFlags = useProgressStore((s) => s.storyFlags)
   const hiddenNotes = useProgressStore((s) => s.hiddenNotes)
-  const isSceneComplete = useProgressStore((s) => s.isSceneComplete)
+
+  // Merge flags from both stores — progressStore is authoritative for dialogue flags
+  const storyFlags = { ...playerFlags, ...progressFlags } as Record<string, boolean>
 
   const ownedIds = new Set(owned.map((c) => c.id))
 
   function handleCharacterTap(character: Character) {
     if (!ownedIds.has(character.id)) return
     if (!character.route) return
+
+    // Auto-load ch1 for Amy if she hasn't been met yet
+    if (character.id === 'amy-crawford' && !storyFlags['amy_met']) {
+      const raw = SCENE_REGISTRY['amy/ch1_first_meeting']
+      if (raw) {
+        try {
+          validateScene(raw)
+          setActiveScene(raw as object)
+          return
+        } catch (e) {
+          console.error('Amy ch1 validation failed:', e)
+        }
+      }
+    }
+
     setSelectedCharacter(character)
   }
 

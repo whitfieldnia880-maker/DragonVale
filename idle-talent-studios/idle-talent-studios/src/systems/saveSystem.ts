@@ -112,6 +112,62 @@ export async function syncAchievement(
   }
 }
 
+/** Push completed chapter progress. Fire-and-forget. */
+export async function syncChapterProgress(
+  playerId: string,
+  characterId: string,
+  chapterNumber: number,
+  sceneId: string
+): Promise<void> {
+  try {
+    await table('chapter_progress').upsert(
+      {
+        player_id: playerId,
+        character_id: characterId,
+        chapter_number: chapterNumber,
+        scene_id: sceneId,
+        completed_at: new Date().toISOString(),
+      },
+      { onConflict: 'player_id,character_id,chapter_number' }
+    )
+    useSaveStore.getState().markSaved()
+  } catch (err) {
+    console.warn('[saveSystem] syncChapterProgress failed:', err)
+  }
+}
+
+/** Push a single story flag. Fire-and-forget. */
+export async function syncStoryFlag(
+  playerId: string,
+  key: string,
+  value: boolean | number | string
+): Promise<void> {
+  try {
+    await table('story_flags').upsert(
+      { player_id: playerId, flag_key: key, flag_value: String(value) },
+      { onConflict: 'player_id,flag_key' }
+    )
+  } catch (err) {
+    console.warn('[saveSystem] syncStoryFlag failed:', err)
+  }
+}
+
+/** Push affection delta for a character. Fire-and-forget. */
+export async function syncCharacterAffection(
+  playerId: string,
+  characterId: string,
+  affection: number
+): Promise<void> {
+  try {
+    await table('character_progress').upsert(
+      { player_id: playerId, character_id: characterId, affection },
+      { onConflict: 'player_id,character_id' }
+    )
+  } catch (err) {
+    console.warn('[saveSystem] syncCharacterAffection failed:', err)
+  }
+}
+
 /** Push player setting. Fire-and-forget. */
 export async function syncSettings(
   playerId: string,
