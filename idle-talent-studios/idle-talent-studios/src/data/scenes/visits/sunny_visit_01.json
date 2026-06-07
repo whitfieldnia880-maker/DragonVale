@@ -1,0 +1,50 @@
+{
+  "id": "sunny-visit-01",
+  "title": "Like Old Times",
+  "characterId": "sunny-park",
+  "chapter": 1,
+  "startNodeId": "sv1",
+  "nodes": [
+    {
+      "id": "sv1",
+      "lines": [
+        { "id": "sv1-l1", "speaker": "Sunny", "text": "I found it in a box when I was moving stuff. Thought you should have it back." }
+      ],
+      "autoNext": "sv2",
+      "autoAdvanceMs": 3800
+    },
+    {
+      "id": "sv2",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3200,
+      "lines": [
+        { "id": "sv2-l1", "speaker": "", "text": "A photograph. Years ago, before any of this. You both look like you had no idea what was coming." }
+      ],
+      "autoNext": "sv3"
+    },
+    {
+      "id": "sv3",
+      "lines": [
+        { "id": "sv3-l1", "speaker": "Sunny", "text": "We were so certain back then. About everything." },
+        { "id": "sv3-l2", "speaker": "Sunny", "text": "Funny how that works." }
+      ],
+      "autoNext": "sv4",
+      "autoAdvanceMs": 4500,
+      "affectionDeltas": [{ "characterId": "sunny-park", "delta": 7 }]
+    },
+    {
+      "id": "sv4",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3000,
+      "lines": [
+        { "id": "sv4-l1", "speaker": "", "text": "You talk for a while about things that don't matter. It's the best conversation you've had in weeks." }
+      ],
+      "autoNext": "sv-end"
+    },
+    {
+      "id": "sv-end",
+      "type": "scene_end",
+      "lines": []
+    }
+  ]
+}

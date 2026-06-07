@@ -36,6 +36,7 @@ const ProfileScreen = lazy(() => import('@/screens/ProfileScreen').then(m => ({ 
 const CollectionScreen = lazy(() => import('@/screens/CollectionScreen').then(m => ({ default: m.CollectionScreen })))
 const Gigs          = lazy(() => import('@/screens/Gigs').then(m => ({ default: m.Gigs })))
 const Career        = lazy(() => import('@/screens/Career').then(m => ({ default: m.Career })))
+const ApartmentScreen = lazy(() => import('@/screens/ApartmentScreen').then(m => ({ default: m.ApartmentScreen })))
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -49,6 +50,7 @@ type Screen =
   | 'gigs'
   | 'career'
   | 'collection'
+  | 'apartment'
 
 // Bottom nav tabs map to screens
 const NAV_TAB_TO_SCREEN: Record<NavTab, Screen> = {
@@ -237,6 +239,7 @@ export default function App() {
                   onGoToGigs={() => go('gigs')}
                   onGoToCareer={() => go('career')}
                   onGoToCollection={() => go('collection')}
+                  onGoToApartment={() => go('apartment')}
                 />
               )}
 
@@ -275,6 +278,10 @@ export default function App() {
 
               {screen === 'career' && (
                 <Career onBack={() => go('home')} />
+              )}
+
+              {screen === 'apartment' && (
+                <ApartmentScreen onBack={() => go('home')} />
               )}
 
             </Suspense>

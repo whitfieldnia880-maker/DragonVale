@@ -740,3 +740,71 @@ alter table public.character_progress
     check (chemistry between 0 and 100),
   add column if not exists stability_score  integer not null default 50
     check (stability_score between 0 and 100);
+
+-- ──────────────────────────────────────────────
+-- Prompt 5: Apartment Screen + Wardrobe System
+-- ──────────────────────────────────────────────
+
+-- apartment_tier and visit_slots_used on players
+alter table public.players
+  add column if not exists apartment_tier      integer not null default 1
+    check (apartment_tier between 1 and 5),
+  add column if not exists visit_slots_used    jsonb not null default '[]';
+
+-- wardrobe_catalog: master item catalogue
+create table if not exists public.wardrobe_catalog (
+  id                uuid primary key default uuid_generate_v4(),
+  item_key          text not null unique,
+  name              text not null,
+  rarity            text not null check (rarity in ('common','rare','epic','legendary')),
+  slot              text not null check (slot in ('top','bottom','shoes','accessory','full_look')),
+  looks_bonus       integer not null default 0,
+  conf_bonus        integer not null default 0,
+  stat_tag          text,
+  stat_bonus_value  integer not null default 0,
+  character_affinity jsonb not null default '[]',
+  affinity_bonus    integer not null default 0,
+  source            text not null check (source in ('store','gacha','gift','career')),
+  cost              integer not null default 0,
+  active            boolean not null default true,
+  created_at        timestamptz not null default now()
+);
+
+-- player_wardrobe: per-player owned items
+create table if not exists public.player_wardrobe (
+  id            uuid primary key default uuid_generate_v4(),
+  player_id     uuid not null references public.players(id) on delete cascade,
+  item_key      text not null,
+  equipped_slot text,
+  is_locked     boolean not null default false,
+  acquired_at   timestamptz not null default now(),
+  unique (player_id, item_key)
+);
+
+alter table public.player_wardrobe enable row level security;
+create policy "player_wardrobe: own rows only"
+  on public.player_wardrobe for all
+  using  (auth.uid() = player_id)
+  with check (auth.uid() = player_id);
+
+create index if not exists player_wardrobe_player_id_idx on public.player_wardrobe(player_id);
+
+-- apartment_visits: log of character visits
+create table if not exists public.apartment_visits (
+  id              uuid primary key default uuid_generate_v4(),
+  player_id       uuid not null references public.players(id) on delete cascade,
+  character_id    text not null,
+  scene_ref       text,
+  affection_delta integer not null default 0,
+  initiated_by    text not null check (initiated_by in ('player','daily_reset','auto')),
+  visited_at      timestamptz not null default now()
+);
+
+alter table public.apartment_visits enable row level security;
+create policy "apartment_visits: own rows only"
+  on public.apartment_visits for all
+  using  (auth.uid() = player_id)
+  with check (auth.uid() = player_id);
+
+create index if not exists apartment_visits_player_id_idx on public.apartment_visits(player_id);
+create index if not exists apartment_visits_character_idx  on public.apartment_visits(player_id, character_id);

@@ -1,0 +1,58 @@
+{
+  "id": "olivier-visit-01",
+  "title": "The Portfolio",
+  "characterId": "olivier-sainte-claire",
+  "chapter": 1,
+  "startNodeId": "ov1",
+  "nodes": [
+    {
+      "id": "ov1",
+      "lines": [
+        { "id": "ov1-l1", "speaker": "Olivier", "text": "I brought something. Old work. Pre-digital. You won't see this in any catalog." }
+      ],
+      "autoNext": "ov2",
+      "autoAdvanceMs": 4000
+    },
+    {
+      "id": "ov2",
+      "lines": [
+        { "id": "ov2-l1", "speaker": "Olivier", "text": "This one — 1997. Milan. The model never worked again after this shoot. Her choice." },
+        { "id": "ov2-l2", "speaker": "Olivier", "text": "I think she became an architect. Better job, honestly." }
+      ],
+      "autoNext": "ov3",
+      "autoAdvanceMs": 5000
+    },
+    {
+      "id": "ov3",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3200,
+      "lines": [
+        { "id": "ov3-l1", "speaker": "", "text": "He handles each photo like a sentence he's still deciding whether to say." }
+      ],
+      "autoNext": "ov4"
+    },
+    {
+      "id": "ov4",
+      "lines": [
+        { "id": "ov4-l1", "speaker": "Olivier", "text": "I brought them because I wanted to show you who I was before I knew what I was doing." }
+      ],
+      "autoNext": "ov5",
+      "autoAdvanceMs": 4200,
+      "affectionDeltas": [{ "characterId": "olivier-sainte-claire", "delta": 8 }]
+    },
+    {
+      "id": "ov5",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 2800,
+      "lines": [
+        { "id": "ov5-l1", "speaker": "", "text": "You sit with the photographs long after he's gone. Some of them look like things you want to become." }
+      ],
+      "autoNext": "ov-end"
+    },
+    {
+      "id": "ov-end",
+      "type": "scene_end",
+      "lines": []
+    }
+  ]
+}

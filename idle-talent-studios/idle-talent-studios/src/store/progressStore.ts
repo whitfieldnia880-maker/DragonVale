@@ -37,7 +37,10 @@ interface ProgressStore {
   /** Actions already taken this game-day — reset on daily reset. */
   vanityUsedToday: boolean
   restedToday: boolean
+  kitchenUsedToday: boolean
   visitedToday: string[]
+  /** 0–1. Each rest adds 0.5; at 1.0 a half-day auto-advance fires. Reset on daily reset. */
+  dayProgress: number
   /** Completed character endings with prestige earned. */
   endingsUnlocked: UnlockedEnding[]
   /** Hidden notes collected per character (characterId → array of note indices). */
@@ -67,7 +70,9 @@ interface ProgressStore {
   clearDayActions: () => void
   markVanityUsed: () => void
   markRestedToday: () => void
+  markKitchenUsed: () => void
   addVisitedToday: (characterId: string) => void
+  setDayProgress: (v: number) => void
   unlockEnding: (ending: UnlockedEnding) => void
   addHiddenNote: (characterId: string, noteIndex: number) => void
   incrementChoiceCounter: (counterKey: string) => void
@@ -92,7 +97,9 @@ export const useProgressStore = create<ProgressStore>()(
       firedTwists: [],
       vanityUsedToday: false,
       restedToday: false,
+      kitchenUsedToday: false,
       visitedToday: [],
+      dayProgress: 0,
       endingsUnlocked: [],
       hiddenNotes: {},
       choiceCounters: {},
@@ -174,10 +181,12 @@ export const useProgressStore = create<ProgressStore>()(
         })),
 
       clearDayActions: () =>
-        set({ vanityUsedToday: false, restedToday: false, visitedToday: [] }),
+        set({ vanityUsedToday: false, restedToday: false, kitchenUsedToday: false, visitedToday: [], dayProgress: 0 }),
 
       markVanityUsed: () => set({ vanityUsedToday: true }),
       markRestedToday: () => set({ restedToday: true }),
+      markKitchenUsed: () => set({ kitchenUsedToday: true }),
+      setDayProgress: (v) => set({ dayProgress: Math.min(1, Math.max(0, v)) }),
       addVisitedToday: (characterId) =>
         set((state) => ({
           visitedToday: state.visitedToday.includes(characterId)

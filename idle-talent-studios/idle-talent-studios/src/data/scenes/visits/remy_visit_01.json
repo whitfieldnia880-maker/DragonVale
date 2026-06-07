@@ -1,0 +1,59 @@
+{
+  "id": "remy-visit-01",
+  "title": "Competition",
+  "characterId": "remy-ashford",
+  "chapter": 1,
+  "startNodeId": "rv1",
+  "nodes": [
+    {
+      "id": "rv1",
+      "lines": [
+        { "id": "rv1-l1", "speaker": "Remy", "text": "Okay. I'm challenging you." }
+      ],
+      "autoNext": "rv2",
+      "autoAdvanceMs": 2800
+    },
+    {
+      "id": "rv2",
+      "lines": [
+        { "id": "rv2-l1", "speaker": "Remy", "text": "Speed round. Fashion history. You get three wrong, I get to pick your next outfit for a week." },
+        { "id": "rv2-l2", "speaker": "Remy", "text": "Don't worry. I'll be kind." },
+        { "id": "rv2-l3", "speaker": "Remy", "text": "I won't." }
+      ],
+      "autoNext": "rv3",
+      "autoAdvanceMs": 5000
+    },
+    {
+      "id": "rv3",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3000,
+      "lines": [
+        { "id": "rv3-l1", "speaker": "", "text": "Twenty minutes and forty-three questions later, you're both on the floor arguing about Chanel versus Schiaparelli." }
+      ],
+      "autoNext": "rv4"
+    },
+    {
+      "id": "rv4",
+      "lines": [
+        { "id": "rv4-l1", "speaker": "Remy", "text": "That was embarrassingly fun." }
+      ],
+      "autoNext": "rv5",
+      "autoAdvanceMs": 3200,
+      "affectionDeltas": [{ "characterId": "remy-ashford", "delta": 7 }]
+    },
+    {
+      "id": "rv5",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 2600,
+      "lines": [
+        { "id": "rv5-l1", "speaker": "", "text": "He leaves without declaring a winner. You decide you both won." }
+      ],
+      "autoNext": "rv-end"
+    },
+    {
+      "id": "rv-end",
+      "type": "scene_end",
+      "lines": []
+    }
+  ]
+}

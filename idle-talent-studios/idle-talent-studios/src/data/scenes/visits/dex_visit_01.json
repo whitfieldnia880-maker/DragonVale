@@ -1,0 +1,58 @@
+{
+  "id": "dex-visit-01",
+  "title": "Check In",
+  "characterId": "dex-calloway",
+  "chapter": 1,
+  "startNodeId": "dv1",
+  "nodes": [
+    {
+      "id": "dv1",
+      "lines": [
+        { "id": "dv1-l1", "speaker": "Dex", "text": "I was reviewing your schedule. You've been running back-to-back without recovery days." }
+      ],
+      "autoNext": "dv2",
+      "autoAdvanceMs": 4000
+    },
+    {
+      "id": "dv2",
+      "lines": [
+        { "id": "dv2-l1", "speaker": "Dex", "text": "I came to adjust your calendar, not... whatever this is." },
+        { "id": "dv2-l2", "speaker": "Dex", "text": "I'm staying for exactly thirty minutes." }
+      ],
+      "autoNext": "dv3",
+      "autoAdvanceMs": 4200
+    },
+    {
+      "id": "dv3",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3000,
+      "lines": [
+        { "id": "dv3-l1", "speaker": "", "text": "He stays for two hours. Neither of you opens a calendar." }
+      ],
+      "autoNext": "dv4"
+    },
+    {
+      "id": "dv4",
+      "lines": [
+        { "id": "dv4-l1", "speaker": "Dex", "text": "For what it's worth — I think you're doing better than you think you are." }
+      ],
+      "autoNext": "dv5",
+      "autoAdvanceMs": 4000,
+      "affectionDeltas": [{ "characterId": "dex-calloway", "delta": 7 }]
+    },
+    {
+      "id": "dv5",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 2800,
+      "lines": [
+        { "id": "dv5-l1", "speaker": "", "text": "He leaves. The calendar on your phone has a new block: 'No meetings today.' He must have added it on the way out." }
+      ],
+      "autoNext": "dv-end"
+    },
+    {
+      "id": "dv-end",
+      "type": "scene_end",
+      "lines": []
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "id": "celeste-visit-01",
+  "title": "House Call",
+  "characterId": "celeste-voss",
+  "chapter": 1,
+  "startNodeId": "cv1",
+  "nodes": [
+    {
+      "id": "cv1",
+      "lines": [
+        { "id": "cv1-l1", "speaker": "Celeste", "text": "I need to check the fit on something. It's been sitting wrong and I can't send it out like that." }
+      ],
+      "autoNext": "cv2",
+      "autoAdvanceMs": 4000
+    },
+    {
+      "id": "cv2",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 2800,
+      "lines": [
+        { "id": "cv2-l1", "speaker": "", "text": "She opens the garment bag with the kind of focus that makes you feel like the center of something." }
+      ],
+      "autoNext": "cv3"
+    },
+    {
+      "id": "cv3",
+      "lines": [
+        { "id": "cv3-l1", "speaker": "Celeste", "text": "I don't make house calls." },
+        { "id": "cv3-l2", "speaker": "Celeste", "text": "This isn't a house call." }
+      ],
+      "autoNext": "cv4",
+      "autoAdvanceMs": 4500
+    },
+    {
+      "id": "cv4",
+      "lines": [
+        { "id": "cv4-l1", "speaker": "Celeste", "text": "The fit's fine. It was always fine." }
+      ],
+      "autoNext": "cv5",
+      "autoAdvanceMs": 3500,
+      "affectionDeltas": [{ "characterId": "celeste-voss", "delta": 8 }]
+    },
+    {
+      "id": "cv5",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 2800,
+      "lines": [
+        { "id": "cv5-l1", "speaker": "", "text": "She leaves the garment. You're not sure if it's a gift or a reason to call." }
+      ],
+      "autoNext": "cv-end"
+    },
+    {
+      "id": "cv-end",
+      "type": "scene_end",
+      "lines": []
+    }
+  ]
+}

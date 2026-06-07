@@ -266,6 +266,28 @@ export function computeDailyReset(ctx: DailyResetContext): DailyResetResult {
     ctx.firedEventIds
   )
 
+  // Amy unannounced visit: 20% chance per day if affection >= 25
+  const amyAffection = ctx.affectionMap['amy-crawford'] ?? 0
+  const amyVisitEventId = `amy-unannounced-visit::${newDayNumber}`
+  if (
+    amyAffection >= 25 &&
+    !ctx.firedEventIds.includes(amyVisitEventId) &&
+    Math.random() < 0.2
+  ) {
+    triggeredEvents.push({
+      id: amyVisitEventId,
+      characterId: 'amy-crawford',
+      characterName: 'Amy Crawford',
+      portrait: '👩',
+      eventType: 'surprise_visit',
+      content: "Amy showed up unannounced. She'd already found the coffee.",
+      affectionDelta: 0,
+      scandalizeDelta: 0,
+      sceneRef: 'amy-crawford',
+      triggeredOnDay: newDayNumber,
+    })
+  }
+
   // Wardrobe day bonuses (positive deltas applied after decay)
   const wardrobeDeltas = ctx.wardrobeBonuses
     ? computeWardrobeDayDeltas(ctx.wardrobeBonuses)

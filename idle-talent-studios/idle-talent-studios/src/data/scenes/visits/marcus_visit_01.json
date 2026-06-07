@@ -1,0 +1,58 @@
+{
+  "id": "marcus-visit-01",
+  "title": "Off The Clock",
+  "characterId": "marcus-vane",
+  "chapter": 1,
+  "startNodeId": "mv1",
+  "nodes": [
+    {
+      "id": "mv1",
+      "lines": [
+        { "id": "mv1-l1", "speaker": "Marcus", "text": "Don't read into this. I was nearby and had an extra order." }
+      ],
+      "autoNext": "mv2",
+      "autoAdvanceMs": 3800
+    },
+    {
+      "id": "mv2",
+      "lines": [
+        { "id": "mv2-l1", "speaker": "Marcus", "text": "Thai. The good place on Ninth. You know what you want or do I have to guess?" },
+        { "id": "mv2-l2", "speaker": "Marcus", "text": "Never mind. I already guessed." }
+      ],
+      "autoNext": "mv3",
+      "autoAdvanceMs": 4200
+    },
+    {
+      "id": "mv3",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3000,
+      "lines": [
+        { "id": "mv3-l1", "speaker": "", "text": "He sets the food down without asking where. He already knows which counter you use." }
+      ],
+      "autoNext": "mv4"
+    },
+    {
+      "id": "mv4",
+      "lines": [
+        { "id": "mv4-l1", "speaker": "Marcus", "text": "You look less terrible than yesterday. That's something." }
+      ],
+      "autoNext": "mv5",
+      "autoAdvanceMs": 3200,
+      "affectionDeltas": [{ "characterId": "marcus-vane", "delta": 6 }]
+    },
+    {
+      "id": "mv5",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 2800,
+      "lines": [
+        { "id": "mv5-l1", "speaker": "", "text": "He stays longer than the food takes to eat. Neither of you mention it." }
+      ],
+      "autoNext": "mv-end"
+    },
+    {
+      "id": "mv-end",
+      "type": "scene_end",
+      "lines": []
+    }
+  ]
+}

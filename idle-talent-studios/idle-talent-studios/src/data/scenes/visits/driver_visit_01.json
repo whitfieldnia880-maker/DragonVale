@@ -1,0 +1,41 @@
+{
+  "id": "driver-visit-01",
+  "title": "No Address",
+  "characterId": "the-driver",
+  "chapter": 1,
+  "startNodeId": "dr1",
+  "nodes": [
+    {
+      "id": "dr1",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3500,
+      "lines": [
+        { "id": "dr1-l1", "speaker": "", "text": "You open your phone. You scroll past names you know." }
+      ],
+      "autoNext": "dr2"
+    },
+    {
+      "id": "dr2",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 4000,
+      "lines": [
+        { "id": "dr2-l1", "speaker": "", "text": "You don't know how to reach him. He finds you. That's always how it works." }
+      ],
+      "autoNext": "dr3"
+    },
+    {
+      "id": "dr3",
+      "type": "inner_monologue",
+      "autoAdvanceMs": 3800,
+      "lines": [
+        { "id": "dr3-l1", "speaker": "", "text": "You put the phone down. Maybe that's the point." }
+      ],
+      "autoNext": "dr-end"
+    },
+    {
+      "id": "dr-end",
+      "type": "scene_end",
+      "lines": []
+    }
+  ]
+}

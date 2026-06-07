@@ -59,9 +59,12 @@ export function computeStatDecay(modifiers: DecayModifiers): StatDelta[] {
   return deltas.filter((d) => d.delta !== 0)
 }
 
+// T4 is the sweet spot; T5 has slight luxury upkeep cost
+const ENERGY_DECAY_BY_TIER: Record<number, number> = { 1: 20, 2: 16, 3: 12, 4: 6, 5: 10 }
+
 /** Returns how much energy to subtract for this day's decay. */
 export function computeEnergyDecay(apartmentTier: number): number {
-  return Math.max(0, 20 - 2 * (apartmentTier - 1))
+  return ENERGY_DECAY_BY_TIER[Math.min(5, Math.max(1, apartmentTier))] ?? 20
 }
 
 /** Returns positive stat deltas to apply from the equipped wardrobe on day start. */

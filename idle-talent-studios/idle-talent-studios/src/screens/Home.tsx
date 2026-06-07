@@ -34,6 +34,13 @@ import { ALL_CHARACTERS } from '@/data/characters'
 // Scene JSON imports
 import dreamAmyScene from '@/data/scenes/rest/dream_amy.json'
 import amyVisitScene from '@/data/scenes/visits/amy_visit_01.json'
+import marcusVisitScene from '@/data/scenes/visits/marcus_visit_01.json'
+import olivierVisitScene from '@/data/scenes/visits/olivier_visit_01.json'
+import remyVisitScene from '@/data/scenes/visits/remy_visit_01.json'
+import dexVisitScene from '@/data/scenes/visits/dex_visit_01.json'
+import sunnyVisitScene from '@/data/scenes/visits/sunny_visit_01.json'
+import celesteVisitScene from '@/data/scenes/visits/celeste_visit_01.json'
+import driverVisitScene from '@/data/scenes/visits/driver_visit_01.json'
 
 // ─── Scene maps ───────────────────────────────────────────────────────────────
 
@@ -43,6 +50,13 @@ const DREAM_SCENES: Record<string, object> = {
 
 const VISIT_SCENES: Record<string, object> = {
   'amy-crawford': amyVisitScene,
+  'marcus-vane': marcusVisitScene,
+  'olivier-sainte-claire': olivierVisitScene,
+  'remy-ashford': remyVisitScene,
+  'dex-calloway': dexVisitScene,
+  'sunny-park': sunnyVisitScene,
+  'celeste-voss': celesteVisitScene,
+  'the-driver': driverVisitScene,
 }
 
 const VALID_STAT_KEYS = new Set<string>([
@@ -59,11 +73,12 @@ interface HomeProps {
   onGoToGigs: () => void
   onGoToCareer: () => void
   onGoToCollection: () => void
+  onGoToApartment: () => void
 }
 
 // ─── Home screen ─────────────────────────────────────────────────────────────
 
-export function Home({ onGoToGacha, onGoToRoutes, onGoToShop, onGoToProfile, onGoToGigs, onGoToCareer, onGoToCollection }: HomeProps) {
+export function Home({ onGoToGacha, onGoToRoutes, onGoToShop, onGoToProfile, onGoToGigs, onGoToCareer, onGoToCollection, onGoToApartment }: HomeProps) {
   const [showEndDayModal, setShowEndDayModal] = useState(false)
   const [toastResult, setToastResult] = useState<DailyResetResult | null>(null)
   const [toastVisible, setToastVisible] = useState(false)
@@ -101,9 +116,13 @@ export function Home({ onGoToGacha, onGoToRoutes, onGoToShop, onGoToProfile, onG
   const upgradeApartment = useProgressStore((s) => s.upgradeApartment)
   const vanityUsedToday = useProgressStore((s) => s.vanityUsedToday)
   const restedToday = useProgressStore((s) => s.restedToday)
+  const kitchenUsedToday = useProgressStore((s) => s.kitchenUsedToday)
   const visitedToday = useProgressStore((s) => s.visitedToday)
+  const dayProgress = useProgressStore((s) => s.dayProgress)
   const markVanityUsed = useProgressStore((s) => s.markVanityUsed)
   const markRestedToday = useProgressStore((s) => s.markRestedToday)
+  const markKitchenUsed = useProgressStore((s) => s.markKitchenUsed)
+  const setDayProgress = useProgressStore((s) => s.setDayProgress)
   const addVisitedToday = useProgressStore((s) => s.addVisitedToday)
 
   // Roster
@@ -217,12 +236,21 @@ export function Home({ onGoToGacha, onGoToRoutes, onGoToShop, onGoToProfile, onG
     setEnergy(Math.min(100, energy + 40))
     markRestedToday()
 
-    // 25% dream trigger — pick first owned char with affection >= 40 that has a dream scene
+    // Half-day advance
+    const newProgress = dayProgress + 0.5
+    if (newProgress >= 1.0) {
+      triggerReset(true)
+      setDayProgress(0)
+    } else {
+      setDayProgress(newProgress)
+    }
+
+    // 15% dream trigger — pick char with affection >= 50
     const dreamCandidates = owned.filter((c) => {
       const rel = relationships[c.id]
-      return rel && rel.affection >= 40 && DREAM_SCENES[c.id]
+      return rel && rel.affection >= 50 && DREAM_SCENES[c.id]
     })
-    if (dreamCandidates.length > 0 && Math.random() < 0.25) {
+    if (dreamCandidates.length > 0 && Math.random() < 0.15) {
       const char = dreamCandidates[Math.floor(Math.random() * dreamCandidates.length)]
       setActiveDreamScene(DREAM_SCENES[char.id])
     }
@@ -236,6 +264,7 @@ export function Home({ onGoToGacha, onGoToRoutes, onGoToShop, onGoToProfile, onG
   }
 
   function handleKitchenMeal(meal: MealOption) {
+    if (kitchenUsedToday) return
     if (meal.cost > 0) {
       const result = spendCurrency('spotlight', meal.cost, 'kitchen_meal')
       if (!result.success) return
@@ -244,6 +273,7 @@ export function Home({ onGoToGacha, onGoToRoutes, onGoToShop, onGoToProfile, onG
     if (meal.statDelta) {
       applyStatDeltas([{ stat: meal.statDelta.stat, delta: meal.statDelta.delta }])
     }
+    markKitchenUsed()
     setShowKitchenPicker(false)
   }
 
@@ -415,6 +445,13 @@ export function Home({ onGoToGacha, onGoToRoutes, onGoToShop, onGoToProfile, onG
                   key={event.id}
                   event={event}
                   onDismiss={dismissPendingEvent}
+                  onOpen={(ev) => {
+                    if (ev.sceneRef && VISIT_SCENES[ev.sceneRef]) {
+                      addVisitedToday(ev.characterId)
+                      dismissPendingEvent(ev.id)
+                      setActiveVisitScene(VISIT_SCENES[ev.sceneRef])
+                    }
+                  }}
                 />
               ))}
               {pendingCharacterEvents.length > 3 && (
@@ -431,17 +468,28 @@ export function Home({ onGoToGacha, onGoToRoutes, onGoToShop, onGoToProfile, onG
           <DailyReward currentDay={currentDay} loginStreak={loginStreak} />
 
           {/* Apartment */}
-          <Apartment
-            tier={apartmentLevel}
-            playerName={playerName}
-            energy={energy}
-            mood={mood}
-            onZoneTap={handleZoneTap}
-            onUpgrade={handleApartmentUpgrade}
-            upgradeInfo={upgradeInfo}
-            vanityUsedToday={vanityUsedToday}
-            restedToday={restedToday}
-          />
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Apartment</h2>
+              <button
+                onClick={onGoToApartment}
+                className="text-[10px] text-white/40 hover:text-white/70 transition-colors"
+              >
+                Full View →
+              </button>
+            </div>
+            <Apartment
+              tier={apartmentLevel}
+              playerName={playerName}
+              energy={energy}
+              mood={mood}
+              onZoneTap={handleZoneTap}
+              onUpgrade={handleApartmentUpgrade}
+              upgradeInfo={upgradeInfo}
+              vanityUsedToday={vanityUsedToday}
+              restedToday={restedToday}
+            />
+          </div>
 
           {/* Stats */}
           <section>
