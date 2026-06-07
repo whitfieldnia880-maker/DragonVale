@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useAnimate } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import type { GachaPullResult } from '@/engine/gachaEngine'
+import { getCharacterAssets } from '@/data/characters/assets'
 
 interface GachaPullProps {
   results: GachaPullResult[]
@@ -84,6 +85,7 @@ function CardFront({
 }) {
   const color = RARITY_COLORS[result.rarity] ?? '#94a3b8'
   const starCount = RARITY_STARS[result.rarity] ?? 3
+  const assets = getCharacterAssets(result.character.id)
 
   return (
     <div
@@ -96,18 +98,30 @@ function CardFront({
     >
       <RarityBleed rarity={result.rarity} active={revealed} />
 
-      {/* Portrait */}
+      {/* Card art */}
       <div
-        className="aspect-[3/4] flex items-center justify-center text-7xl relative gacha-shimmer"
+        className="aspect-[3/4] flex items-center justify-center text-7xl relative gacha-shimmer overflow-hidden"
         style={{ background: `${color}22` }}
       >
-        <motion.span
-          initial={{ scale: 0.5, opacity: 0 }}
-          animate={revealed ? { scale: 1, opacity: 1 } : { scale: 0.5, opacity: 0 }}
-          transition={{ delay: 0.1, type: 'spring', stiffness: 220 }}
-        >
-          {result.character.portraitPlaceholder}
-        </motion.span>
+        {assets ? (
+          <motion.img
+            src={assets.cardArt}
+            alt={result.character.name}
+            className="w-full h-full object-cover object-top"
+            initial={{ scale: 0.85, opacity: 0 }}
+            animate={revealed ? { scale: 1, opacity: 1 } : { scale: 0.85, opacity: 0 }}
+            transition={{ delay: 0.1, type: 'spring', stiffness: 220 }}
+            onError={(e) => { e.currentTarget.style.display = 'none' }}
+          />
+        ) : (
+          <motion.span
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={revealed ? { scale: 1, opacity: 1 } : { scale: 0.5, opacity: 0 }}
+            transition={{ delay: 0.1, type: 'spring', stiffness: 220 }}
+          >
+            {result.character.portraitPlaceholder}
+          </motion.span>
+        )}
 
         {/* NEW stamp */}
         {isNew && revealed && (
@@ -433,7 +447,26 @@ function MultiReveal({
                       : 'bg-white/5 border-white/10'
                   )}
                 >
-                  <span className="text-2xl flex-shrink-0">{r.character.portraitPlaceholder}</span>
+                  {(() => {
+                    const a = getCharacterAssets(r.character.id)
+                    return a ? (
+                      <img
+                        src={a.thumbnail}
+                        alt={r.character.name}
+                        className="w-8 h-8 rounded-lg object-cover flex-shrink-0"
+                        onError={(e) => {
+                          e.currentTarget.replaceWith(
+                            Object.assign(document.createElement('span'), {
+                              className: 'text-2xl flex-shrink-0',
+                              textContent: r.character.portraitPlaceholder,
+                            })
+                          )
+                        }}
+                      />
+                    ) : (
+                      <span className="text-2xl flex-shrink-0">{r.character.portraitPlaceholder}</span>
+                    )
+                  })()}
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-white truncate">
                       {r.character.name}

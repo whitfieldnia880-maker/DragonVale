@@ -52,6 +52,7 @@ interface DialogueBoxProps {
   line: DialogueLine | undefined
   nodeType?: NodeType
   accentColor?: string
+  speakerBust?: string
   choices?: Array<DialogueChoice & { available: boolean }>
   showChoices: boolean
   onAdvance: () => void
@@ -65,6 +66,7 @@ export function DialogueBox({
   line,
   nodeType = 'dialogue',
   accentColor = '#e879f9',
+  speakerBust,
   choices,
   showChoices,
   onAdvance,
@@ -150,6 +152,15 @@ export function DialogueBox({
                       : undefined
                   }
                 >
+                  {!isInnerMonologue && speakerBust && (
+                    <img
+                      src={speakerBust}
+                      alt=""
+                      className="w-8 h-8 rounded-full object-cover object-top flex-shrink-0"
+                      style={{ boxShadow: `0 0 0 1.5px ${accentColor}50` }}
+                      onError={(e) => { e.currentTarget.style.display = 'none' }}
+                    />
+                  )}
                   <span
                     className={cn(
                       'text-xs font-bold tracking-wide',

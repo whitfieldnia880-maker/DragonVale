@@ -9,6 +9,7 @@ import { useRosterStore } from '@/store/rosterStore'
 import { usePlayerStore } from '@/store/playerStore'
 import { useProgressStore } from '@/store/progressStore'
 import { useGachaStore } from '@/store/gachaStore'
+import { getCharacterAssets } from '@/data/characters/assets'
 
 interface CollectionScreenProps {
   onBack: () => void
@@ -48,6 +49,7 @@ function CharacterCard({
   onTap: () => void
 }) {
   const color = RARITY_COLOR[character.rarity]
+  const assets = getCharacterAssets(character.id)
 
   return (
     <motion.button
@@ -68,10 +70,28 @@ function CharacterCard({
         }}
       >
         {owned ? (
-          <span className="text-5xl">{character.portraitPlaceholder}</span>
+          assets ? (
+            <img
+              src={assets.thumbnail}
+              alt={character.name}
+              className="w-full h-full object-cover"
+              onError={(e) => { e.currentTarget.style.display = 'none' }}
+            />
+          ) : (
+            <span className="text-5xl">{character.portraitPlaceholder}</span>
+          )
         ) : (
           <>
-            <span className="text-5xl opacity-20 grayscale">{character.portraitPlaceholder}</span>
+            {assets ? (
+              <img
+                src={assets.silhouette}
+                alt=""
+                className="w-full h-full object-cover opacity-20"
+                onError={(e) => { e.currentTarget.style.display = 'none' }}
+              />
+            ) : (
+              <span className="text-5xl opacity-20 grayscale">{character.portraitPlaceholder}</span>
+            )}
             <div className="absolute inset-0 bg-slate-950/60 flex items-center justify-center">
               <span className="text-white/20 text-2xl">?</span>
             </div>
@@ -146,6 +166,7 @@ function CharacterProfileSheet({
   onGoToRoutes: () => void
 }) {
   const color = RARITY_COLOR[character.rarity]
+  const assets = getCharacterAssets(character.id)
   const fragsTowardNext = bondFragments - bondScenesUnlocked * 5
 
   // Banners that feature this character
@@ -182,14 +203,21 @@ function CharacterProfileSheet({
         >
           <div className="relative flex-shrink-0">
             <div
-              className="w-20 h-20 rounded-2xl flex items-center justify-center text-5xl"
+              className="w-20 h-20 rounded-2xl overflow-hidden flex items-center justify-center text-5xl"
               style={{
                 background: owned
                   ? `linear-gradient(135deg, ${character.accentColor}33, ${character.accentColor}11)`
                   : '#1e293b',
               }}
             >
-              {owned ? (
+              {assets ? (
+                <img
+                  src={owned ? assets.portrait : assets.silhouette}
+                  alt={owned ? character.name : ''}
+                  className={cn('w-full h-full object-cover object-top', !owned && 'opacity-20')}
+                  onError={(e) => { e.currentTarget.style.display = 'none' }}
+                />
+              ) : owned ? (
                 character.portraitPlaceholder
               ) : (
                 <span className="opacity-20 grayscale">{character.portraitPlaceholder}</span>

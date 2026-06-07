@@ -13,6 +13,7 @@ interface ApartmentProps {
   upgradeInfo: { cost: number; canAfford: boolean } | null
   vanityUsedToday?: boolean
   restedToday?: boolean
+  visitingCharacter?: { name: string; sprite: string; accentColor?: string } | null
 }
 
 const ZONE_GRID_LAYOUT: ApartmentZone[][] = [
@@ -31,6 +32,7 @@ export function Apartment({
   upgradeInfo,
   vanityUsedToday = false,
   restedToday = false,
+  visitingCharacter = null,
 }: ApartmentProps) {
   const tierConfig = getApartmentTierConfig(tier)
   const isTier5 = tier >= 5
@@ -44,6 +46,35 @@ export function Apartment({
           background: `radial-gradient(ellipse 80% 60% at 50% 20%, ${tierConfig.ambientColor} 0%, transparent 70%)`,
         }}
       />
+
+      {/* Visiting character sprite */}
+      {visitingCharacter && (
+        <motion.div
+          className="absolute bottom-0 right-3 z-20 pointer-events-none"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+        >
+          <img
+            src={visitingCharacter.sprite}
+            alt={visitingCharacter.name}
+            className="h-40 w-auto object-contain object-bottom drop-shadow-lg"
+            onError={(e) => { e.currentTarget.style.display = 'none' }}
+          />
+          <div
+            className="absolute bottom-1 left-1/2 -translate-x-1/2 text-[9px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap"
+            style={{
+              backgroundColor: visitingCharacter.accentColor
+                ? `${visitingCharacter.accentColor}33`
+                : 'rgba(255,255,255,0.1)',
+              color: visitingCharacter.accentColor ?? 'rgba(255,255,255,0.6)',
+              border: `1px solid ${visitingCharacter.accentColor ?? 'rgba(255,255,255,0.15)'}40`,
+            }}
+          >
+            {visitingCharacter.name}
+          </div>
+        </motion.div>
+      )}
 
       {/* Tier 5 shimmer */}
       {isTier5 && (

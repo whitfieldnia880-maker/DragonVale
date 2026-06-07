@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import type { Character } from '@/data/characters/types'
 import type { Rarity } from '@/engine/gachaEngine'
+import { getCharacterAssets } from '@/data/characters/assets'
 
 interface CharacterCardProps {
   character: Character
@@ -30,6 +31,8 @@ export function CharacterCard({
   onClick,
   className,
 }: CharacterCardProps) {
+  const assets = getCharacterAssets(character.id)
+
   return (
     <motion.div
       whileTap={{ scale: 0.97 }}
@@ -43,10 +46,23 @@ export function CharacterCard({
       )}
     >
       <div
-        className="aspect-[3/4] flex items-center justify-center text-6xl"
+        className="aspect-[3/4] flex items-center justify-center text-6xl overflow-hidden"
         style={{ background: `${character.accentColor}22` }}
       >
-        {character.portraitPlaceholder}
+        {assets ? (
+          <img
+            src={assets.thumbnail}
+            alt={character.name}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              const t = e.currentTarget
+              t.style.display = 'none'
+              t.parentElement!.insertAdjacentText('beforeend', character.portraitPlaceholder)
+            }}
+          />
+        ) : (
+          character.portraitPlaceholder
+        )}
       </div>
 
       <div
