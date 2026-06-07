@@ -915,3 +915,57 @@ create trigger pity_counters_updated_at
   for each row execute function public.set_updated_at();
 
 create index if not exists pity_counters_player_id_idx on public.pity_counters(player_id);
+
+-- ──────────────────────────────────────────────
+-- Prompt 9 (Final Polish): achievements v2, indexes, triggers
+-- ──────────────────────────────────────────────
+
+-- Expand achievements table with progress tracking
+alter table public.achievements
+  add column if not exists progress_current integer not null default 0,
+  add column if not exists progress_target  integer,
+  add column if not exists unlocked         boolean not null default true,
+  add column if not exists unlocked_at      timestamptz;
+
+-- Composite indexes for hot join paths
+create index if not exists gacha_pulls_player_banner_idx
+  on public.gacha_pulls (player_id, banner_id);
+
+create index if not exists character_progress_player_char_idx
+  on public.character_progress (player_id, character_id);
+
+create index if not exists story_flags_player_flag_idx
+  on public.story_flags (player_id, flag_key);
+
+create index if not exists gacha_pulls_rarity_idx
+  on public.gacha_pulls (player_id, rarity);
+
+create index if not exists player_gigs_outcome_idx
+  on public.player_gigs (player_id, outcome_tier);
+
+-- updated_at triggers for remaining tables
+create trigger character_progress_updated_at
+  before update on public.character_progress
+  for each row execute function public.set_updated_at();
+
+create trigger currency_ledger_updated_at
+  before update on public.currency_ledger
+  for each row execute function public.set_updated_at();
+
+create trigger player_wardrobe_updated_at
+  before update on public.player_wardrobe
+  for each row execute function public.set_updated_at();
+
+-- RLS verification guards (idempotent re-enable)
+alter table public.chapters        enable row level security;
+alter table public.endings         enable row level security;
+alter table public.banners         enable row level security;
+
+create policy if not exists "chapters: read only"
+  on public.chapters for select using (true);
+
+create policy if not exists "endings: read only"
+  on public.endings for select using (true);
+
+create policy if not exists "banners: read only"
+  on public.banners for select using (true);

@@ -312,6 +312,31 @@ export function Gigs({ onBack }: GigsProps) {
   )
 }
 
+// ─── Tier advance congratulation lines ────────────────────────────────────────
+
+const TIER_CONGRATS: Record<number, { source: string; line: string }> = {
+  2: {
+    source: 'Editor',
+    line: 'The industry just learned your name. We suggest learning theirs back.',
+  },
+  3: {
+    source: 'Paparazzo',
+    line: "She's not nobody anymore. This changes our whole route.",
+  },
+  4: {
+    source: 'PR Whisperer',
+    line: "Tier four. We've been preparing for this conversation.",
+  },
+  5: {
+    source: 'Insider',
+    line: "There are maybe twelve people alive who get here. She's one of them now.",
+  },
+  6: {
+    source: 'Driver',
+    line: '...',
+  },
+}
+
 // ─── Tier advance celebration ──────────────────────────────────────────────────
 
 function TierAdvanceCelebration({
@@ -323,6 +348,8 @@ function TierAdvanceCelebration({
 }) {
   const tierDef = CAREER_TIERS.find((t) => t.tier === toTier)
   if (!tierDef) return null
+
+  const congrats = TIER_CONGRATS[toTier]
 
   const CONFETTI = ['✨', '🌟', '💫', '⭐', '🎉', '🎊', '💥', '🔥']
   const pieces = Array.from({ length: 18 }, (_, i) => ({
@@ -392,10 +419,24 @@ function TierAdvanceCelebration({
           {tierDef.description}
         </motion.p>
 
+        {congrats && (
+          <motion.p
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+            className="text-xs italic leading-relaxed max-w-xs mx-auto"
+            style={{ color: `${tierDef.color}cc` }}
+          >
+            "{congrats.line}"
+            <br />
+            <span className="not-italic text-white/30 text-[10px]">— {congrats.source}</span>
+          </motion.p>
+        )}
+
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.0 }}
+          transition={{ delay: 1.1 }}
           className="text-[10px] uppercase tracking-widest"
           style={{ color: `${tierDef.color}80` }}
         >
@@ -405,9 +446,10 @@ function TierAdvanceCelebration({
         <motion.button
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.3 }}
+          transition={{ delay: 2.0 }}
           whileTap={{ scale: 0.97 }}
           onClick={onDismiss}
+          aria-label="Continue to next screen"
           className="mt-4 px-8 py-3 rounded-xl text-sm font-bold text-white border border-white/15 bg-white/6"
         >
           Continue →
