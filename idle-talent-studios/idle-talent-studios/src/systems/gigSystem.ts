@@ -18,6 +18,14 @@ export type GigVoice =
   | 'the_mirror'
   | 'rival_management'
   | 'anonymous_tip'
+  | 'intern'
+  | 'editor'
+  | 'paparazzo'
+  | 'insider'
+  | 'stylist'
+  | 'legal'
+  | 'pr_whisperer'
+  | 'driver_source'
 
 // ─── Interfaces ───────────────────────────────────────────────────────────────
 
@@ -254,6 +262,62 @@ const NARRATION: Record<GigVoice, Record<OutcomeTier, string>> = {
     smash:  'I can\'t say how I know, but you\'ve arrived.',
     iconic: 'History was in that room. I was there.',
   },
+  intern: {
+    flop:   'I was... I don\'t know, maybe it\'ll look better in the edit? I\'ll ask around.',
+    decent: 'I actually thought that was pretty good? But I don\'t know anything.',
+    hit:    'People were talking about it. Like, out loud. To each other.',
+    smash:  'Okay so I sent my mom the clip and she called me six times.',
+    iconic: 'I\'m going to tell my kids I was in the room when this happened.',
+  },
+  editor: {
+    flop:   'We have a piece running. I\'d call it charitable.',
+    decent: 'Clean. Workmanlike. Gets the job done without making us work for it.',
+    hit:    'We\'re moving this above the fold. The timing works.',
+    smash:  'Pulled the feature to make room. This is the story now.',
+    iconic: 'Thirty years in this business. This is what they\'ll remember.',
+  },
+  paparazzo: {
+    flop:   'I got three frames, none of them print-worthy. Long night.',
+    decent: 'Got the shot. Nothing special but it clears the wire.',
+    hit:    'Oh, the zoom was worth it. That expression? Six figures.',
+    smash:  'Sold before I got back to the car. Already in three countries.',
+    iconic: 'This is the one they\'ll reprint forever. You\'ll see it everywhere.',
+  },
+  insider: {
+    flop:   'I have a source. They said what they said. I\'d lay low.',
+    decent: 'The room was fine with it. That\'s all I have.',
+    hit:    'My source is telling me doors are opening. I\'d move fast.',
+    smash:  'Everyone I talk to. Everyone. It\'s the only conversation.',
+    iconic: 'I\'ve been inside this industry for twenty years. Nothing like this.',
+  },
+  stylist: {
+    flop:   'The look was right. Whatever happened on stage wasn\'t my department.',
+    decent: 'You showed up correctly. That\'s half of it.',
+    hit:    'The fit translated. The camera agreed. My job is done.',
+    smash:  'Everyone wants to know who dressed you. I\'m very busy right now.',
+    iconic: 'I\'m retiring this look. It deserves to be retired perfectly.',
+  },
+  legal: {
+    flop:   'The clause covers this outcome. We\'ll address the liability separately.',
+    decent: 'Within contractual parameters. Nothing to flag.',
+    hit:    'Favorable terms activated. Renegotiation window opens next quarter.',
+    smash:  'Multiple entities have reached out regarding addenda. We\'re reviewing.',
+    iconic: 'The contract has never paid out at this tier. Precedent is being set.',
+  },
+  pr_whisperer: {
+    flop:   'I need you to stop taking calls. I have a narrative, but it needs time.',
+    decent: 'This is sustainable. We build from here. Slowly.',
+    hit:    'The echo is clean. No bad threads. The story is holding.',
+    smash:  'I planned for this. I always plan for this. You\'re welcome.',
+    iconic: 'I\'m going to retire after this one. I want to end on a perfect note.',
+  },
+  driver_source: {
+    flop:   'I heard about it. You don\'t need to explain.',
+    decent: 'People are moving on. That\'s either bad or good.',
+    hit:    'Ran the long way home. Wanted to think about what I saw.',
+    smash:  'Three passengers tonight mentioned you by name. None of them knew I knew you.',
+    iconic: 'I\'ve been driving a long time. I\'ve seen a lot of things. Not this.',
+  },
 }
 
 export function getOutcomeNarration(voice: GigVoice, tier: OutcomeTier): string {
@@ -267,6 +331,14 @@ export const VOICE_DISPLAY: Record<GigVoice, string> = {
   the_mirror:       'The Mirror',
   rival_management: 'Rival Management',
   anonymous_tip:    'Anonymous',
+  intern:           'Intern',
+  editor:           'The Editor',
+  paparazzo:        'Paparazzo',
+  insider:          'Industry Insider',
+  stylist:          'Your Stylist',
+  legal:            'Legal',
+  pr_whisperer:     'PR Whisperer',
+  driver_source:    'The Driver',
 }
 
 // ─── Risk chip meta ───────────────────────────────────────────────────────────
@@ -280,7 +352,7 @@ export const RISK_CHIP_META: Record<RiskChipType, { label: string; color: string
 // ─── Outcome display ──────────────────────────────────────────────────────────
 
 export const OUTCOME_REWARD_MULT: Record<OutcomeTier, number> = {
-  flop: 0.1, decent: 0.6, hit: 1.0, smash: 1.5, iconic: 2.5,
+  flop: 0.2, decent: 0.8, hit: 1.0, smash: 1.5, iconic: 2.0,
 }
 
 export const OUTCOME_LABELS: Record<OutcomeTier, string> = {
@@ -297,11 +369,12 @@ export const OUTCOME_COLORS: Record<OutcomeTier, string> = {
 
 // ─── Outcome computation ──────────────────────────────────────────────────────
 
+// Spec weights: flop 10%, decent 30%, hit 35%, smash 20%, iconic 5%
 const OUTCOME_THRESHOLDS: [number, OutcomeTier][] = [
-  [86, 'iconic'],
-  [66, 'smash'],
-  [41, 'hit'],
-  [21, 'decent'],
+  [95, 'iconic'],
+  [75, 'smash'],
+  [40, 'hit'],
+  [10, 'decent'],
   [0,  'flop'],
 ]
 
@@ -310,6 +383,14 @@ function rollToOutcome(roll: number): OutcomeTier {
     if (roll >= threshold) return tier
   }
   return 'flop'
+}
+
+// Fixed stat bonuses applied on top of gig-specific rewards, per outcome tier
+const TIER_FIXED_DELTAS: Partial<Record<OutcomeTier, import('@/engine/statEngine').StatDelta[]>> = {
+  flop:   [{ stat: 'reputation', delta: -5 }],
+  hit:    [{ stat: 'reputation', delta: 3 }],
+  smash:  [{ stat: 'reputation', delta: 8 }],
+  iconic: [{ stat: 'reputation', delta: 15 }, { stat: 'confidence', delta: 5 }],
 }
 
 export function computeOutcome(
@@ -389,16 +470,19 @@ export function computeOutcome(
     gig.baseReward.spotlight * OUTCOME_REWARD_MULT[tier] * rewardMult
   )
 
-  const statDeltas: StatDelta[] =
+  const gigStatDeltas: StatDelta[] =
     tier !== 'flop'
       ? Object.entries(gig.baseReward.stats)
           .filter(([, v]) => v !== 0)
           .map(([stat, delta]) => ({
             stat: stat as StatKey,
             delta: Math.round((delta ?? 0) * OUTCOME_REWARD_MULT[tier] * rewardMult),
-            source: 'gig',
           }))
       : []
+
+  const fixedDeltas: StatDelta[] = (TIER_FIXED_DELTAS[tier] ?? []).map((d) => ({ ...d }))
+
+  const statDeltas: StatDelta[] = [...gigStatDeltas, ...fixedDeltas]
 
   const visibilityEscalate =
     !!gig.romanceHook &&

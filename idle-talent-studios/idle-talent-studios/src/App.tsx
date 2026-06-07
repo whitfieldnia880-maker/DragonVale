@@ -75,12 +75,12 @@ const NAV_SCREENS = new Set<Screen>(['home', 'gigs', 'gacha', 'collection', 'pro
 // ─── Tier palette ─────────────────────────────────────────────────────────────
 
 const TIER_PALETTE: Record<number, { primary: string; accent: string; dim: string; muted: string }> = {
-  1: { primary: '#f59e0b', accent: '#fef3c7', dim: '#78350f', muted: '#92400e' },
-  2: { primary: '#9f1239', accent: '#fda4af', dim: '#4c0519', muted: '#881337' },
-  3: { primary: '#3b82f6', accent: '#94a3b8', dim: '#1e3a8a', muted: '#1e40af' },
-  4: { primary: '#eab308', accent: '#fde68a', dim: '#713f12', muted: '#92400e' },
-  5: { primary: '#dc2626', accent: '#e2e8f0', dim: '#7f1d1d', muted: '#991b1b' },
-  6: { primary: '#e2e8f0', accent: '#f8fafc', dim: '#475569', muted: '#64748b' },
+  1: { primary: '#D4A847', accent: '#F5EDD6', dim: '#7a5c1e', muted: '#9a7030' },
+  2: { primary: '#8B2E4A', accent: '#C4858F', dim: '#4a1328', muted: '#6b1e3a' },
+  3: { primary: '#3A5F8A', accent: '#8AAFC4', dim: '#1e3a5a', muted: '#2d5473' },
+  4: { primary: '#C9A84C', accent: '#F0E6C8', dim: '#7a6220', muted: '#9a7d32' },
+  5: { primary: '#B22222', accent: '#E8E0E0', dim: '#7a1010', muted: '#991515' },
+  6: { primary: '#C0C0C0', accent: '#F8F8FF', dim: '#808080', muted: '#a0a0a0' },
 }
 
 function useTierTheme(careerTier: number) {

@@ -37,6 +37,7 @@ interface GigStore {
   offersGeneratedOnDay: number
   activeGig: ActiveGig | null
   pendingOutcome: GigOutcome | null  // waiting to be shown to player
+  pendingTierAdvance: { fromTier: number; toTier: number } | null
 
   fascination: number
   idle: IdleState
@@ -62,6 +63,7 @@ interface GigStore {
   collectIdle: (currentTier: number) => number
   tickIdleAccrual: (currentTier: number) => void
   unlockExtendedCap: () => void
+  dismissTierAdvance: () => void
 }
 
 // ─── Offer generation ─────────────────────────────────────────────────────────
@@ -87,6 +89,7 @@ export const useGigStore = create<GigStore>()(
       offersGeneratedOnDay: -1,
       activeGig: null,
       pendingOutcome: null,
+      pendingTierAdvance: null,
 
       fascination: 0,
       idle: {
@@ -161,6 +164,7 @@ export const useGigStore = create<GigStore>()(
       // ── Career tier recalc ─────────────────────────────────────────────────
 
       recalcCareerTier: (reputation, scandal, hasSSRRoute, hasTrueEnding) => {
+        const currentTier = get().careerTier
         const newTier = computeCareerTier(
           get().completedGigCount,
           reputation,
@@ -168,8 +172,13 @@ export const useGigStore = create<GigStore>()(
           hasSSRRoute,
           hasTrueEnding
         )
-        if (newTier !== get().careerTier) {
-          set({ careerTier: newTier })
+        if (newTier !== currentTier) {
+          set({
+            careerTier: newTier,
+            pendingTierAdvance: newTier > currentTier
+              ? { fromTier: currentTier, toTier: newTier }
+              : null,
+          })
         }
       },
 
@@ -220,8 +229,10 @@ export const useGigStore = create<GigStore>()(
 
       unlockExtendedCap: () =>
         set((state) => ({ idle: { ...state.idle, extendedCap: true } })),
+
+      dismissTierAdvance: () => set({ pendingTierAdvance: null }),
     }),
-    { name: 'its-gigs', version: 1 }
+    { name: 'its-gigs', version: 2 }
   )
 )
 

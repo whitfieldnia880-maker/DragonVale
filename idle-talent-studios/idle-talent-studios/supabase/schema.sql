@@ -336,6 +336,85 @@ create policy "visit_log: own rows only"
   with check (auth.uid() = player_id);
 
 -- ──────────────────────────────────────────────
+-- Prompt 6: gig system + career + idle earnings
+-- ──────────────────────────────────────────────
+
+-- gigs: catalog mirror for server-side queries/analytics
+create table if not exists public.gigs (
+  id              text primary key,
+  title           text not null,
+  tier_required   integer not null check (tier_required between 1 and 6),
+  duration        integer not null,
+  base_spotlight  integer not null,
+  voice           text not null,
+  romance_hook    text,
+  created_at      timestamptz not null default now()
+);
+
+alter table public.gigs enable row level security;
+create policy "gigs: read only"
+  on public.gigs for select
+  using (true);
+
+-- player_gigs: one row per completed gig attempt
+create table if not exists public.player_gigs (
+  id              uuid primary key default uuid_generate_v4(),
+  player_id       uuid not null references public.players(id) on delete cascade,
+  gig_id          text not null,
+  prep_choice     text not null,
+  outcome_tier    text not null check (outcome_tier in ('flop','decent','hit','smash','iconic')),
+  spotlight_earned integer not null default 0,
+  day_completed   integer not null,
+  created_at      timestamptz not null default now()
+);
+
+alter table public.player_gigs enable row level security;
+create policy "player_gigs: own rows only"
+  on public.player_gigs for all
+  using (auth.uid() = player_id)
+  with check (auth.uid() = player_id);
+
+create index if not exists player_gigs_player_id_idx on public.player_gigs (player_id);
+create index if not exists player_gigs_day_idx on public.player_gigs (player_id, day_completed desc);
+
+-- career_milestones: records when player advanced to each tier
+create table if not exists public.career_milestones (
+  id              uuid primary key default uuid_generate_v4(),
+  player_id       uuid not null references public.players(id) on delete cascade,
+  from_tier       integer not null,
+  to_tier         integer not null,
+  day_advanced    integer not null,
+  gigs_at_advance integer not null default 0,
+  created_at      timestamptz not null default now()
+);
+
+alter table public.career_milestones enable row level security;
+create policy "career_milestones: own rows only"
+  on public.career_milestones for all
+  using (auth.uid() = player_id)
+  with check (auth.uid() = player_id);
+
+create index if not exists career_milestones_player_id_idx on public.career_milestones (player_id);
+
+-- idle_earnings: periodic snapshots of idle accrual for analytics
+create table if not exists public.idle_earnings (
+  id              uuid primary key default uuid_generate_v4(),
+  player_id       uuid not null references public.players(id) on delete cascade,
+  career_tier     integer not null,
+  hours_since     numeric not null,
+  amount_accrued  integer not null,
+  collected_at    timestamptz not null default now()
+);
+
+alter table public.idle_earnings enable row level security;
+create policy "idle_earnings: own rows only"
+  on public.idle_earnings for all
+  using (auth.uid() = player_id)
+  with check (auth.uid() = player_id);
+
+create index if not exists idle_earnings_player_id_idx on public.idle_earnings (player_id, collected_at desc);
+
+-- ──────────────────────────────────────────────
 -- Prompt 6: gig system tables
 -- ──────────────────────────────────────────────
 

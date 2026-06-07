@@ -3,10 +3,10 @@
 @layer base {
   :root {
     /* ── Career tier theme (overridden per-tier by JS) ─────────────────── */
-    --tier-accent:   #f59e0b;
-    --tier-dim:      #78350f;
-    --tier-primary:  #f59e0b;
-    --tier-muted:    #92400e;
+    --tier-accent:   #F5EDD6;
+    --tier-dim:      #7a5c1e;
+    --tier-primary:  #D4A847;
+    --tier-muted:    #9a7030;
 
     /* ── Semantic palette ──────────────────────────────────────────────── */
     --background:           240 10% 4%;
@@ -31,47 +31,47 @@
     --radius:               0.75rem;
   }
 
-  /* ── Tier 1: Diner ─── amber / cream ──────────────────────────────── */
+  /* ── Tier 1: Nobody ─── amber / cream ────────────────────────────── */
   [data-tier="1"] {
-    --tier-primary: #f59e0b;
-    --tier-accent:  #fef3c7;
-    --tier-dim:     #78350f;
-    --tier-muted:   #92400e;
+    --tier-primary: #D4A847;
+    --tier-accent:  #F5EDD6;
+    --tier-dim:     #7a5c1e;
+    --tier-muted:   #9a7030;
   }
-  /* ── Tier 2: Backstage ─── burgundy / dusty rose ─────────────────── */
+  /* ── Tier 2: Buzz ─── burgundy / dusty rose ───────────────────────── */
   [data-tier="2"] {
-    --tier-primary: #9f1239;
-    --tier-accent:  #fda4af;
-    --tier-dim:     #4c0519;
-    --tier-muted:   #881337;
+    --tier-primary: #8B2E4A;
+    --tier-accent:  #C4858F;
+    --tier-dim:     #4a1328;
+    --tier-muted:   #6b1e3a;
   }
-  /* ── Tier 3: Studio ─── slate blue / cool grey ───────────────────── */
+  /* ── Tier 3: Rising ─── slate blue / cool grey ────────────────────── */
   [data-tier="3"] {
-    --tier-primary: #3b82f6;
-    --tier-accent:  #94a3b8;
-    --tier-dim:     #1e3a8a;
-    --tier-muted:   #1e40af;
+    --tier-primary: #3A5F8A;
+    --tier-accent:  #8AAFC4;
+    --tier-dim:     #1e3a5a;
+    --tier-muted:   #2d5473;
   }
-  /* ── Tier 4: Press ─── gold / champagne ──────────────────────────── */
+  /* ── Tier 4: Star ─── gold / champagne ───────────────────────────── */
   [data-tier="4"] {
-    --tier-primary: #eab308;
-    --tier-accent:  #fde68a;
-    --tier-dim:     #713f12;
-    --tier-muted:   #92400e;
+    --tier-primary: #C9A84C;
+    --tier-accent:  #F0E6C8;
+    --tier-dim:     #7a6220;
+    --tier-muted:   #9a7d32;
   }
-  /* ── Tier 5: Red Carpet ─── crimson / platinum ───────────────────── */
+  /* ── Tier 5: Icon ─── crimson / platinum ─────────────────────────── */
   [data-tier="5"] {
-    --tier-primary: #dc2626;
-    --tier-accent:  #e2e8f0;
-    --tier-dim:     #7f1d1d;
-    --tier-muted:   #991b1b;
+    --tier-primary: #B22222;
+    --tier-accent:  #E8E0E0;
+    --tier-dim:     #7a1010;
+    --tier-muted:   #991515;
   }
-  /* ── Tier 6: Icon ─── platinum / soft white ──────────────────────── */
+  /* ── Tier 6: Legend ─── platinum / soft white ────────────────────── */
   [data-tier="6"] {
-    --tier-primary: #e2e8f0;
-    --tier-accent:  #f8fafc;
-    --tier-dim:     #475569;
-    --tier-muted:   #64748b;
+    --tier-primary: #C0C0C0;
+    --tier-accent:  #F8F8FF;
+    --tier-dim:     #808080;
+    --tier-muted:   #a0a0a0;
   }
 }
 

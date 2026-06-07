@@ -3,15 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { usePlayerStore } from '@/store/playerStore'
 import { useCurrencyStore } from '@/store/currencyStore'
 import { useRosterStore } from '@/store/rosterStore'
-import { useGigStore, selectActiveGigProgress, selectGigById } from '@/store/gigStore'
+import { useGigStore, selectActiveGigProgress } from '@/store/gigStore'
 import { GigCard } from '@/components/GigCard'
 import { PrepSheet } from '@/components/PrepSheet'
 import { OutcomeReveal } from '@/components/OutcomeReveal'
-import { getCareerTierConfig } from '@/systems/gigSystem'
+import { getCareerTierConfig, CAREER_TIERS } from '@/systems/gigSystem'
 import type { Gig, PrepChoiceId } from '@/systems/gigSystem'
 import { GIG_INDEX } from '@/data/gigs/catalog'
 
-const OFFER_REFRESH_COST = 50
+const OFFER_REFRESH_COST = 100
 
 interface GigsProps {
   onBack: () => void
@@ -20,6 +20,7 @@ interface GigsProps {
 export function Gigs({ onBack }: GigsProps) {
   const [prepGig, setPrepGig] = useState<Gig | null>(null)
   const [showOutcome, setShowOutcome] = useState(false)
+  const [showTierAdvance, setShowTierAdvance] = useState(false)
 
   // Player state
   const stats = usePlayerStore((s) => s.stats)
@@ -48,12 +49,14 @@ export function Gigs({ onBack }: GigsProps) {
   const offersGeneratedOnDay = useGigStore((s) => s.offersGeneratedOnDay)
   const activeGig = useGigStore((s) => s.activeGig)
   const pendingOutcome = useGigStore((s) => s.pendingOutcome)
+  const pendingTierAdvance = useGigStore((s) => s.pendingTierAdvance)
   const refreshOffers = useGigStore((s) => s.refreshOffers)
   const startGig = useGigStore((s) => s.startGig)
   const resolveGig = useGigStore((s) => s.resolveGig)
   const clearOutcome = useGigStore((s) => s.clearOutcome)
   const addFascination = useGigStore((s) => s.addFascination)
   const recalcCareerTier = useGigStore((s) => s.recalcCareerTier)
+  const dismissTierAdvance = useGigStore((s) => s.dismissTierAdvance)
 
   const tierConfig = getCareerTierConfig(careerTier)
   const tierColor = tierConfig.color
@@ -100,10 +103,18 @@ export function Gigs({ onBack }: GigsProps) {
       addFascination(outcome.fascinationDelta)
     }
 
+    // Recalc with updated reputation (outcome stat deltas applied above)
+    const updatedReputation = stats.reputation + outcome.statDeltas.reduce(
+      (acc, d) => (d.stat === 'reputation' ? acc + d.delta : acc), 0
+    )
+    const updatedScandal = stats.scandal + outcome.statDeltas.reduce(
+      (acc, d) => (d.stat === 'scandal' ? acc + d.delta : acc), 0
+    ) + (outcome.scandalDelta ?? 0)
+
     recalcCareerTier(
-      stats.reputation,
-      stats.scandal,
-      false, // SSR route check not wired here yet
+      updatedReputation,
+      updatedScandal,
+      false, // SSR route check — wired when route system exposes flag
       false
     )
 
@@ -113,7 +124,16 @@ export function Gigs({ onBack }: GigsProps) {
   function handleOutcomeDismiss() {
     clearOutcome()
     setShowOutcome(false)
-    // Refresh offers for next gig
+    if (pendingTierAdvance) {
+      setShowTierAdvance(true)
+    } else {
+      refreshOffers(currentDay, careerTier)
+    }
+  }
+
+  function handleTierAdvanceDismiss() {
+    dismissTierAdvance()
+    setShowTierAdvance(false)
     refreshOffers(currentDay, careerTier)
   }
 
@@ -132,7 +152,18 @@ export function Gigs({ onBack }: GigsProps) {
           <OutcomeReveal
             outcome={pendingOutcome}
             gigTitle={activeGigData?.title ?? 'Gig'}
+            gigVoice={activeGigData?.voice ?? 'your_publicist'}
             onDismiss={handleOutcomeDismiss}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Tier advance celebration overlay */}
+      <AnimatePresence>
+        {showTierAdvance && pendingTierAdvance && (
+          <TierAdvanceCelebration
+            toTier={pendingTierAdvance.toTier}
+            onDismiss={handleTierAdvanceDismiss}
           />
         )}
       </AnimatePresence>
@@ -278,5 +309,110 @@ export function Gigs({ onBack }: GigsProps) {
         </section>
       </div>
     </div>
+  )
+}
+
+// ─── Tier advance celebration ──────────────────────────────────────────────────
+
+function TierAdvanceCelebration({
+  toTier,
+  onDismiss,
+}: {
+  toTier: number
+  onDismiss: () => void
+}) {
+  const tierDef = CAREER_TIERS.find((t) => t.tier === toTier)
+  if (!tierDef) return null
+
+  const CONFETTI = ['✨', '🌟', '💫', '⭐', '🎉', '🎊', '💥', '🔥']
+  const pieces = Array.from({ length: 18 }, (_, i) => ({
+    emoji: CONFETTI[i % CONFETTI.length],
+    angle: (360 / 18) * i,
+    delay: (i % 4) * 0.06,
+  }))
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[110] flex flex-col items-center justify-center"
+      style={{ backgroundColor: '#07070c' }}
+    >
+      {/* Confetti burst */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        {pieces.map((p, i) => {
+          const rad = (p.angle * Math.PI) / 180
+          const dist = 140 + (i % 3) * 30
+          return (
+            <motion.span
+              key={i}
+              initial={{ x: 0, y: 0, scale: 0, opacity: 1 }}
+              animate={{
+                x: Math.cos(rad) * dist,
+                y: Math.sin(rad) * dist,
+                scale: [0, 1.4, 1],
+                opacity: [1, 1, 0],
+              }}
+              transition={{ duration: 1.0, delay: p.delay, ease: 'easeOut' }}
+              className="absolute text-xl"
+            >
+              {p.emoji}
+            </motion.span>
+          )
+        })}
+      </div>
+
+      <div className="relative z-10 text-center space-y-4 px-8">
+        <motion.p
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="text-[11px] uppercase tracking-[0.25em] text-white/40"
+        >
+          Career Advance
+        </motion.p>
+
+        <motion.div
+          initial={{ scale: 0.6, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.4, type: 'spring', stiffness: 260, damping: 22 }}
+          className="text-6xl font-black tracking-tight"
+          style={{ color: tierDef.color }}
+        >
+          {tierDef.name.toUpperCase()}
+        </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="text-sm text-white/50 leading-relaxed"
+        >
+          {tierDef.description}
+        </motion.p>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.0 }}
+          className="text-[10px] uppercase tracking-widest"
+          style={{ color: `${tierDef.color}80` }}
+        >
+          Tier {toTier} Unlocked
+        </motion.p>
+
+        <motion.button
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.3 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={onDismiss}
+          className="mt-4 px-8 py-3 rounded-xl text-sm font-bold text-white border border-white/15 bg-white/6"
+        >
+          Continue →
+        </motion.button>
+      </div>
+    </motion.div>
   )
 }
