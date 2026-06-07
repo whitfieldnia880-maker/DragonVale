@@ -17,6 +17,7 @@ import { PressTicker } from '@/components/PressTicker'
 import { Wardrobe } from '@/components/Wardrobe'
 import { ScenePlayer } from '@/components/ScenePlayer'
 import { ActiveGigBar } from '@/components/ActiveGigBar'
+import { DailyReward } from '@/components/DailyReward'
 import { selectTwist, applySourcePerk } from '@/systems/scandal'
 import {
   MEAL_OPTIONS,
@@ -426,6 +427,9 @@ export function Home({ onGoToGacha, onGoToRoutes, onGoToShop, onGoToProfile, onG
         </AnimatePresence>
 
         <div className="px-4 pt-4 space-y-4">
+          {/* Daily reward card */}
+          <DailyReward currentDay={currentDay} loginStreak={loginStreak} />
+
           {/* Apartment */}
           <Apartment
             tier={apartmentLevel}

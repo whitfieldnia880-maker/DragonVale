@@ -15,6 +15,70 @@ import {
 import type { PressHeadline, ScandalThreshold } from '@/systems/scandal'
 import type { Character, CharacterEvent } from '@/data/characters/types'
 
+// ─── Login item types ─────────────────────────────────────────────────────────
+
+export type LoginItemType =
+  | 'pull_ticket' | 'sr_ticket' | 'ssr_ticket'
+  | 'spotlight' | 'prestige' | 'energy'
+  | 'wardrobe_common' | 'wardrobe_rare' | 'wardrobe_epic' | 'wardrobe_legendary'
+  | 'scandal_reducer' | 'bond_fragment'
+
+export interface LoginItem {
+  type: LoginItemType
+  amount: number
+  label: string
+  emoji: string
+  daySlot: number
+}
+
+export interface StreakMilestoneReward {
+  streakDay: number
+  label: string
+  prestigeGrant?: number
+  srTicketGrant?: boolean
+  bondFragmentGrant?: boolean
+  wardrobeRarity?: 'common' | 'rare' | 'epic' | 'legendary'
+}
+
+// ─── Daily login item rotation (7-day cycle) ──────────────────────────────────
+
+export const DAILY_LOGIN_ITEMS: LoginItem[] = [
+  { type: 'pull_ticket',     amount: 1,  label: 'Pull Ticket',     emoji: '🎫', daySlot: 1 },
+  { type: 'spotlight',       amount: 80, label: '80 Spotlight',    emoji: '✨', daySlot: 2 },
+  { type: 'energy',          amount: 30, label: '+30 Energy',      emoji: '⚡', daySlot: 3 },
+  { type: 'wardrobe_common', amount: 1,  label: 'Common Wardrobe', emoji: '👗', daySlot: 4 },
+  { type: 'spotlight',       amount: 80, label: '80 Spotlight',    emoji: '✨', daySlot: 5 },
+  { type: 'scandal_reducer', amount: 1,  label: 'Scandal -5',      emoji: '🎭', daySlot: 6 },
+  { type: 'prestige',        amount: 1,  label: '1 Prestige',      emoji: '💎', daySlot: 7 },
+]
+
+export const WEEKLY_BONUS: Array<{ type: LoginItemType; amount: number; label: string; emoji: string }> = [
+  { type: 'prestige',   amount: 3, label: '3 Prestige',     emoji: '💎' },
+  { type: 'sr_ticket',  amount: 1, label: 'SR Pull Ticket', emoji: '🎫' },
+]
+
+export const STREAK_MILESTONE_REWARDS: Record<number, StreakMilestoneReward> = {
+  7:   { streakDay: 7,   label: 'Week One!',         prestigeGrant: 5 },
+  14:  { streakDay: 14,  label: 'Two Weeks Strong',  wardrobeRarity: 'common' },
+  30:  { streakDay: 30,  label: 'One Month',         prestigeGrant: 15, wardrobeRarity: 'rare' },
+  60:  { streakDay: 60,  label: 'Two Months',        prestigeGrant: 25, wardrobeRarity: 'epic' },
+  100: { streakDay: 100, label: 'Century Milestone', prestigeGrant: 50, srTicketGrant: true, bondFragmentGrant: true, wardrobeRarity: 'legendary' },
+}
+
+export function getLoginItem(day: number): LoginItem {
+  const index = (day - 1) % 7
+  return DAILY_LOGIN_ITEMS[index]
+}
+
+export function getStreakMilestone(streak: number): StreakMilestoneReward | null {
+  return STREAK_MILESTONE_REWARDS[streak] ?? null
+}
+
+export function getNextMilestoneStreak(currentStreak: number): number | null {
+  const milestones = [7, 14, 30, 60, 100]
+  return milestones.find((m) => m > currentStreak) ?? null
+}
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface ProcessedCharacterEvent {
@@ -62,6 +126,8 @@ export interface DailyResetResult {
   triggeredEvents: ProcessedCharacterEvent[]
   pressHeadline: PressHeadline | null
   newScandalThresholds: ScandalThreshold[]
+  milestoneReward: StreakMilestoneReward | null
+  weeklyBonusGranted: boolean
 }
 
 // ─── Streak helpers ───────────────────────────────────────────────────────────
@@ -206,6 +272,9 @@ export function computeDailyReset(ctx: DailyResetContext): DailyResetResult {
     : []
   const pendingAffinityBonuses = ctx.wardrobeBonuses?.pendingAffinityBonuses ?? {}
 
+  const milestoneReward = getStreakMilestone(newLoginStreak)
+  const weeklyBonusGranted = newLoginStreak > 0 && newLoginStreak % 7 === 0
+
   return {
     newDayNumber,
     newLoginStreak,
@@ -217,5 +286,7 @@ export function computeDailyReset(ctx: DailyResetContext): DailyResetResult {
     triggeredEvents,
     pressHeadline,
     newScandalThresholds,
+    milestoneReward,
+    weeklyBonusGranted,
   }
 }

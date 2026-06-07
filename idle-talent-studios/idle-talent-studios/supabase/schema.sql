@@ -617,3 +617,89 @@ create trigger settings_updated_at
 create trigger bond_fragments_updated_at
   before update on public.bond_fragments
   for each row execute function public.set_updated_at();
+
+-- ──────────────────────────────────────────────
+-- Prompt 12: Daily rewards, inventory, press log
+-- ──────────────────────────────────────────────
+
+-- Track which login day was last claimed per player
+alter table public.players
+  add column if not exists last_claimed_login_day integer not null default 0,
+  add column if not exists login_streak           integer not null default 0,
+  add column if not exists last_login             timestamptz;
+
+-- claimed_streak_milestones: prevent double-granting streak milestones
+create table if not exists public.claimed_streak_milestones (
+  id           uuid primary key default uuid_generate_v4(),
+  player_id    uuid not null references public.players(id) on delete cascade,
+  streak_day   integer not null,
+  claimed_at   timestamptz not null default now(),
+  unique (player_id, streak_day)
+);
+
+alter table public.claimed_streak_milestones enable row level security;
+create policy "claimed_streak_milestones: own rows only"
+  on public.claimed_streak_milestones for all
+  using  (auth.uid() = player_id)
+  with check (auth.uid() = player_id);
+
+-- daily_rewards: log of each login item claimed
+create table if not exists public.daily_rewards (
+  id           uuid primary key default uuid_generate_v4(),
+  player_id    uuid not null references public.players(id) on delete cascade,
+  day_number   integer not null,
+  item_type    text not null,
+  item_amount  integer not null default 1,
+  claimed_at   timestamptz not null default now(),
+  unique (player_id, day_number)
+);
+
+alter table public.daily_rewards enable row level security;
+create policy "daily_rewards: own rows only"
+  on public.daily_rewards for all
+  using  (auth.uid() = player_id)
+  with check (auth.uid() = player_id);
+
+-- player_inventory: snapshot of consumable counts
+create table if not exists public.player_inventory (
+  id                  uuid primary key default uuid_generate_v4(),
+  player_id           uuid not null references public.players(id) on delete cascade unique,
+  pull_tickets_std    integer not null default 0,
+  pull_tickets_sr     integer not null default 0,
+  pull_tickets_ssr    integer not null default 0,
+  energy_refills      integer not null default 0,
+  scandal_reducers    integer not null default 0,
+  wardrobe_items      jsonb not null default '[]',
+  bond_fragments      jsonb not null default '{}',
+  updated_at          timestamptz not null default now()
+);
+
+alter table public.player_inventory enable row level security;
+create policy "player_inventory: own rows only"
+  on public.player_inventory for all
+  using  (auth.uid() = player_id)
+  with check (auth.uid() = player_id);
+
+create trigger player_inventory_updated_at
+  before update on public.player_inventory
+  for each row execute function public.set_updated_at();
+
+-- press_history: persistent log of generated press headlines
+create table if not exists public.press_history (
+  id           uuid primary key default uuid_generate_v4(),
+  player_id    uuid not null references public.players(id) on delete cascade,
+  day_number   integer not null,
+  headline     text not null,
+  tier         text not null,
+  created_at   timestamptz not null default now()
+);
+
+alter table public.press_history enable row level security;
+create policy "press_history: own rows only"
+  on public.press_history for all
+  using  (auth.uid() = player_id)
+  with check (auth.uid() = player_id);
+
+create index if not exists daily_rewards_player_id_idx           on public.daily_rewards(player_id);
+create index if not exists claimed_streak_milestones_player_id_idx on public.claimed_streak_milestones(player_id);
+create index if not exists press_history_player_id_idx           on public.press_history(player_id);

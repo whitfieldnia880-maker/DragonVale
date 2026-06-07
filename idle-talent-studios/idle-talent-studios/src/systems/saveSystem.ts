@@ -168,6 +168,68 @@ export async function syncCharacterAffection(
   }
 }
 
+/** Push inventory snapshot. Fire-and-forget. */
+export async function syncInventory(
+  playerId: string,
+  pullTicketsStd: number,
+  pullTicketsSr: number,
+  pullTicketsSsr: number,
+  energyRefills: number,
+  scandalReducers: number,
+  wardrobeItems: string[],
+  bondFragments: Record<string, number>
+): Promise<void> {
+  try {
+    await table('player_inventory').upsert(
+      {
+        player_id: playerId,
+        pull_tickets_std: pullTicketsStd,
+        pull_tickets_sr: pullTicketsSr,
+        pull_tickets_ssr: pullTicketsSsr,
+        energy_refills: energyRefills,
+        scandal_reducers: scandalReducers,
+        wardrobe_items: wardrobeItems,
+        bond_fragments: bondFragments,
+      },
+      { onConflict: 'player_id' }
+    )
+  } catch (err) {
+    console.warn('[saveSystem] syncInventory failed:', err)
+  }
+}
+
+/** Record a claimed daily reward. Fire-and-forget. */
+export async function syncDailyRewardClaim(
+  playerId: string,
+  dayNumber: number,
+  itemType: string,
+  itemAmount: number
+): Promise<void> {
+  try {
+    await table('daily_rewards').upsert(
+      { player_id: playerId, day_number: dayNumber, item_type: itemType, item_amount: itemAmount },
+      { onConflict: 'player_id,day_number' }
+    )
+  } catch (err) {
+    console.warn('[saveSystem] syncDailyRewardClaim failed:', err)
+  }
+}
+
+/** Record a claimed streak milestone. Fire-and-forget. */
+export async function syncStreakMilestoneClaim(
+  playerId: string,
+  streakDay: number
+): Promise<void> {
+  try {
+    await table('claimed_streak_milestones').upsert(
+      { player_id: playerId, streak_day: streakDay },
+      { onConflict: 'player_id,streak_day' }
+    )
+  } catch (err) {
+    console.warn('[saveSystem] syncStreakMilestoneClaim failed:', err)
+  }
+}
+
 /** Push player setting. Fire-and-forget. */
 export async function syncSettings(
   playerId: string,

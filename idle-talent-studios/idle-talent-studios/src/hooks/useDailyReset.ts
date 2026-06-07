@@ -4,9 +4,11 @@ import { useCurrencyStore } from '@/store/currencyStore'
 import { useRosterStore } from '@/store/rosterStore'
 import { useProgressStore } from '@/store/progressStore'
 import { useWardrobeStore } from '@/store/wardrobeStore'
-import { computeDailyReset } from '@/systems/dailyReset'
+import { useInventoryStore } from '@/store/inventoryStore'
+import { computeDailyReset, WEEKLY_BONUS } from '@/systems/dailyReset'
 import type { DailyResetResult } from '@/systems/dailyReset'
 import { syncDailyReset } from '@/lib/supabaseSync'
+import { syncStreakMilestoneClaim } from '@/systems/saveSystem'
 
 export function useDailyReset() {
   const playerStore = usePlayerStore()
@@ -25,6 +27,7 @@ export function useDailyReset() {
   const clearDayActions = useProgressStore((s) => s.clearDayActions)
   const getDayBonuses = useWardrobeStore((s) => s.getDayBonuses)
   const setPendingAffinityBonuses = useWardrobeStore((s) => s.setPendingAffinityBonuses)
+  const inventoryStore = useInventoryStore()
 
   const trigger = useCallback((force = false): DailyResetResult | null => {
     if (!force && !playerStore.needsDailyReset()) return null
@@ -74,6 +77,32 @@ export function useDailyReset() {
     // Grant spotlight
     grantCurrency('spotlight', result.spotlightGranted, 'daily_login')
 
+    // Weekly bonus (every 7-day streak multiple)
+    if (result.weeklyBonusGranted) {
+      for (const item of WEEKLY_BONUS) {
+        if (item.type === 'prestige') {
+          grantCurrency('prestige', item.amount, 'weekly_streak_bonus')
+        } else if (item.type === 'sr_ticket') {
+          inventoryStore.addPullTickets('sr', item.amount)
+        }
+      }
+    }
+
+    // Streak milestone reward (specific thresholds only, claimed once)
+    if (result.milestoneReward) {
+      const { streakDay, prestigeGrant, srTicketGrant, bondFragmentGrant, wardrobeRarity } = result.milestoneReward
+      if (!inventoryStore.claimedStreakMilestones.includes(streakDay)) {
+        if (prestigeGrant) grantCurrency('prestige', prestigeGrant, `streak_milestone_${streakDay}`)
+        if (srTicketGrant) inventoryStore.addPullTickets('sr', 1)
+        if (bondFragmentGrant) inventoryStore.addBondFragment('any', 1)
+        if (wardrobeRarity) inventoryStore.addWardrobeItem(`milestone_wardrobe_${wardrobeRarity}_s${streakDay}`)
+        inventoryStore.markStreakMilestoneClaimed(streakDay)
+        if (playerStore.playerId) {
+          void syncStreakMilestoneClaim(playerStore.playerId, streakDay)
+        }
+      }
+    }
+
     // Process character events
     for (const event of result.triggeredEvents) {
       markEventFired(event.id)
@@ -114,7 +143,9 @@ export function useDailyReset() {
     clearDayActions,
     getDayBonuses,
     setPendingAffinityBonuses,
+    inventoryStore,
   ])
 
   return { trigger, needsReset: playerStore.needsDailyReset() }
 }
+
