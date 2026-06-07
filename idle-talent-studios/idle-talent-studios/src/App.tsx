@@ -1,6 +1,9 @@
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useCallback } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useGigStore } from '@/store/gigStore'
+import { usePlayerStore } from '@/store/playerStore'
+import { useRosterStore } from '@/store/rosterStore'
+import { useCurrencyStore } from '@/store/currencyStore'
 import { useAuth } from '@/hooks/useAuth'
 import { useOnlineStatus } from '@/hooks/useOnlineStatus'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
@@ -10,8 +13,17 @@ import { ToastProvider } from '@/components/ToastProvider'
 import { OfflineBanner } from '@/components/OfflineBanner'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { ScreenSkeleton } from '@/components/LoadingSkeleton'
+import { BreakingNews } from '@/components/BreakingNews'
+import { selectTwist } from '@/systems/scandal'
+import { useProgressStore } from '@/store/progressStore'
+import type { StatDelta } from '@/engine/statEngine'
+import type { StatKey } from '@/engine/gameState'
 import { AuthScreen } from '@/screens/AuthScreen'
 import { useState } from 'react'
+
+const VALID_STAT_KEYS = new Set<string>([
+  'confidence', 'looks', 'wisdom', 'reputation', 'scandal', 'money',
+])
 
 // ─── Lazy screen imports ──────────────────────────────────────────────────────
 
@@ -101,6 +113,53 @@ export default function App() {
   const online = useOnlineStatus()
   const reduced = useReducedMotion()
 
+  // ─── Global scandal 100 lockscreen ────────────────────────────────────────
+  const scandalLevel = usePlayerStore((s) => s.stats.scandal)
+  const pendingScandalEvents = usePlayerStore((s) => s.pendingScandalEvents)
+  const dismissScandalEvent = usePlayerStore((s) => s.dismissScandalEvent)
+  const applyStatDeltas = usePlayerStore((s) => s.applyStatDeltas)
+  const addFiredTwist = useProgressStore((s) => s.addFiredTwist)
+  const firedTwists = useProgressStore((s) => s.firedTwists)
+
+  const maxScandalTwist = useMemo(() => {
+    if (scandalLevel < 100) return null
+    const threshold = pendingScandalEvents[0] ?? null
+    if (!threshold) return null
+    return selectTwist(threshold, firedTwists)
+  }, [scandalLevel, pendingScandalEvents, firedTwists])
+
+  const handleMaxScandalResolve = useCallback(
+    (twistId: string, choiceId?: string) => {
+      if (!maxScandalTwist) return
+      let finalPenalty: Partial<Record<string, number>>
+      if (choiceId && maxScandalTwist.choices) {
+        const choice = maxScandalTwist.choices.find((c) => c.id === choiceId)
+        finalPenalty = choice ? choice.statDeltas : maxScandalTwist.baseStatPenalty
+      } else {
+        finalPenalty = maxScandalTwist.baseStatPenalty
+      }
+      const deltas: StatDelta[] = Object.entries(finalPenalty)
+        .filter(([key, delta]) => VALID_STAT_KEYS.has(key) && delta !== 0)
+        .map(([stat, delta]) => ({ stat: stat as StatKey, delta: delta! }))
+      if (deltas.length > 0) applyStatDeltas(deltas)
+      addFiredTwist(twistId)
+      dismissScandalEvent()
+    },
+    [maxScandalTwist, applyStatDeltas, addFiredTwist, dismissScandalEvent]
+  )
+
+  // ─── Stage unlock reward drain ────────────────────────────────────────────
+  const pendingStageUnlocks = useRosterStore((s) => s.pendingStageUnlocks)
+  const dismissStageUnlock = useRosterStore((s) => s.dismissStageUnlock)
+  const grantCurrency = useCurrencyStore((s) => s.grantCurrency)
+
+  useEffect(() => {
+    if (pendingStageUnlocks.length === 0) return
+    const unlock = pendingStageUnlocks[0]
+    grantCurrency('spotlight', unlock.spotlightReward, `stage_unlock_${unlock.stage}`)
+    dismissStageUnlock()
+  }, [pendingStageUnlocks, grantCurrency, dismissStageUnlock])
+
   useTierTheme(careerTier)
   useReconnectSync(auth.user?.id)
 
@@ -143,6 +202,14 @@ export default function App() {
     <>
       <ToastProvider />
       <OfflineBanner online={online} />
+
+      {/* Scandal 100 fullscreen lockscreen — rendered at App level, above all screens */}
+      <BreakingNews
+        twist={maxScandalTwist}
+        scandalLevel={scandalLevel}
+        stackCount={Math.max(0, pendingScandalEvents.length - 1)}
+        onResolve={handleMaxScandalResolve}
+      />
 
       <AnimatePresence mode="wait">
         <motion.div

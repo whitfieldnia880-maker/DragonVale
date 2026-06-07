@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { ALL_CHARACTERS } from '@/data/characters'
@@ -138,6 +138,113 @@ function CharacterCard({
   )
 }
 
+// ─── Affection card with reveal animation ─────────────────────────────────────
+
+function AffectionCard({
+  affection,
+  affectionHidden,
+  accentColor,
+  chemistry,
+  stabilityScore,
+  visibilityScore,
+  color,
+}: {
+  affection: number
+  affectionHidden: boolean
+  accentColor: string
+  chemistry: number
+  stabilityScore: number
+  visibilityScore: number
+  color: string
+}) {
+  const wasHiddenRef = useRef(affectionHidden)
+  const [justRevealed, setJustRevealed] = useState(false)
+
+  useEffect(() => {
+    if (wasHiddenRef.current && !affectionHidden) {
+      setJustRevealed(true)
+      wasHiddenRef.current = false
+      const t = setTimeout(() => setJustRevealed(false), 2500)
+      return () => clearTimeout(t)
+    }
+  }, [affectionHidden])
+
+  return (
+    <div className="bg-white/5 rounded-2xl p-4 border border-white/10 space-y-3">
+      {/* Affection row */}
+      <div className="space-y-2">
+        <div className="flex justify-between items-center">
+          <p className="text-xs font-semibold text-white/50 uppercase tracking-wider">Affection</p>
+          <p className="text-sm font-bold" style={{ color }}>
+            {affectionHidden ? '???' : `${affection}/100`}
+          </p>
+        </div>
+        {affectionHidden ? (
+          <>
+            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+              <div className="h-full w-full bg-white/5 rounded-full" />
+            </div>
+            <p className="text-[10px] text-white/30 italic">
+              Affection is hidden. Continue the story to reveal it.
+            </p>
+          </>
+        ) : (
+          <div
+            className={cn(
+              'h-2 rounded-full overflow-hidden relative',
+              justRevealed && 'shadow-[0_0_12px_rgba(220,38,38,0.7)]'
+            )}
+            style={{ background: 'rgba(255,255,255,0.1)' }}
+          >
+            <motion.div
+              className="h-full rounded-full"
+              initial={{ width: justRevealed ? '0%' : `${affection}%` }}
+              animate={{ width: `${affection}%` }}
+              transition={
+                justRevealed
+                  ? { duration: 1.5, ease: [0.25, 0.46, 0.45, 0.94] }
+                  : { duration: 0.6, ease: 'easeOut' }
+              }
+              style={{
+                background: justRevealed
+                  ? 'linear-gradient(90deg, #dc2626, #f87171)'
+                  : `linear-gradient(90deg, ${accentColor}, #e879f9)`,
+              }}
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Chemistry + Stability + Visibility */}
+      {!affectionHidden && (
+        <div className="grid grid-cols-3 gap-2 pt-1 border-t border-white/8">
+          <StatMeter label="Chemistry" value={chemistry} color="#f472b6" />
+          <StatMeter label="Stability" value={stabilityScore} color="#34d399" />
+          <StatMeter label="Visibility" value={visibilityScore} color="#fb923c" />
+        </div>
+      )}
+    </div>
+  )
+}
+
+function StatMeter({ label, value, color }: { label: string; value: number; color: string }) {
+  return (
+    <div className="space-y-1">
+      <p className="text-[9px] font-semibold text-white/35 uppercase tracking-wider">{label}</p>
+      <div className="h-1.5 bg-white/8 rounded-full overflow-hidden">
+        <motion.div
+          className="h-full rounded-full"
+          initial={{ width: 0 }}
+          animate={{ width: `${value}%` }}
+          transition={{ duration: 0.7, ease: 'easeOut' }}
+          style={{ background: color }}
+        />
+      </div>
+      <p className="text-[9px] font-mono text-white/40">{value}</p>
+    </div>
+  )
+}
+
 // ─── Character profile bottom sheet ───────────────────────────────────────────
 
 function CharacterProfileSheet({
@@ -150,6 +257,9 @@ function CharacterProfileSheet({
   bondFragments,
   bondScenesUnlocked,
   endingsUnlocked,
+  chemistry,
+  stabilityScore,
+  visibilityScore,
   onClose,
   onGoToRoutes,
 }: {
@@ -162,6 +272,9 @@ function CharacterProfileSheet({
   bondFragments: number
   bondScenesUnlocked: number
   endingsUnlocked: { type: string; label: string }[]
+  chemistry: number
+  stabilityScore: number
+  visibilityScore: number
   onClose: () => void
   onGoToRoutes: () => void
 }) {
@@ -273,31 +386,16 @@ function CharacterProfileSheet({
             </div>
           ) : (
             <>
-              {/* Affection */}
-              <div className="bg-white/5 rounded-2xl p-4 border border-white/10 space-y-2">
-                <div className="flex justify-between items-center">
-                  <p className="text-xs font-semibold text-white/50 uppercase tracking-wider">Affection</p>
-                  <p className="text-sm font-bold" style={{ color }}>
-                    {affectionHidden ? '???' : `${affection}/100`}
-                  </p>
-                </div>
-                {!affectionHidden && (
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                    <motion.div
-                      className="h-full rounded-full"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${affection}%` }}
-                      transition={{ duration: 0.6, ease: 'easeOut' }}
-                      style={{
-                        background: `linear-gradient(90deg, ${character.accentColor}, #e879f9)`,
-                      }}
-                    />
-                  </div>
-                )}
-                {affectionHidden && (
-                  <p className="text-[10px] text-white/30 italic">Affection is hidden. Continue the story to reveal it.</p>
-                )}
-              </div>
+              {/* Affection — with crimson reveal animation */}
+              <AffectionCard
+                affection={affection}
+                affectionHidden={affectionHidden}
+                accentColor={character.accentColor}
+                chemistry={chemistry}
+                stabilityScore={stabilityScore}
+                visibilityScore={visibilityScore}
+                color={color}
+              />
 
               {/* Chapter progress */}
               {character.route && (
@@ -451,6 +549,7 @@ export function CollectionScreen({ onBack, onGoToRoutes }: CollectionScreenProps
   const owned = useRosterStore((s) => s.owned)
   const getAffection = useRosterStore((s) => s.getAffection)
   const isHidden = useRosterStore((s) => s.isHidden)
+  const relationships = useRosterStore((s) => s.relationships)
   const flags = usePlayerStore((s) => s.storyFlags)
   const isSceneComplete = useProgressStore((s) => s.isSceneComplete)
   const endingsUnlocked = useProgressStore((s) => s.endingsUnlocked)
@@ -608,6 +707,9 @@ export function CollectionScreen({ onBack, onGoToRoutes }: CollectionScreenProps
               bondFragments={bondFragments[selectedChar.id] ?? 0}
               bondScenesUnlocked={bondScenesUnlocked[selectedChar.id] ?? 0}
               endingsUnlocked={getCharEndings(selectedChar.id)}
+              chemistry={relationships[selectedChar.id]?.chemistry ?? 0}
+              stabilityScore={relationships[selectedChar.id]?.stabilityScore ?? 50}
+              visibilityScore={relationships[selectedChar.id]?.visibilityScore ?? 0}
               onClose={() => setSelectedChar(null)}
               onGoToRoutes={onGoToRoutes}
             />

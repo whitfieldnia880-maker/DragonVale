@@ -10,6 +10,8 @@ import type { ScandalThreshold } from '@/systems/scandal'
 
 interface PlayerStore extends GameState {
   pendingScandalEvents: ScandalThreshold[]
+  prWhispererActive: boolean
+  prWhispererExpiresDay: number
 
   setPlayerId: (id: string) => void
   setPlayerName: (name: string) => void
@@ -25,6 +27,7 @@ interface PlayerStore extends GameState {
   pushScandalThresholds: (thresholds: ScandalThreshold[]) => void
   dismissScandalEvent: () => void
   needsDailyReset: () => boolean
+  activatePrWhisperer: (durationDays: number) => void
   resetGame: () => void
 }
 
@@ -33,21 +36,23 @@ export const usePlayerStore = create<PlayerStore>()(
     (set, get) => ({
       ...DEFAULT_GAME_STATE,
       pendingScandalEvents: [],
+      prWhispererActive: false,
+      prWhispererExpiresDay: 0,
 
       setPlayerId: (id) => set({ playerId: id }),
       setPlayerName: (name) => set({ playerName: name }),
 
       applyStat: (stat, delta) =>
         set((state) => {
+          const prActive =
+            state.prWhispererActive && state.currentDay <= state.prWhispererExpiresDay
+          const effectiveDelta = prActive && stat === 'scandal' ? Math.ceil(delta / 2) : delta
           const prevScandal = state.stats.scandal
           const nextStats = {
             ...state.stats,
-            [stat]: clampStat(state.stats[stat] + delta),
+            [stat]: clampStat(state.stats[stat] + effectiveDelta),
           }
-          const threshold = getScandalThresholdCrossed(
-            prevScandal,
-            nextStats.scandal
-          )
+          const threshold = getScandalThresholdCrossed(prevScandal, nextStats.scandal)
           return {
             stats: nextStats,
             pendingScandalEvents: threshold
@@ -58,12 +63,16 @@ export const usePlayerStore = create<PlayerStore>()(
 
       applyStatDeltas: (deltas) =>
         set((state) => {
+          const prActive =
+            state.prWhispererActive && state.currentDay <= state.prWhispererExpiresDay
+          const effective = prActive
+            ? deltas.map((d) =>
+                d.stat === 'scandal' ? { ...d, delta: Math.ceil(d.delta / 2) } : d
+              )
+            : deltas
           const prevScandal = state.stats.scandal
-          const nextStats = applyDeltas(state.stats, deltas)
-          const threshold = getScandalThresholdCrossed(
-            prevScandal,
-            nextStats.scandal
-          )
+          const nextStats = applyDeltas(state.stats, effective)
+          const threshold = getScandalThresholdCrossed(prevScandal, nextStats.scandal)
           return {
             stats: nextStats,
             pendingScandalEvents: threshold
@@ -108,7 +117,14 @@ export const usePlayerStore = create<PlayerStore>()(
 
       needsDailyReset: () => shouldRunDailyReset(get().lastDailyReset),
 
-      resetGame: () => set({ ...DEFAULT_GAME_STATE, pendingScandalEvents: [] }),
+      activatePrWhisperer: (durationDays) =>
+        set((state) => ({
+          prWhispererActive: true,
+          prWhispererExpiresDay: state.currentDay + durationDays,
+        })),
+
+      resetGame: () =>
+        set({ ...DEFAULT_GAME_STATE, pendingScandalEvents: [], prWhispererActive: false, prWhispererExpiresDay: 0 }),
     }),
     { name: 'its-player' }
   )

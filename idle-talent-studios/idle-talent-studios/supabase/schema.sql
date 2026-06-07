@@ -703,3 +703,40 @@ create policy "press_history: own rows only"
 create index if not exists daily_rewards_player_id_idx           on public.daily_rewards(player_id);
 create index if not exists claimed_streak_milestones_player_id_idx on public.claimed_streak_milestones(player_id);
 create index if not exists press_history_player_id_idx           on public.press_history(player_id);
+
+-- ──────────────────────────────────────────────
+-- Prompt 13: Relationship system + scandal
+-- ──────────────────────────────────────────────
+
+-- PR Whisperer and fascination on players
+alter table public.players
+  add column if not exists fascination            integer not null default 0
+    check (fascination between 0 and 100),
+  add column if not exists pr_whisperer_active    boolean not null default false,
+  add column if not exists pr_whisperer_expires_day integer not null default 0;
+
+-- fascination_log
+create table if not exists public.fascination_log (
+  id           uuid primary key default uuid_generate_v4(),
+  player_id    uuid not null references public.players(id) on delete cascade,
+  delta        integer not null,
+  source       text not null,
+  created_at   timestamptz not null default now()
+);
+
+alter table public.fascination_log enable row level security;
+create policy "fascination_log: own rows only"
+  on public.fascination_log for all
+  using  (auth.uid() = player_id)
+  with check (auth.uid() = player_id);
+
+create index if not exists fascination_log_player_id_idx on public.fascination_log(player_id);
+
+-- visibility_score column on character_progress
+alter table public.character_progress
+  add column if not exists visibility_score integer not null default 0
+    check (visibility_score between 0 and 100),
+  add column if not exists chemistry        integer not null default 0
+    check (chemistry between 0 and 100),
+  add column if not exists stability_score  integer not null default 50
+    check (stability_score between 0 and 100);

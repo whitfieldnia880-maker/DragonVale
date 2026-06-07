@@ -230,6 +230,37 @@ export async function syncStreakMilestoneClaim(
   }
 }
 
+/** Push relationship stats (visibility, chemistry, stability). Fire-and-forget. */
+export async function syncRelationshipStats(
+  playerId: string,
+  characterId: string,
+  visibilityScore: number,
+  chemistry: number,
+  stabilityScore: number
+): Promise<void> {
+  try {
+    await table('character_progress').upsert(
+      { player_id: playerId, character_id: characterId, visibility_score: visibilityScore, chemistry, stability_score: stabilityScore },
+      { onConflict: 'player_id,character_id' }
+    )
+  } catch (err) {
+    console.warn('[saveSystem] syncRelationshipStats failed:', err)
+  }
+}
+
+/** Log a fascination delta. Fire-and-forget. */
+export async function syncFascinationDelta(
+  playerId: string,
+  delta: number,
+  source: string
+): Promise<void> {
+  try {
+    await table('fascination_log').insert({ player_id: playerId, delta, source })
+  } catch (err) {
+    console.warn('[saveSystem] syncFascinationDelta failed:', err)
+  }
+}
+
 /** Push player setting. Fire-and-forget. */
 export async function syncSettings(
   playerId: string,

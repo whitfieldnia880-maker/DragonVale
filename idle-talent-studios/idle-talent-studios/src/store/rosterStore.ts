@@ -1,18 +1,26 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { Character } from '@/data/characters/types'
-import type { RelationshipData, RelationshipVisibility } from '@/systems/relationship'
+import type { RelationshipData, RelationshipVisibility, RelationshipStage } from '@/systems/relationship'
 import {
   createRelationship,
   applyAffectionDelta,
   incrementSharedScenes,
   setRelationshipVisibility,
   setStabilityScore,
+  updateVisibilityScore,
+  getStageUnlockReward,
 } from '@/systems/relationship'
-import type { RelationshipStage } from '@/types'
 
 const HIDDEN_UNTIL_FLAG: Record<string, string> = {
   'amy-crawford': 'amy_ch6_reveal',
+}
+
+export interface PendingStageUnlock {
+  characterId: string
+  characterName: string
+  stage: RelationshipStage
+  spotlightReward: number
 }
 
 function affectionToStage(affection: number): RelationshipStage {
@@ -30,12 +38,14 @@ interface RosterStore {
   pity: { totalPulls: number; pullsSinceLastSSR: number }
   /** Per-character story flags (separate from global storyFlags in progressStore). */
   characterFlags: Record<string, Record<string, boolean>>
+  pendingStageUnlocks: PendingStageUnlock[]
 
   addCharacter: (character: Character) => void
   applyAffection: (characterId: string, delta: number) => void
   updateAffection: (characterId: string, delta: number) => void
   recordSharedScene: (characterId: string) => void
   setVisibility: (characterId: string, visibility: RelationshipVisibility) => void
+  updateVisibility: (characterId: string, delta: number) => void
   updateStabilityScore: (characterId: string, score: number) => void
   updatePity: (totalPulls: number, pullsSinceLastSSR: number) => void
   isOwned: (characterId: string) => boolean
@@ -45,6 +55,7 @@ interface RosterStore {
   getRelationshipStage: (characterId: string) => RelationshipStage
   setFlag: (characterId: string, key: string, value: boolean) => void
   getCharacterFlag: (characterId: string, key: string) => boolean
+  dismissStageUnlock: () => void
 }
 
 export const useRosterStore = create<RosterStore>()(
@@ -54,6 +65,7 @@ export const useRosterStore = create<RosterStore>()(
       relationships: {},
       pity: { totalPulls: 0, pullsSinceLastSSR: 0 },
       characterFlags: {},
+      pendingStageUnlocks: [],
 
       addCharacter: (character) =>
         set((state) => {
@@ -69,25 +81,39 @@ export const useRosterStore = create<RosterStore>()(
 
       applyAffection: (characterId, delta) =>
         set((state) => {
-          const rel =
-            state.relationships[characterId] ?? createRelationship(characterId)
+          const rel = state.relationships[characterId] ?? createRelationship(characterId)
+          const updated = applyAffectionDelta(rel, delta)
+          const stageChanged = updated.stage !== rel.stage
+          const spotlightReward = stageChanged ? getStageUnlockReward(rel.stage, updated.stage) : 0
+          const char = state.owned.find((c) => c.id === characterId)
+          const unlock: PendingStageUnlock | null =
+            stageChanged && spotlightReward > 0
+              ? { characterId, characterName: char?.name ?? characterId, stage: updated.stage, spotlightReward }
+              : null
           return {
-            relationships: {
-              ...state.relationships,
-              [characterId]: applyAffectionDelta(rel, delta),
-            },
+            relationships: { ...state.relationships, [characterId]: updated },
+            pendingStageUnlocks: unlock
+              ? [...state.pendingStageUnlocks, unlock]
+              : state.pendingStageUnlocks,
           }
         }),
 
       updateAffection: (characterId, delta) =>
         set((state) => {
-          const rel =
-            state.relationships[characterId] ?? createRelationship(characterId)
+          const rel = state.relationships[characterId] ?? createRelationship(characterId)
+          const updated = applyAffectionDelta(rel, delta)
+          const stageChanged = updated.stage !== rel.stage
+          const spotlightReward = stageChanged ? getStageUnlockReward(rel.stage, updated.stage) : 0
+          const char = state.owned.find((c) => c.id === characterId)
+          const unlock: PendingStageUnlock | null =
+            stageChanged && spotlightReward > 0
+              ? { characterId, characterName: char?.name ?? characterId, stage: updated.stage, spotlightReward }
+              : null
           return {
-            relationships: {
-              ...state.relationships,
-              [characterId]: applyAffectionDelta(rel, delta),
-            },
+            relationships: { ...state.relationships, [characterId]: updated },
+            pendingStageUnlocks: unlock
+              ? [...state.pendingStageUnlocks, unlock]
+              : state.pendingStageUnlocks,
           }
         }),
 
@@ -117,15 +143,22 @@ export const useRosterStore = create<RosterStore>()(
 
       updateStabilityScore: (characterId, score) =>
         set((state) => {
-          const rel =
-            state.relationships[characterId] ?? createRelationship(characterId)
+          const rel = state.relationships[characterId] ?? createRelationship(characterId)
           return {
-            relationships: {
-              ...state.relationships,
-              [characterId]: setStabilityScore(rel, score),
-            },
+            relationships: { ...state.relationships, [characterId]: setStabilityScore(rel, score) },
           }
         }),
+
+      updateVisibility: (characterId, delta) =>
+        set((state) => {
+          const rel = state.relationships[characterId] ?? createRelationship(characterId)
+          return {
+            relationships: { ...state.relationships, [characterId]: updateVisibilityScore(rel, delta) },
+          }
+        }),
+
+      dismissStageUnlock: () =>
+        set((state) => ({ pendingStageUnlocks: state.pendingStageUnlocks.slice(1) })),
 
       updatePity: (totalPulls, pullsSinceLastSSR) =>
         set({ pity: { totalPulls, pullsSinceLastSSR } }),

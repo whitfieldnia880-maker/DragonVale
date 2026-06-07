@@ -20,18 +20,24 @@ export function BreakingNews({
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null)
 
   const isMaxScandal = scandalLevel >= 100
+  const isSevere = scandalLevel >= 75
   const sourceInfo = twist ? SOURCE_PERKS[twist.source] : null
   const effectivePenalty = twist
     ? applySourcePerk(twist.source, twist.baseStatPenalty)
     : {}
   const hasChoices = !!(twist?.choices?.length)
+  const lockDismiss = hasChoices && !selectedChoice
 
   const handleResolve = () => {
     if (!twist) return
-    if (hasChoices && !selectedChoice) return
+    if (lockDismiss) return
     onResolve(twist.id, selectedChoice ?? undefined)
     setSelectedChoice(null)
   }
+
+  const tickerText = twist
+    ? `${twist.headline}  ·  ${sourceInfo?.displayName ?? 'BREAKING'}  ·  ${twist.subtext}  ·  `
+    : ''
 
   return (
     <AnimatePresence>
@@ -43,7 +49,10 @@ export function BreakingNews({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[90] bg-black/75 backdrop-blur-[2px]"
+            className={cn(
+              'fixed inset-0 z-[90]',
+              isMaxScandal ? 'bg-black/90 backdrop-blur-[3px]' : 'bg-black/75 backdrop-blur-[2px]'
+            )}
           />
 
           {/* Panel — slides up from bottom */}
@@ -61,8 +70,21 @@ export function BreakingNews({
             )}
             style={isMaxScandal ? { animation: 'scandal-jitter 0.45s ease-in-out infinite' } : undefined}
           >
-            {/* Red accent bar */}
-            <div className="h-[3px] bg-gradient-to-r from-red-600 via-red-400 to-red-600 shrink-0" />
+            {/* Scrolling ticker tape */}
+            <div className="bg-red-700 overflow-hidden shrink-0 h-7 flex items-center">
+              <motion.div
+                className="whitespace-nowrap text-[11px] font-bold tracking-wide text-white flex items-center gap-0"
+                animate={{ x: ['0%', '-50%'] }}
+                transition={{ duration: 14, repeat: Infinity, ease: 'linear' }}
+              >
+                {/* Duplicate for seamless loop */}
+                {Array.from({ length: 2 }).map((_, i) => (
+                  <span key={i} className="inline-block">
+                    {tickerText.repeat(6)}
+                  </span>
+                ))}
+              </motion.div>
+            </div>
 
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-2.5 border-b border-red-900/40 shrink-0">
@@ -82,29 +104,40 @@ export function BreakingNews({
                 )}
               </div>
               {sourceInfo && !sourceInfo.hiddenByline && (
-                <span className="text-[10px] text-white/35 italic">
-                  {sourceInfo.byline}
-                </span>
+                <span className="text-[10px] text-white/35 italic">{sourceInfo.byline}</span>
               )}
             </div>
 
             {/* Scrollable content */}
             <div className="overflow-y-auto flex-1 px-5 py-4 space-y-3 relative">
-              {/* Source stamp */}
+              {/* Crooked source stamp */}
               {sourceInfo && !sourceInfo.hiddenByline && (
                 <div
-                  className="absolute top-4 right-4 text-[8px] font-black text-red-400/25
-                             uppercase tracking-widest border border-red-400/15 px-2 py-0.5
-                             pointer-events-none select-none"
-                  style={{ transform: 'rotate(-6deg)' }}
+                  className={cn(
+                    'absolute top-4 right-4 text-[8px] font-black text-red-400/25',
+                    'uppercase tracking-widest border border-red-400/15 px-2 py-0.5',
+                    'pointer-events-none select-none',
+                    isSevere && 'animate-[stamp-jitter_1.2s_ease-in-out_infinite]'
+                  )}
+                  style={{
+                    transform: `rotate(${isSevere ? '-8deg' : '-6deg'})`,
+                  }}
                 >
                   {sourceInfo.displayName}
                 </div>
               )}
 
-              <h2 className="text-[22px] font-black text-white leading-tight pr-14 tracking-tight">
-                {twist.headline}
-              </h2>
+              {/* Headline row with optional character portrait at scandal 75+ */}
+              <div className="flex items-start gap-3">
+                {isSevere && twist.id && (
+                  <div className="shrink-0 w-10 h-10 rounded-lg bg-red-900/40 border border-red-700/30 flex items-center justify-center text-xl">
+                    📸
+                  </div>
+                )}
+                <h2 className="text-[22px] font-black text-white leading-tight tracking-tight flex-1 pr-4">
+                  {twist.headline}
+                </h2>
+              </div>
 
               <p className="text-sm text-red-200/70 leading-relaxed">{twist.subtext}</p>
 
@@ -148,13 +181,8 @@ export function BreakingNews({
                           : 'bg-white/4 border-white/8 hover:border-red-600/30'
                       )}
                     >
-                      <p className="text-sm font-semibold text-white leading-snug">
-                        {choice.label}
-                      </p>
-                      <p className="text-xs text-white/35 mt-0.5 leading-snug">
-                        {choice.subtext}
-                      </p>
-                      {/* Choice stat preview */}
+                      <p className="text-sm font-semibold text-white leading-snug">{choice.label}</p>
+                      <p className="text-xs text-white/35 mt-0.5 leading-snug">{choice.subtext}</p>
                       <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-1.5">
                         {Object.entries(choice.statDeltas)
                           .filter(([, v]) => v !== 0)
@@ -219,6 +247,10 @@ export function BreakingNews({
               70% { transform: translateY(-1px) rotate(-0.15deg); }
               80% { transform: translateY(1px) rotate(0.1deg); }
               90% { transform: translateY(-1px) rotate(0.15deg); }
+            }
+            @keyframes stamp-jitter {
+              0%,100% { transform: rotate(-8deg) translateY(0); }
+              50% { transform: rotate(-7deg) translateY(-1px); }
             }
           `}</style>
         </>
